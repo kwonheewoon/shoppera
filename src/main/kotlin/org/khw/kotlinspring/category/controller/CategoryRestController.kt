@@ -22,4 +22,14 @@ class CategoryRestController(val categoryService: CategoryService) {
     fun saveCategory(@RequestBody categoryDto: CategoryDto) : CategoryViewApiDto {
         return categoryService.saveCategory(categoryDto)
     }
+
+    @PutMapping("")
+    fun modifyCategory(@RequestBody categoryDto: CategoryDto) : CategoryViewApiDto {
+        return categoryService.modifyCategory(categoryDto)
+    }
+
+    @DeleteMapping("")
+    fun deleteCategory(@RequestBody categoryDto: CategoryDto) : CategoryViewApiDto {
+        return categoryService.saveCategory(categoryDto)
+    }
 }

@@ -5,6 +5,7 @@ import lombok.*
 import org.hibernate.annotations.Comment
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
+import org.khw.kotlinspring.category.domain.dto.CategoryDto
 
 @Entity
 @Table(name = "category")
@@ -41,5 +42,11 @@ class CategoryEntity(
     @Comment("삭제여부")
     var deleteFlag = deleteFlag
         protected set
+
+    fun modify(categoryDto: CategoryDto){
+        this.categoryNm = categoryDto.categoryNm
+        this.depth = categoryDto.depth
+        this.orderNo = categoryDto.orderNo
+    }
 
 }

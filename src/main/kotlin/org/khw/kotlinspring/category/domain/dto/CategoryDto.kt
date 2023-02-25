@@ -8,7 +8,7 @@ import org.hibernate.annotations.Comment
 @Builder
 class CategoryDto(
 
-    val id : Long? = null,
+    id : Long,
 
     categoryNm : String,
 
@@ -18,6 +18,7 @@ class CategoryDto(
 
     deleteFlag : String
 ) {
+    val id = id
 
     var categoryNm = categoryNm
 
