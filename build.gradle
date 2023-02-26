@@ -46,12 +46,15 @@ dependencies {
 
     implementation 'org.mapstruct:mapstruct:1.5.3.Final'
 
+    implementation "com.querydsl:querydsl-jpa:5.0.0"
+
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.0.2'
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.14'
 
 
 
     kapt("org.mapstruct:mapstruct-processor:1.5.3.Final")
+    kapt("com.querydsl:querydsl-apt:5.0.0")
     kaptTest("org.mapstruct:mapstruct-processor:1.5.3.Final")
 }
 
@@ -65,3 +68,5 @@ tasks.withType(KotlinCompile) {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+
