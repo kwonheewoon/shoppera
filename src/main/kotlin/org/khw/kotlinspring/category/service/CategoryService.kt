@@ -8,6 +8,7 @@ import org.khw.kotlinspring.category.repository.CategoryQueryRepository
 import org.khw.kotlinspring.category.repository.CategoryRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.stream.Collectors.toList
 
 @Service
 @RequiredArgsConstructor
@@ -16,13 +17,12 @@ class CategoryService(val categoryRepository: CategoryRepository,
                       val categoryQueryRepository: CategoryQueryRepository) {
 
     @Transactional(readOnly = true)
-    fun findAllCategory() : MutableList<() -> CategoryViewApiDto>? {
-        //return categoryMapper.entityListToViewApiDtoList(categoryRepository.findAll())
-        return categoryRepository.findAll().stream().map { category -> {
-            var categoryViewApiDto  = categoryMapper.entityToViewApiDto(category)
+    fun findAllCategory() : MutableList<CategoryViewApiDto>? {
+        return categoryRepository.findAll().stream().map { category ->
+            val categoryViewApiDto: CategoryViewApiDto = categoryMapper.entityToViewApiDto(category)
             categoryViewApiDto.childCategoryList = categoryMapper.entityListToViewApiDtoList(category.childCategoryList)
             categoryViewApiDto
-        } }.toList()
+        }.collect(toList());
     }
 
     @Transactional
@@ -32,7 +32,7 @@ class CategoryService(val categoryRepository: CategoryRepository,
         if(categorySaveDto.parentId != null){
             //부모카테고리 조회
             val parentCategoryEntity = categoryRepository.findById(categorySaveDto.parentId).orElseThrow{throw RuntimeException("부모 카테고리가 존재하지 않습니다.")}
-            return categoryMapper.entityToViewApiDto(categoryRepository.save(CategoryEntity(categorySaveDto.categoryNm, categorySaveDto.orderNo, parentCategory = parentCategoryEntity, depth = parentCategoryEntity.depth )))
+            return categoryMapper.entityToViewApiDto(categoryRepository.save(CategoryEntity(categorySaveDto.categoryNm, categorySaveDto.orderNo, parentCategory = parentCategoryEntity, depth = parentCategoryEntity.depth + 1 )))
         }
         //부모 카테고리 아이디가 미 존재할시
         return categoryMapper.entityToViewApiDto(categoryRepository.save(CategoryEntity(categorySaveDto.categoryNm, categorySaveDto.orderNo)))

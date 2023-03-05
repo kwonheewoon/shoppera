@@ -19,6 +19,7 @@ interface CategoryMapper {
     * */
     fun entityToApiDto(categoryEntity: CategoryEntity) : CategoryApiDto
 
+    @Mapping(target = "parentCategory", ignore = true)
     fun entityToViewApiDto(categoryEntity: CategoryEntity) : CategoryViewApiDto
 
     @Mapping(target = "childCategoryList", ignore = true)
