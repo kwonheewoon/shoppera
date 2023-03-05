@@ -3,28 +3,27 @@ package org.khw.kotlinspring.category.domain.dto
 import jakarta.persistence.*
 import lombok.*
 import org.hibernate.annotations.Comment
+import java.util.*
 
 
 @Builder
 class CategoryViewApiDto(
 
-    val id : Long? = null,
+    val id : Long,
 
-    categoryNm : String,
+    val categoryNm : String,
 
-    depth : Integer,
+    val depth : Int,
 
-    orderNo : Integer,
+    val orderNo : Int,
 
-    deleteFlag : String
+    val deleteFlag : String,
+
+    val parentCategory : CategoryViewApiDto?,
+
+    var childCategoryList : List<CategoryViewApiDto>? = ArrayList<CategoryViewApiDto>()
 ) {
 
-    var categoryNm = categoryNm
 
-    var depth = depth
-
-    var orderNo = orderNo
-
-    var deleteFlag = deleteFlag
 
 }

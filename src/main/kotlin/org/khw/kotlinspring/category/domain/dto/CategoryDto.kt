@@ -12,9 +12,9 @@ class CategoryDto(
 
     categoryNm : String,
 
-    depth : Integer,
+    depth : Int,
 
-    orderNo : Integer,
+    orderNo : Int,
 
     deleteFlag : String
 ) {

@@ -7,6 +7,7 @@ import org.hibernate.annotations.Comment
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
 import org.khw.kotlinspring.category.domain.dto.CategoryModifyDto
+import org.khw.kotlinspring.category.domain.dto.CategorySaveDto
 import java.util.*
 
 @Entity
@@ -16,14 +17,11 @@ import java.util.*
 @DynamicUpdate
 class CategoryEntity(
     categoryNm: String,
-    depth: Int,
     orderNo: Int,
-    deleteFlag: String,
-    parentCategoryEntity: CategoryEntity? = null
+    parentCategory: CategoryEntity? = null,
+    depth: Int = 1,
+    deleteFlag: String = "N"
 ) {
-    constructor(id: Long) : this("", 0, 0, "") {
-        this.id = id
-    }
 
     @Id @Column(name = "id", nullable = false)
     @GeneratedValue
@@ -49,20 +47,15 @@ class CategoryEntity(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     @Comment("부모 카테고리 id")
-    var parentCategoryEntity = parentCategoryEntity
+    var parentCategory = parentCategory
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     @BatchSize(size = 100)
-    val chileCategoryList: List<CategoryEntity> = ArrayList<CategoryEntity>()
+    val childCategoryList: List<CategoryEntity> = ArrayList<CategoryEntity>()
 
-    fun of(id: Long): CategoryEntity {
-        return CategoryEntity(id)
-    }
+
 
     fun modify(categoryModifyDto: CategoryModifyDto){
-        if(categoryModifyDto.parentId != null){
-            this.parentCategoryEntity = of(categoryModifyDto.parentId)
-        }
         this.categoryNm = categoryModifyDto.categoryNm
         this.depth = categoryModifyDto.depth
         this.orderNo = categoryModifyDto.orderNo

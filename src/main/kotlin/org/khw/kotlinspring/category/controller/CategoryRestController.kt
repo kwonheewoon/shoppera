@@ -18,7 +18,7 @@ import java.util.*;
 class CategoryRestController(val categoryService: CategoryService) {
 
     @GetMapping("")
-    fun findAllCategory() : ResponseEntity<List<CategoryViewApiDto>>{
+    fun findAllCategory() : ResponseEntity<MutableList<() -> CategoryViewApiDto>> {
         return ResponseEntity.ok()
             .headers(HttpHeaders())
             .body(categoryService.findAllCategory())

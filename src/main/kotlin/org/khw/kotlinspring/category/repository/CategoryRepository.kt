@@ -6,5 +6,10 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CategoryRepository : JpaRepository <CategoryEntity, Long>{
+    /*
+    *
+    * */
     fun findByIdAndDeleteFlag(id: Long, deleteFlag: String)
+
+    fun findByParentCategoryIdAndDepth(parentId: Long, depth: Int)
 }

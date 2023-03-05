@@ -16,13 +16,26 @@ class CategoryService(val categoryRepository: CategoryRepository,
                       val categoryQueryRepository: CategoryQueryRepository) {
 
     @Transactional(readOnly = true)
-    fun findAllCategory() : List<CategoryViewApiDto>{
-        return categoryMapper.entityListToViewApiDtoList(categoryRepository.findAll())
+    fun findAllCategory() : MutableList<() -> CategoryViewApiDto>? {
+        //return categoryMapper.entityListToViewApiDtoList(categoryRepository.findAll())
+        return categoryRepository.findAll().stream().map { category -> {
+            var categoryViewApiDto  = categoryMapper.entityToViewApiDto(category)
+            categoryViewApiDto.childCategoryList = categoryMapper.entityListToViewApiDtoList(category.childCategoryList)
+            categoryViewApiDto
+        } }.toList()
     }
 
     @Transactional
     fun saveCategory(categorySaveDto: CategorySaveDto) : CategoryViewApiDto {
-        return categoryMapper.entityToViewApiDto(categoryRepository.save(CategoryEntity(categorySaveDto.categoryNm, categorySaveDto.depth, categorySaveDto.orderNo, categorySaveDto.deleteFlag)))
+
+        //부모 카테고리 아이디가 존재할시
+        if(categorySaveDto.parentId != null){
+            //부모카테고리 조회
+            val parentCategoryEntity = categoryRepository.findById(categorySaveDto.parentId).orElseThrow{throw RuntimeException("부모 카테고리가 존재하지 않습니다.")}
+            return categoryMapper.entityToViewApiDto(categoryRepository.save(CategoryEntity(categorySaveDto.categoryNm, categorySaveDto.orderNo, parentCategory = parentCategoryEntity, depth = parentCategoryEntity.depth )))
+        }
+        //부모 카테고리 아이디가 미 존재할시
+        return categoryMapper.entityToViewApiDto(categoryRepository.save(CategoryEntity(categorySaveDto.categoryNm, categorySaveDto.orderNo)))
     }
 
     @Transactional
