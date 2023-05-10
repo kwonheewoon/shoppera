@@ -21,7 +21,7 @@ class CategoryViewApiDto(
 
     val parentCategory : CategoryViewApiDto?,
 
-    var childCategoryList : List<CategoryViewApiDto>? = ArrayList<CategoryViewApiDto>()
+    var childCategorys : List<CategoryViewApiDto>? = ArrayList<CategoryViewApiDto>()
 ) {
 
 

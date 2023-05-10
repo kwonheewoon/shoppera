@@ -16,13 +16,13 @@ class CategoryService(val categoryRepository: CategoryRepository,
                       val categoryQueryRepository: CategoryQueryRepository) {
 
     @Transactional(readOnly = true)
-    fun findAllCategory() : MutableList<() -> CategoryViewApiDto>? {
-        //return categoryMapper.entityListToViewApiDtoList(categoryRepository.findAll())
-        return categoryRepository.findAll().stream().map { category -> {
-            var categoryViewApiDto  = categoryMapper.entityToViewApiDto(category)
-            categoryViewApiDto.childCategoryList = categoryMapper.entityListToViewApiDtoList(category.childCategoryList)
-            categoryViewApiDto
-        } }.toList()
+    fun findAllCategory() : List<CategoryViewApiDto> {
+//        return categoryRepository.findAll().stream().map { category ->
+//            val categoryViewApiDto  = categoryMapper.entityToViewApiDto(category)
+//            categoryViewApiDto.childCategoryList = categoryMapper.entityListToViewApiDtoList(category.childCategoryList)
+//            categoryViewApiDto
+//        }.toList()
+        return categoryMapper.entityListToViewApiDtoList(categoryRepository.findAll())
     }
 
     @Transactional
