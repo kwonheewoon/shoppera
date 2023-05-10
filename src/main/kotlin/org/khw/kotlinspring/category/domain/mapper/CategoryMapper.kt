@@ -3,10 +3,8 @@ package org.khw.kotlinspring.category.domain.mapper
 import org.khw.kotlinspring.category.domain.dto.CategoryApiDto
 import org.khw.kotlinspring.category.domain.dto.CategoryViewApiDto
 import org.khw.kotlinspring.category.domain.entity.CategoryEntity
-import org.mapstruct.IterableMapping
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
-import org.mapstruct.Mappings
 
 @Mapper(componentModel = "spring")
 interface CategoryMapper {
@@ -21,13 +19,9 @@ interface CategoryMapper {
     * */
     fun entityToApiDto(categoryEntity: CategoryEntity) : CategoryApiDto
 
-    @Mappings(
-        Mapping(source = "childCategoryList", target = "childCategorys")
-    )
+    @Mapping(target = "parentCategory", ignore = true)
     fun entityToViewApiDto(categoryEntity: CategoryEntity) : CategoryViewApiDto
 
-    @Mapping(source = "childCategoryList", target = "childCategorys")
-    @IterableMapping(elementTargetType = CategoryViewApiDto::class)
+    @Mapping(target = "childCategoryList", ignore = true)
     fun entityListToViewApiDtoList(categoryEntityList : List<CategoryEntity>) : List<CategoryViewApiDto>
-
 }
