@@ -8,6 +8,9 @@ import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
 import org.khw.kotlinspring.category.domain.dto.CategoryModifyDto
 import org.khw.kotlinspring.category.domain.dto.CategorySaveDto
+import org.khw.kotlinspring.common.CommonEnum
+import org.khw.kotlinspring.common.CommonEnum.FlagYn
+import org.khw.kotlinspring.common.entity.BaseEntity
 import java.util.*
 
 @Entity
@@ -20,7 +23,7 @@ class CategoryEntity(
     orderNo: Int,
     parentCategory: CategoryEntity? = null,
     depth: Int = 1,
-    deleteFlag: String = "N"
+    deleteFlag: FlagYn = FlagYn.N
 ) {
 
     @Id @Column(name = "id", nullable = false)
@@ -37,10 +40,11 @@ class CategoryEntity(
     var depth = depth
 
     @Column(name = "order_no", nullable = false)
-    @Comment("카테고리 이름")
+    @Comment("정렬 순서")
     var orderNo = orderNo
 
     @Column(name = "delete_flag", nullable = false)
+    @Enumerated(EnumType.STRING)
     @Comment("삭제여부")
     var deleteFlag = deleteFlag
 

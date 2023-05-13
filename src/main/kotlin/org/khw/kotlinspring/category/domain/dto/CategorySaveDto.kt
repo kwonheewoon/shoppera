@@ -5,6 +5,8 @@ import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.persistence.*
 import lombok.*
 import org.hibernate.annotations.Comment
+import org.khw.kotlinspring.common.CommonEnum
+import org.khw.kotlinspring.common.CommonEnum.FlagYn
 
 @Schema(description = "카테고리 저장시 사용될 DTO")
 @Builder
@@ -17,7 +19,7 @@ class CategorySaveDto(
 
     orderNo : Int,
 
-    deleteFlag : String
+    deleteFlag : FlagYn
 ) {
 
     @Schema(description = "부모 카테고리 아이디", example = "1")
