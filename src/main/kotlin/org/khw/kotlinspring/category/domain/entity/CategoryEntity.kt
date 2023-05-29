@@ -55,10 +55,11 @@ class CategoryEntity(
 
     @OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     @BatchSize(size = 100)
-    val childCategoryList: List<CategoryEntity> = ArrayList<CategoryEntity>()
+    var childCategoryList: List<CategoryEntity> = ArrayList<CategoryEntity>()
 
 
 
+    
     fun modify(categoryModifyDto: CategoryModifyDto){
         this.categoryNm = categoryModifyDto.categoryNm
         this.depth = categoryModifyDto.depth
