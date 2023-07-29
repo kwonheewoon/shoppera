@@ -10,10 +10,17 @@ import java.time.LocalDate
 class CreateUserEntity {
 
     companion object{
-        fun UserEntitySuccessCreate() : UserEntity {
+        fun saveSuccessCreate() : UserEntity {
             return UserEntity("권희운", "gmldns46", LocalDate.of(1997,7,24),
             Address("인천서구 마전동", "힐스테이트2차 208동 1102", "666565"),
                 "010-7372-1474"
+            )
+        }
+
+        fun updateSuccessCreate() : UserEntity {
+            return UserEntity("권희운", "gmldns46", LocalDate.of(1997,7,24),
+                Address("인천서구 완정동", "힐스테이트1차 208동 1102", "77777"),
+                "010-7372-1111"
             )
         }
     }

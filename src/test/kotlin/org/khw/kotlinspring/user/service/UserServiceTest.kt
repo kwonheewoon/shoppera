@@ -32,26 +32,29 @@ class UserServiceTest {
     fun `유저 등록 성공`() {
         // Given
         val userSaveDto = CreateUserDto.UserSaveDtoSuccessCreate()
-        val userEntity = CreateUserEntity.UserEntitySuccessCreate()
+        val userEntity = CreateUserEntity.saveSuccessCreate()
+        val userApiDto = CreateUserDto.UserApiDtoCreate()
 
         given(userRepository.findByAccountIdAndDeleteFlag(userSaveDto.accountId, FlagYn.N)).willReturn(Optional.empty())
         given(userMapper.saveDtoToEntity(userSaveDto)).willReturn(userEntity)
         given(userRepository.save(userEntity)).willReturn(userEntity)
+        given(userMapper.entityToApiDto(userEntity)).willReturn(userApiDto)
 
         // When
         val result = userService.userSave(userSaveDto)
 
         // Then
-        assertEquals(userEntity, result)
+        assertEquals(userApiDto, result)
         verify(userMapper).saveDtoToEntity(userSaveDto)
         verify(userRepository).save(userEntity)
+        verify(userMapper).entityToApiDto(userEntity)
     }
 
     @Test
     fun `유저 등록 실패`() {
         // Given
         val userSaveDto = CreateUserDto.UserSaveDtoSuccessCreate()
-        val userEntity = CreateUserEntity.UserEntitySuccessCreate()
+        val userEntity = CreateUserEntity.saveSuccessCreate()
 
         // When
         given(userRepository.findByAccountIdAndDeleteFlag(userSaveDto.accountId, FlagYn.N))
@@ -61,5 +64,35 @@ class UserServiceTest {
         assertThrows(IllegalStateException::class.java) {
             userService.userSave(userSaveDto)
         }
+    }
+
+    @Test
+    fun `유저 수정 성공`() {
+        // Given
+        val userId : Long = 1
+        val userUpdateDto = CreateUserDto.UserUpdateDtoSuccessCreate()
+        val findUserEntity = CreateUserEntity.saveSuccessCreate()
+        val updatedEntity = CreateUserEntity.updateSuccessCreate()
+        val userApiDto = CreateUserDto.UserApiDtoCreate()
+
+        given(userRepository.findByIdAndAccountIdAndDeleteFlag(userId, userUpdateDto.accountId, FlagYn.N)).willReturn(
+            Optional.of(findUserEntity))
+        findUserEntity.updateUser(userUpdateDto)
+        given(userRepository.save(findUserEntity)).willReturn(findUserEntity)
+        given(userMapper.entityToApiDto(findUserEntity)).willReturn(userApiDto)
+
+
+        // When
+        val result = userService.userUpdate(userId, userUpdateDto)
+
+        // Then
+        assertEquals(userApiDto, result)
+        assertEquals(userApiDto.name, result.name)
+        assertEquals(userApiDto.address, result.address)
+        assertEquals(userApiDto.phoneNumber, result.phoneNumber)
+        verify(userRepository).findByIdAndAccountIdAndDeleteFlag(userId, userUpdateDto.accountId, FlagYn.N)
+        verify(userRepository).save(findUserEntity)
+        verify(userMapper).entityToApiDto(findUserEntity)
+
     }
 }

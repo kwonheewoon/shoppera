@@ -7,6 +7,7 @@ import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
 import org.khw.kotlinspring.common.CommonEnum
 import org.khw.kotlinspring.common.CommonEnum.*
+import org.khw.kotlinspring.user.domain.dto.UserUpdateDto
 import java.time.LocalDate
 
 @Entity
@@ -52,4 +53,10 @@ class UserEntity(
     @Enumerated(EnumType.STRING)
     @Comment("삭제여부")
     var deleteFlag = deleteFlag
+
+    fun updateUser(userUpdateDto : UserUpdateDto){
+        this.name = userUpdateDto.name
+        this.address.updateAddress(userUpdateDto.address)
+        this.phoneNumber = userUpdateDto.phoneNumber
+    }
 }

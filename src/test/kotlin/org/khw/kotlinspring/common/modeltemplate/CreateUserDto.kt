@@ -1,8 +1,7 @@
 package org.khw.kotlinspring.common.modeltemplate
 
 import org.khw.kotlinspring.common.CommonEnum
-import org.khw.kotlinspring.user.domain.dto.AddressSaveDto
-import org.khw.kotlinspring.user.domain.dto.UserSaveDto
+import org.khw.kotlinspring.user.domain.dto.*
 import java.time.LocalDate
 
 class CreateUserDto {
@@ -14,9 +13,21 @@ class CreateUserDto {
                 "010-7372-1474"
             )
         }
+        fun UserUpdateDtoSuccessCreate() : UserUpdateDto{
+            return UserUpdateDto("권희운", "gmldns46",
+                AddressUpdateDto("인천서구 완정동", "힐스테이트1차 208동 1102", "77777"),
+                "010-7372-1111"
+            )
+        }
         fun UserSaveDtoFailCreate() : UserSaveDto{
             return UserSaveDto("", "gmldns46", LocalDate.of(1997,7,24),
                 AddressSaveDto("인천서구 마전동", "힐스테이트2차 208동 1102", "666565"),
+                "010-7372-1474"
+            )
+        }
+        fun UserApiDtoCreate() : UserApiDto{
+            return UserApiDto(1,"권희운", "gmldns46", LocalDate.of(1997,7,24),
+                AddressApiDto("인천서구 마전동", "힐스테이트2차 208동 1102", "666565"),
                 "010-7372-1474"
             )
         }
