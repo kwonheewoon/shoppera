@@ -28,6 +28,7 @@ class UserEntity(
     @GeneratedValue
     @Comment("기본키")
     var id : Long? = 0
+        private set
 
     @Column(name = "account_id", nullable = false)
     @Comment("아이디")
@@ -36,6 +37,7 @@ class UserEntity(
     @Column(name = "name", nullable = false)
     @Comment("이름")
     var name = name
+        private set
 
     @Column(name = "birth_date", nullable = false)
     @Comment("생년월일")
@@ -43,20 +45,26 @@ class UserEntity(
 
     @Embedded
     var address = address
+        private set
 
     @Column(name = "phone_number", nullable = false)
     @Comment("휴대폰 번호")
     var phoneNumber = phoneNumber
-
+        private set
 
     @Column(name = "delete_flag", nullable = false)
     @Enumerated(EnumType.STRING)
     @Comment("삭제여부")
     var deleteFlag = deleteFlag
+        private set
 
     fun updateUser(userUpdateDto : UserUpdateDto){
         this.name = userUpdateDto.name
         this.address.updateAddress(userUpdateDto.address)
         this.phoneNumber = userUpdateDto.phoneNumber
+    }
+
+    fun deleteUser(){
+        this.deleteFlag = FlagYn.Y
     }
 }

@@ -22,4 +22,11 @@ interface UserRepository : JpaRepository<UserEntity, Long> {
     *
     * */
     fun findByIdAndAccountIdAndDeleteFlag(id : Long, accountId: String, deleteFlag: FlagYn) : Optional<UserEntity>
+
+    /*
+    * UserId, 삭제 여부 기준 User 단건 조회
+    *
+    * */
+    fun findByIdAndDeleteFlag(id : Long, deleteFlag: FlagYn) : Optional<UserEntity>
+
 }

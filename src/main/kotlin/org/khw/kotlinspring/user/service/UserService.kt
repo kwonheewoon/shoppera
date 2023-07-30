@@ -31,4 +31,11 @@ val userMapper: UserMapper) {
         findUserEntity.updateUser(userUpdateDto)
         return userMapper.entityToApiDto(userRepository.save(findUserEntity))
     }
+
+    @Transactional
+    fun userDelete(userId : Long) : UserApiDto{
+        var findUserEntity = userRepository.findByIdAndDeleteFlag(userId, FlagYn.N).orElseThrow{IllegalStateException("존재하지 않는 계정 정보입니다.")};
+        findUserEntity.deleteUser()
+        return userMapper.entityToApiDto(findUserEntity)
+    }
 }

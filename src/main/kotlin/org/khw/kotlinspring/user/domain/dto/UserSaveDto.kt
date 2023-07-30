@@ -13,18 +13,18 @@ data class UserSaveDto(
     @Schema(description = "회원 이름", example = "권희운")
     val name : String,
 
-    @NotBlank(message = "회원 아이디는 필수 값 입니다.")
+    @field:NotBlank(message = "회원 아이디는 필수 값 입니다.")
     @Schema(description = "회원 아이디", example = "gmldns46")
     val accountId : String,
 
-    @NotNull(message = "회원 생년월일은 필수 값 입니다.")
+    @field:NotNull(message = "회원 생년월일은 필수 값 입니다.")
     @Schema(description = "회원 생년월일", example = "970724")
     @JsonFormat(pattern = "yyMMdd")
     val birthDate : LocalDate,
 
     val address : AddressSaveDto,
 
-    @NotBlank(message = "회원 휴대폰번호는 필수 값 입니다.")
+    @field:NotBlank(message = "회원 휴대폰번호는 필수 값 입니다.")
     @Schema(description = "회원 휴대폰번호", example = "010-1111-2222")
     val phoneNumber : String,
 

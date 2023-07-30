@@ -95,4 +95,30 @@ class UserServiceTest {
         verify(userMapper).entityToApiDto(findUserEntity)
 
     }
+
+    @Test
+    fun `유저 삭제 성공`() {
+        // Given
+        val userId : Long = 1
+        val findUserEntity = CreateUserEntity.saveSuccessCreate()
+        val userApiDto = CreateUserDto.UserApiDtoCreateOfDelete()
+
+        given(userRepository.findByIdAndDeleteFlag(userId, FlagYn.N)).willReturn(
+            Optional.of(findUserEntity))
+        findUserEntity.deleteUser()
+        given(userMapper.entityToApiDto(findUserEntity)).willReturn(userApiDto)
+
+
+        // When
+        val result = userService.userDelete(userId)
+
+        // Then
+        assertEquals(userApiDto, result)
+        assertEquals(userApiDto.name, result.name)
+        assertEquals(userApiDto.address, result.address)
+        assertEquals(userApiDto.phoneNumber, result.phoneNumber)
+        verify(userRepository).findByIdAndDeleteFlag(userId, FlagYn.N)
+        verify(userMapper).entityToApiDto(findUserEntity)
+
+    }
 }

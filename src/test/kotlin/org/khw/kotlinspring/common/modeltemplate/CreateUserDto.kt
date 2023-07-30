@@ -31,5 +31,11 @@ class CreateUserDto {
                 "010-7372-1474"
             )
         }
+        fun UserApiDtoCreateOfDelete() : UserApiDto{
+            return UserApiDto(1,"권희운", "gmldns46", LocalDate.of(1997,7,24),
+                AddressApiDto("인천서구 마전동", "힐스테이트2차 208동 1102", "666565"),
+                "010-7372-1474", CommonEnum.FlagYn.Y
+            )
+        }
     }
 }
