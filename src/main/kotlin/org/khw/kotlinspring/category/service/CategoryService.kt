@@ -3,6 +3,7 @@ package org.khw.kotlinspring.category.service
 import lombok.RequiredArgsConstructor
 import org.khw.kotlinspring.category.domain.dto.*
 import org.khw.kotlinspring.category.domain.entity.CategoryEntity
+import org.khw.kotlinspring.category.domain.entity.CategoryEntityFactory
 import org.khw.kotlinspring.category.domain.mapper.CategoryMapper
 import org.khw.kotlinspring.category.repository.CategoryQueryRepository
 import org.khw.kotlinspring.category.repository.CategoryRepository
@@ -47,10 +48,10 @@ class CategoryService(val categoryRepository: CategoryRepository,
         if(categorySaveDto.parentId != null){
             //부모카테고리 조회
             val parentCategoryEntity = categoryRepository.findById(categorySaveDto.parentId).orElseThrow{throw RuntimeException("부모 카테고리가 존재하지 않습니다.")}
-            return categoryMapper.entityToViewApiDto(categoryRepository.save(CategoryEntity(categorySaveDto.categoryNm, categorySaveDto.orderNo, parentCategory = parentCategoryEntity, depth = parentCategoryEntity.depth + 1)))
+            return categoryMapper.entityToViewApiDto(categoryRepository.save(CategoryEntityFactory.createCategoryEntityParentExist(categorySaveDto, parentCategoryEntity)))
         }
         //부모 카테고리 아이디가 미 존재할시
-        return categoryMapper.entityToViewApiDto(categoryRepository.save(CategoryEntity(categorySaveDto.categoryNm, categorySaveDto.orderNo)))
+        return categoryMapper.entityToViewApiDto(categoryRepository.save(CategoryEntityFactory.createCategoryEntityParentNonExist(categorySaveDto)))
     }
 
     @Transactional

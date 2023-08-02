@@ -18,7 +18,7 @@ import java.util.*
 @Builder
 @DynamicInsert
 @DynamicUpdate
-class CategoryEntity(
+class CategoryEntity(id: Long?,
     categoryNm: String,
     orderNo: Int,
     parentCategory: CategoryEntity? = null,
@@ -29,7 +29,7 @@ class CategoryEntity(
     @Id @Column(name = "id", nullable = false)
     @GeneratedValue
     @Comment("카테고리 아이디")
-    var id : Long? = null
+    val id : Long? = id
 
     @Column(name = "category_nm", nullable = false)
     @Comment("카테고리 이름")

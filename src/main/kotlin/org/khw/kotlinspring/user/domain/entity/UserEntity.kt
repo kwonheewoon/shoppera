@@ -15,7 +15,7 @@ import java.time.LocalDate
 @Builder
 @DynamicInsert
 @DynamicUpdate
-class UserEntity(
+class UserEntity(id: Long,
     name : String,
     accountId : String,
     birthDate : LocalDate,
@@ -27,8 +27,7 @@ class UserEntity(
     @Column(name = "id", nullable = false)
     @GeneratedValue
     @Comment("기본키")
-    var id : Long? = 0
-        private set
+    val id : Long = id
 
     @Column(name = "account_id", nullable = false)
     @Comment("아이디")

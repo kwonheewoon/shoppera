@@ -20,27 +20,31 @@ import org.springframework.web.bind.annotation.*
 @RequiredArgsConstructor
 class UserRestController(val userService: UserService) {
 
+    @GetMapping("/{accountId}")
+    @Operation(summary = "회원 조회", description = "회원 정보를 조회.")
+    fun findUser(@PathVariable accountId: String) : ResponseEntity<UserApiDto> {
+        return ResponseEntity.ok()
+                .body(userService.findUser(accountId))
+    }
+
     @PostMapping("")
-    @Operation(summary = "카테고리 등록", description = "카테고리 정보를 등록.")
+    @Operation(summary = "회원 등록", description = "회원 정보를 등록.")
     fun userSave(@RequestBody @Valid userSaveDto: UserSaveDto) : ResponseEntity<UserApiDto> {
         return ResponseEntity.ok()
-            .headers(HttpHeaders())
             .body(userService.userSave(userSaveDto))
     }
 
     @PutMapping("/{userId}")
-    @Operation(summary = "카테고리 등록", description = "카테고리 정보를 등록.")
+    @Operation(summary = "회원 수정", description = "회원 정보를 수정.")
     fun userUpdate(@PathVariable userId: Long, @RequestBody @Valid userUpdateDto: UserUpdateDto) : ResponseEntity<UserApiDto> {
         return ResponseEntity.ok()
-            .headers(HttpHeaders())
             .body(userService.userUpdate(userId, userUpdateDto))
     }
 
     @DeleteMapping("/{userId}")
-    @Operation(summary = "카테고리 등록", description = "카테고리 정보를 등록.")
+    @Operation(summary = "회원 삭제", description = "회원 정보를 삭제.")
     fun userDelete(@PathVariable userId: Long) : ResponseEntity<UserApiDto> {
         return ResponseEntity.ok()
-            .headers(HttpHeaders())
             .body(userService.userDelete(userId))
     }
 }

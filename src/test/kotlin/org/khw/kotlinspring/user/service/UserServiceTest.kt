@@ -97,6 +97,23 @@ class UserServiceTest {
     }
 
     @Test
+    fun `유저 수정 실패`() {
+        // Given
+        val userId : Long = 1
+        val userUpdateDto = CreateUserDto.UserUpdateDtoSuccessCreate()
+        val findUserEntity = CreateUserEntity.saveSuccessCreate()
+
+        given(userRepository.findByIdAndAccountIdAndDeleteFlag(userId, userUpdateDto.accountId, FlagYn.N)).willReturn(
+                Optional.empty())
+
+        // When & Then
+        assertThrows(IllegalStateException::class.java) {
+            userService.userUpdate(userId, userUpdateDto)
+        }
+
+    }
+
+    @Test
     fun `유저 삭제 성공`() {
         // Given
         val userId : Long = 1
@@ -118,6 +135,60 @@ class UserServiceTest {
         assertEquals(userApiDto.address, result.address)
         assertEquals(userApiDto.phoneNumber, result.phoneNumber)
         verify(userRepository).findByIdAndDeleteFlag(userId, FlagYn.N)
+        verify(userMapper).entityToApiDto(findUserEntity)
+
+    }
+
+    @Test
+    fun `유저 삭제 실패`() {
+        // Given
+        val userId : Long = 1
+
+        given(userRepository.findByIdAndDeleteFlag(userId, FlagYn.N)).willReturn(
+                Optional.empty())
+
+        // When & Then
+        assertThrows(IllegalStateException::class.java) {
+            userService.userDelete(userId)
+        }
+
+    }
+
+    @Test
+    fun `유저 조회 실패`() {
+        // Given
+        val accountId = "gmldns46"
+
+        given(userRepository.findByAccountIdAndDeleteFlag(accountId, FlagYn.N)).willReturn(
+                Optional.empty())
+
+        // When & Then
+        assertThrows(IllegalStateException::class.java) {
+            userService.findUser(accountId)
+        }
+
+    }
+
+    @Test
+    fun `유저 조회 성공`() {
+        // Given
+        val accountId = "gmldns46"
+        val findUserEntity = CreateUserEntity.findSuccessCreate()
+        val userApiDto = CreateUserDto.UserApiDtoCreateOfDelete()
+
+        given(userRepository.findByAccountIdAndDeleteFlag(accountId, FlagYn.N)).willReturn(
+                Optional.of(findUserEntity))
+        given(userMapper.entityToApiDto(findUserEntity)).willReturn(userApiDto)
+
+        // When
+        val result = userService.findUser(accountId)
+
+        // Then
+        assertEquals(userApiDto, result)
+        assertEquals(userApiDto.name, result.name)
+        assertEquals(userApiDto.address, result.address)
+        assertEquals(userApiDto.phoneNumber, result.phoneNumber)
+        verify(userRepository).findByAccountIdAndDeleteFlag(accountId, FlagYn.N)
         verify(userMapper).entityToApiDto(findUserEntity)
 
     }

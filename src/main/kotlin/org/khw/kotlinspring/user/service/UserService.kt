@@ -17,6 +17,12 @@ import org.springframework.transaction.annotation.Transactional
 class UserService(val userRepository: UserRepository,
 val userMapper: UserMapper) {
 
+    @Transactional(readOnly = true)
+    fun findUser(accountId: String) : UserApiDto{
+        var findUserEntity = userRepository.findByAccountIdAndDeleteFlag(accountId, FlagYn.N).orElseThrow {IllegalStateException("존재하지 않는 계정 정보입니다.")}
+        return userMapper.entityToApiDto(findUserEntity)
+    }
+
     @Transactional
     fun userSave(userSaveDto: UserSaveDto) : UserApiDto{
         if(userRepository.findByAccountIdAndDeleteFlag(userSaveDto.accountId, FlagYn.N).isPresent){
