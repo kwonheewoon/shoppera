@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.khw.kotlinspring.common.CommonEnum.FlagYn
-import org.khw.kotlinspring.common.modeltemplate.CreateUserDto
-import org.khw.kotlinspring.common.modeltemplate.CreateUserEntity
+import org.khw.kotlinspring.common.factory.user.CreateUserDto
+import org.khw.kotlinspring.common.factory.user.CreateUserEntity
 import org.khw.kotlinspring.user.mapper.UserMapper
 import org.khw.kotlinspring.user.repository.UserRepository
 import org.mockito.BDDMockito.given

@@ -1,4 +1,4 @@
-package org.khw.kotlinspring.common.modeltemplate
+package org.khw.kotlinspring.common.factory.user
 
 import org.khw.kotlinspring.common.CommonEnum
 import org.khw.kotlinspring.user.domain.dto.*

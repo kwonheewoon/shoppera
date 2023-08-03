@@ -5,28 +5,23 @@ import lombok.*
 import org.hibernate.annotations.Comment
 import org.khw.kotlinspring.common.CommonEnum
 import org.khw.kotlinspring.common.CommonEnum.FlagYn
+import java.util.ArrayList
 
 
 @Builder
 class CategoryApiDto(
 
-    val id : Long? = null,
+    val id : Long,
 
-    categoryNm : String,
+    val categoryNm : String,
 
-    depth : Int,
+    val depth : Int,
 
-    orderNo : Int,
+    val orderNo : Int,
 
-    deleteFlag : FlagYn
-) {
+    val deleteFlag : FlagYn,
 
-    var categoryNm = categoryNm
+    val parentCategory : CategoryViewApiDto?,
 
-    var depth = depth
-
-    var orderNo = orderNo
-
-    var deleteFlag = deleteFlag
-
-}
+    var childCategorys : List<CategoryApiDto>? = ArrayList<CategoryApiDto>()
+)

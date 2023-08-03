@@ -1,8 +1,5 @@
-package org.khw.kotlinspring.common.modeltemplate
+package org.khw.kotlinspring.common.factory.user
 
-import org.khw.kotlinspring.common.CommonEnum
-import org.khw.kotlinspring.user.domain.dto.AddressSaveDto
-import org.khw.kotlinspring.user.domain.dto.UserSaveDto
 import org.khw.kotlinspring.user.domain.entity.Address
 import org.khw.kotlinspring.user.domain.entity.UserEntity
 import java.time.LocalDate
