@@ -40,10 +40,32 @@ class CategoryServiceTest {
     lateinit var categoryService: CategoryService
 
     @Test
+    fun `카테고리 조회(자식 카테고리 포함)`() {
+        // Given
+        val findCategoryEntityList = CreateCategoryEntity.categoryEntityChildExistList()
+        val categoryListApidto = CreateCategoryDto.categoryListApiDtoParentAndChildExist()
+
+        given(categoryRepository.findByDepthAndDeleteFlag(1, FlagYn.N))
+            .willReturn(findCategoryEntityList)
+        given(categoryMapper.entityListToListApiDtoList(findCategoryEntityList))
+            .willReturn(categoryListApidto)
+
+        // When
+        val result = categoryService.findAllCategory()
+
+        // Then
+        assertEquals(categoryListApidto, result)
+        assertEquals(result[0].childCategorys?.size,3 )
+        assertEquals(result[0].childCategorys!![0].categoryNm, "자식 카테고리1")
+        verify(categoryRepository).findByDepthAndDeleteFlag(1, FlagYn.N)
+        verify(categoryMapper).entityListToListApiDtoList(findCategoryEntityList)
+
+    }
+
+    @Test
     fun `카테고리 등록 성공(부모 카테고리)`(){
         // Given
         val categorySaveDto = CreateCategoryDto.categorySaveDtoParentNonExist()
-        val categoryCreateEntity = CategoryEntityFactory.createCategoryEntityParentNonExist(categorySaveDto)
         val categorySavedEntity = CreateCategoryEntity.categoryEntityParentNonExist()
         val categoryViewApiDto = CreateCategoryDto.categoryViewApiDtoParentAndChildNonExist()
 
@@ -59,5 +81,45 @@ class CategoryServiceTest {
         assertEquals(categoryViewApiDto, result)
         verify(categoryRepository).save(any(CategoryEntity::class.java))
         verify(categoryMapper).entityToViewApiDto(categorySavedEntity)
+    }
+
+    @Test
+    fun `카테고리 등록 성공(자식 카테고리)`(){
+        // Given
+        val categorySaveDto = CreateCategoryDto.categorySaveDtoParentExist()
+        val findParentCategoryEntity = CreateCategoryEntity.categoryEntityParent()
+        val categorySavedEntity = CreateCategoryEntity.categoryEntityParentExist()
+        val categoryViewApiDto = CreateCategoryDto.categoryViewApiDtoParentAndChildExist()
+
+        given(categoryRepository.findById(categorySaveDto.parentId!!))
+            .willReturn(Optional.of(findParentCategoryEntity))
+        given(categoryRepository.save(any(CategoryEntity::class.java)))
+            .willReturn(categorySavedEntity)
+        given(categoryMapper.entityToViewApiDto(categorySavedEntity))
+            .willReturn(categoryViewApiDto)
+
+        // When
+        val result = categoryService.saveCategory(categorySaveDto)
+
+        // Then
+        assertEquals(categoryViewApiDto, result)
+        verify(categoryRepository).findById(categorySaveDto.parentId!!)
+        verify(categoryRepository).save(any(CategoryEntity::class.java))
+        verify(categoryMapper).entityToViewApiDto(categorySavedEntity)
+    }
+
+    @Test
+    fun `카테고리 등록 실패(자식 카테고리) 부모카테고리 미존재`(){
+        // Given
+        val categorySaveDto = CreateCategoryDto.categorySaveDtoParentExist()
+
+
+        given(categoryRepository.findById(categorySaveDto.parentId!!))
+            .willReturn(Optional.empty())
+
+        // When & Then
+        assertThrows(IllegalStateException::class.java) {
+            categoryService.saveCategory(categorySaveDto)
+        }
     }
 }

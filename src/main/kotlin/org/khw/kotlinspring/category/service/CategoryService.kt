@@ -47,7 +47,7 @@ class CategoryService(val categoryRepository: CategoryRepository,
         //부모 카테고리 아이디가 존재할시
         if(categorySaveDto.parentId != null){
             //부모카테고리 조회
-            val parentCategoryEntity = categoryRepository.findById(categorySaveDto.parentId).orElseThrow{throw RuntimeException("부모 카테고리가 존재하지 않습니다.")}
+            val parentCategoryEntity = categoryRepository.findById(categorySaveDto.parentId).orElseThrow{throw IllegalStateException("부모 카테고리가 존재하지 않습니다.")}
             return categoryMapper.entityToViewApiDto(categoryRepository.save(CategoryEntityFactory.createCategoryEntityParentExist(categorySaveDto, parentCategoryEntity)))
         }
         //부모 카테고리 아이디가 미 존재할시

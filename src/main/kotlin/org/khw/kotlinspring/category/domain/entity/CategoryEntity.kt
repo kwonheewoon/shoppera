@@ -21,9 +21,10 @@ import java.util.*
 class CategoryEntity(id: Long?,
     categoryNm: String,
     orderNo: Int,
-    parentCategory: CategoryEntity? = null,
     depth: Int = 1,
-    deleteFlag: FlagYn = FlagYn.N
+    deleteFlag: FlagYn = FlagYn.N,
+    parentCategory: CategoryEntity? = null,
+    childCategoryList: List<CategoryEntity> = ArrayList<CategoryEntity>()
 ) {
 
     @Id @Column(name = "id", nullable = false)
@@ -55,7 +56,7 @@ class CategoryEntity(id: Long?,
 
     @OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     @BatchSize(size = 100)
-    var childCategoryList: List<CategoryEntity> = ArrayList<CategoryEntity>()
+    var childCategoryList: List<CategoryEntity> = childCategoryList
 
 
 
