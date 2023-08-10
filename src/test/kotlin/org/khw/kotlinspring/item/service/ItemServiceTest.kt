@@ -43,7 +43,7 @@ lateinit var itemService: ItemService
     fun `아이템등록 성공`(){
         // Given
         val itemSaveDto = CreateItemDto.itemSaveDto()
-        val itemViewApiDto = CreateItemDto.itemViewApiDto()
+        val itemViewApiDto = CreateItemDto.itemViewApiDto("하와이안 셔츠", 1, displayFlag = FlagYn.N, deleteFlag = FlagYn.N)
         val findCategoryEntity = CreateCategoryEntity.categoryEntityParent()
         val createdItemEntity = CreateItemEntity.itemEntity(itemSaveDto, findCategoryEntity)
         val savedItemEntity = CreateItemEntity.savedItemEntity(itemSaveDto, findCategoryEntity)
@@ -63,5 +63,34 @@ lateinit var itemService: ItemService
         assertEquals(itemViewApiDto.itemName, "하와이안 셔츠")
         verify(categoryRepository).findByIdAndDeleteFlag(1, FlagYn.N)
         verify(itemRepository).save(any(ItemEntity::class.java))
+    }
+
+    @Test
+    fun `아이템수정 성공`(){
+        // Given
+        val itemId: Long = 1
+        val itemUpdateDto = CreateItemDto.itemUpdateDto()
+        val itemViewApiDto = CreateItemDto.itemViewApiDto("스카쟌 점퍼", 1, displayFlag = FlagYn.N, deleteFlag = FlagYn.N)
+        val findCategoryEntity = CreateCategoryEntity.categoryEntityParent()
+        val findItemEntity = CreateItemEntity.findItemEntity(findCategoryEntity)
+        val updatedItemEntity = CreateItemEntity.updatedItemEntity(itemUpdateDto, findCategoryEntity)
+
+        given(categoryRepository.findByIdAndDeleteFlag(1, FlagYn.N))
+            .willReturn(Optional.of(findCategoryEntity))
+        given(itemRepository.findByIdAndDeleteFlag(1, FlagYn.N))
+            .willReturn(Optional.of(findItemEntity))
+        findItemEntity.updateItem(itemUpdateDto, findCategoryEntity)
+        given(itemMapper.entityToViewApiDto(findItemEntity))
+            .willReturn(itemViewApiDto)
+
+        // When
+        val result = itemService.updateItem(itemId, itemUpdateDto)
+
+        // Then
+        assertEquals(result, itemViewApiDto)
+        assertEquals(itemViewApiDto.itemName, "스카쟌 점퍼")
+        verify(categoryRepository).findByIdAndDeleteFlag(1, FlagYn.N)
+        verify(itemRepository).findByIdAndDeleteFlag(1, FlagYn.N)
+        verify(itemMapper).entityToViewApiDto(findItemEntity)
     }
 }

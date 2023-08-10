@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicUpdate
 import org.khw.kotlinspring.category.domain.entity.CategoryEntity
 import org.khw.kotlinspring.common.CommonEnum.FlagYn
 import org.khw.kotlinspring.common.CommonEnum.FlagYn.*
+import org.khw.kotlinspring.item.domain.dto.ItemUpdateDto
 
 @Entity
 @Table(name = "item")
@@ -35,7 +36,7 @@ class ItemEntity(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     @Comment("카테고리 아이디")
-    var cateogry: CategoryEntity = category
+    var category: CategoryEntity = category
 
     @Column(name = "display_flag", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -46,4 +47,11 @@ class ItemEntity(
     @Enumerated(EnumType.STRING)
     @Comment("삭제여부")
     var deleteFlag = deleteFlag
+
+    fun updateItem(itemUpdateDto: ItemUpdateDto, findCategoryEntity: CategoryEntity){
+        this.itemName = itemUpdateDto.itemName
+        this.category = findCategoryEntity
+        this.displayFlag = itemUpdateDto.displayFlag
+        this.deleteFlag = itemUpdateDto.deleteFlag
+    }
 }

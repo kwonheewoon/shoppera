@@ -12,6 +12,7 @@ import org.mapstruct.Mapping
 @Mapper(componentModel = "spring")
 interface ItemMapper {
 
+    @Mapping(target = "categoryId", source = "category.id")
     fun entityToViewApiDto(itemEntity: ItemEntity) : ItemViewApiDto
 
 
