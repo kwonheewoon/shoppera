@@ -1,7 +1,6 @@
 package org.khw.kotlinspring.common.factory.category
 
 import org.khw.kotlinspring.category.domain.entity.CategoryEntity
-import org.khw.kotlinspring.common.CommonEnum.FlagYn
 
 class CreateCategoryEntity {
 

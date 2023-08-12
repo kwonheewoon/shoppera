@@ -1,12 +1,8 @@
 package org.khw.kotlinspring.user.domain.dto
 
-import com.fasterxml.jackson.annotation.JsonFormat
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotNull
-import lombok.Getter
-import org.khw.kotlinspring.common.CommonEnum.*
-import java.time.LocalDate
+
 data class UserUpdateDto(
 
     @field:NotBlank(message = "회원 이름은 필수 값 입니다.")

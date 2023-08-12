@@ -1,4 +1,4 @@
-package org.khw.kotlinspring.common
+package org.khw.kotlinspring.common.enums
 
 class CommonEnum {
     enum class FlagYn{

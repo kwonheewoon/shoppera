@@ -1,12 +1,8 @@
 package org.khw.kotlinspring.category.domain.dto
 
-import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.media.Schema
-import jakarta.persistence.*
 import lombok.*
-import org.hibernate.annotations.Comment
-import org.khw.kotlinspring.common.CommonEnum
-import org.khw.kotlinspring.common.CommonEnum.FlagYn
+import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
 
 @Schema(description = "카테고리 저장시 사용될 DTO")
 @Builder

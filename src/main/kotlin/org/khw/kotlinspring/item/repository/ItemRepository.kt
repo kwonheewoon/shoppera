@@ -1,8 +1,6 @@
 package org.khw.kotlinspring.item.repository
 
-import org.khw.kotlinspring.category.domain.entity.CategoryEntity
-import org.khw.kotlinspring.common.CommonEnum
-import org.khw.kotlinspring.common.CommonEnum.FlagYn
+import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
 import org.khw.kotlinspring.item.domain.entity.ItemEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository

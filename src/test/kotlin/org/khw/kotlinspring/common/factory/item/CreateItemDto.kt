@@ -1,7 +1,6 @@
 package org.khw.kotlinspring.common.factory.item
 
-import org.khw.kotlinspring.common.CommonEnum
-import org.khw.kotlinspring.common.CommonEnum.FlagYn
+import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
 import org.khw.kotlinspring.item.domain.dto.ItemSaveDto
 import org.khw.kotlinspring.item.domain.dto.ItemUpdateDto
 import org.khw.kotlinspring.item.domain.dto.ItemViewApiDto

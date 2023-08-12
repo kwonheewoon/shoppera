@@ -1,10 +1,7 @@
 package org.khw.kotlinspring.category.domain.dto
 
-import jakarta.persistence.*
 import lombok.*
-import org.hibernate.annotations.Comment
-import org.khw.kotlinspring.common.CommonEnum
-import org.khw.kotlinspring.common.CommonEnum.*
+import org.khw.kotlinspring.common.enums.CommonEnum.*
 import java.util.*
 
 

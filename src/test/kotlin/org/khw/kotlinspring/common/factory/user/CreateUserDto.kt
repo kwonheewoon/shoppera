@@ -1,6 +1,6 @@
 package org.khw.kotlinspring.common.factory.user
 
-import org.khw.kotlinspring.common.CommonEnum
+import org.khw.kotlinspring.common.enums.CommonEnum
 import org.khw.kotlinspring.user.domain.dto.*
 import java.time.LocalDate
 

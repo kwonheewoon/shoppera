@@ -7,7 +7,7 @@ import org.khw.kotlinspring.category.domain.entity.CategoryEntityFactory
 import org.khw.kotlinspring.category.domain.mapper.CategoryMapper
 import org.khw.kotlinspring.category.repository.CategoryQueryRepository
 import org.khw.kotlinspring.category.repository.CategoryRepository
-import org.khw.kotlinspring.common.CommonEnum
+import org.khw.kotlinspring.common.enums.CommonEnum
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

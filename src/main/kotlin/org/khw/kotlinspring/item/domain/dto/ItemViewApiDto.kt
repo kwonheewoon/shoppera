@@ -1,7 +1,7 @@
 package org.khw.kotlinspring.item.domain.dto
 
 import io.swagger.v3.oas.annotations.media.Schema
-import org.khw.kotlinspring.common.CommonEnum
+import org.khw.kotlinspring.common.enums.CommonEnum
 
 class ItemViewApiDto (
     id: Long,

@@ -3,7 +3,10 @@ package org.khw.kotlinspring.item.service
 import jakarta.transaction.Transactional
 import lombok.RequiredArgsConstructor
 import org.khw.kotlinspring.category.repository.CategoryRepository
-import org.khw.kotlinspring.common.CommonEnum.FlagYn
+import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
+import org.khw.kotlinspring.common.enums.ResCode
+import org.khw.kotlinspring.common.exception.CategoryException
+import org.khw.kotlinspring.common.exception.ItemException
 import org.khw.kotlinspring.item.domain.dto.ItemSaveDto
 import org.khw.kotlinspring.item.domain.dto.ItemUpdateDto
 import org.khw.kotlinspring.item.domain.dto.ItemViewApiDto
@@ -19,17 +22,25 @@ class ItemService(val itemRepository: ItemRepository,
                   val categoryRepository: CategoryRepository,
     val itemMapper: ItemMapper) {
 
+    @Transactional()
+    fun findItem(itemId: Long): ItemViewApiDto{
+        val findItemEntity = itemRepository.findByIdAndDeleteFlag(itemId, FlagYn.N).orElseThrow{ ItemException(
+            ResCode.NOT_FOUND_ITEM) }
+        return itemMapper.entityToViewApiDto(findItemEntity)
+    }
+
     @Transactional
     fun saveItem(itemSaveDto: ItemSaveDto): ItemViewApiDto{
-        val findCategoryEntity = categoryRepository.findByIdAndDeleteFlag(itemSaveDto.categoryId, FlagYn.N).orElseThrow { IllegalStateException("존재하지 않는 카테고리 정보입니다.") }
+        val findCategoryEntity = categoryRepository.findByIdAndDeleteFlag(itemSaveDto.categoryId, FlagYn.N).orElseThrow { CategoryException(ResCode.NOT_FOUND_CATEGORY) }
 
         return itemMapper.entityToViewApiDto(itemRepository.save(ItemEntityFactory.createItenEntity(itemSaveDto, findCategoryEntity)))
     }
 
     @Transactional
     fun updateItem(itemId: Long, itemUpdateDto: ItemUpdateDto): ItemViewApiDto{
-        val findCategoryEntity = categoryRepository.findByIdAndDeleteFlag(itemUpdateDto.categoryId, FlagYn.N).orElseThrow { IllegalStateException("존재하지 않는 카테고리 정보입니다.") }
-        val findItemEntity = itemRepository.findByIdAndDeleteFlag(itemId, FlagYn.N).orElseThrow{ IllegalStateException("존재하지 않는 아이템 정보입니다.") }
+        val findCategoryEntity = categoryRepository.findByIdAndDeleteFlag(itemUpdateDto.categoryId, FlagYn.N).orElseThrow { CategoryException(ResCode.NOT_FOUND_CATEGORY) }
+        val findItemEntity = itemRepository.findByIdAndDeleteFlag(itemId, FlagYn.N).orElseThrow{ ItemException(
+            ResCode.NOT_FOUND_ITEM) }
 
         findItemEntity.updateItem(itemUpdateDto, findCategoryEntity)
 

@@ -3,8 +3,7 @@ package org.khw.kotlinspring.common.factory.category
 import org.khw.kotlinspring.category.domain.dto.CategoryListApiDto
 import org.khw.kotlinspring.category.domain.dto.CategorySaveDto
 import org.khw.kotlinspring.category.domain.dto.CategoryViewApiDto
-import org.khw.kotlinspring.common.CommonEnum
-import org.khw.kotlinspring.common.CommonEnum.FlagYn
+import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
 
 class CreateCategoryDto {
 
