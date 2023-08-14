@@ -86,6 +86,35 @@ lateinit var itemService: ItemService
     }
 
     @Test
+    fun `아이템 다건 조회 성공`(){
+        // Given
+        val itemId: Long = 1
+        val itemViewApiDtoList = CreateItemDto.itemViewApiDtoList()
+        val findCategoryEntity = CreateCategoryEntity.categoryEntityParent()
+        val findItemEntityList = CreateItemEntity.findItemEntityList(findCategoryEntity)
+
+        given(categoryRepository.findByIdAndDeleteFlag(1, FlagYn.N))
+            .willReturn(Optional.of(findCategoryEntity))
+        given(itemRepository.findByCategoryAndDeleteFlag(findCategoryEntity, FlagYn.N))
+            .willReturn(findItemEntityList)
+        given(itemMapper.entityListToViewApiDtoList(findItemEntityList))
+            .willReturn(itemViewApiDtoList)
+
+        // When
+        val result = itemService.findAllItem(itemId)
+
+        // Then
+        assertEquals(result, itemViewApiDtoList)
+        assertEquals(result.size, 3)
+        assertEquals(result.get(0).itemName, "하와이안 셔츠")
+        assertEquals(result.get(1).itemName, "벚꽃 남방")
+        assertEquals(result.get(2).itemName, "청자켓")
+        verify(categoryRepository).findByIdAndDeleteFlag(1, FlagYn.N)
+        verify(itemRepository).findByCategoryAndDeleteFlag(findCategoryEntity, FlagYn.N)
+        verify(itemMapper).entityListToViewApiDtoList(findItemEntityList)
+    }
+
+    @Test
     fun `아이템등록 성공`(){
         // Given
         val itemSaveDto = CreateItemDto.itemSaveDto()

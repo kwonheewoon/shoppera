@@ -21,6 +21,14 @@ class CreateItemEntity {
             return ItemEntity(1, "하와이안 셔츠", categoryEntity, FlagYn.N)
         }
 
+        fun findItemEntityList(categoryEntity: CategoryEntity): List<ItemEntity>{
+            return listOf(
+                ItemEntity(1, "하와이안 셔츠", categoryEntity, FlagYn.N),
+                ItemEntity(2, "벚꽃 남방", categoryEntity, FlagYn.N),
+                ItemEntity(3, "청 자켓", categoryEntity, FlagYn.N)
+            )
+        }
+
         fun updatedItemEntity(itemUpdateDto: ItemUpdateDto, categoryEntity: CategoryEntity): ItemEntity{
             return ItemEntity(1, itemUpdateDto.itemName, categoryEntity, itemUpdateDto.displayFlag, itemUpdateDto.deleteFlag)
         }

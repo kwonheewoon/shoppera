@@ -29,6 +29,14 @@ class ItemService(val itemRepository: ItemRepository,
         return itemMapper.entityToViewApiDto(findItemEntity)
     }
 
+    @Transactional()
+    fun findAllItem(categoryId: Long): List<ItemViewApiDto>{
+        val findCategoryEntity = categoryRepository.findByIdAndDeleteFlag(categoryId, FlagYn.N).orElseThrow { CategoryException(ResCode.NOT_FOUND_CATEGORY) }
+
+        val findItemEntityList = itemRepository.findByCategoryAndDeleteFlag(findCategoryEntity, FlagYn.N)
+        return itemMapper.entityListToViewApiDtoList(findItemEntityList)
+    }
+
     @Transactional
     fun saveItem(itemSaveDto: ItemSaveDto): ItemViewApiDto{
         val findCategoryEntity = categoryRepository.findByIdAndDeleteFlag(itemSaveDto.categoryId, FlagYn.N).orElseThrow { CategoryException(ResCode.NOT_FOUND_CATEGORY) }

@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/item")
+@RequestMapping("/items")
 @RequiredArgsConstructor
 class ItemController(val itemService: ItemService) {
 
@@ -19,6 +19,13 @@ class ItemController(val itemService: ItemService) {
         return ResponseEntity.ok()
             .headers(HttpHeaders())
             .body(itemService.findItem(itemId))
+    }
+
+    @GetMapping
+    fun findAllItem(@RequestParam categoryId: Long): ResponseEntity<List<ItemViewApiDto>>{
+        return ResponseEntity.ok()
+            .headers(HttpHeaders())
+            .body(itemService.findAllItem(categoryId))
     }
 
     @PostMapping

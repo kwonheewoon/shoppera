@@ -19,5 +19,13 @@ class CreateItemDto {
         fun itemViewApiDto(itemName: String, categoryId: Long, displayFlag: FlagYn, deleteFlag: FlagYn): ItemViewApiDto{
             return ItemViewApiDto(1, itemName, categoryId, displayFlag = displayFlag, deleteFlag = deleteFlag)
         }
+
+        fun itemViewApiDtoList(): List<ItemViewApiDto>{
+            return listOf(
+                ItemViewApiDto(1, "하와이안 셔츠", 1, displayFlag = FlagYn.N, deleteFlag = FlagYn.N),
+                ItemViewApiDto(2, "벚꽃 남방", 1, displayFlag = FlagYn.N, deleteFlag = FlagYn.N),
+                ItemViewApiDto(3, "청자켓", 1, displayFlag = FlagYn.N, deleteFlag = FlagYn.N)
+            )
+        }
     }
 }

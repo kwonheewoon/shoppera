@@ -13,7 +13,7 @@ import org.mapstruct.Mapping
 interface ItemMapper {
 
     @Mapping(target = "categoryId", source = "category.id")
-    fun entityToViewApiDto(itemEntity: ItemEntity) : ItemViewApiDto
+    fun entityToViewApiDto(itemEntity: ItemEntity): ItemViewApiDto
 
-
+    fun entityListToViewApiDtoList(itemEntityList: List<ItemEntity>): List<ItemViewApiDto>
 }
