@@ -7,11 +7,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 
-/**
- * 接口文档配置
- *
- * @author Canva
- */
+
 @Configuration
 class SpringDocConfig {
     @Bean

@@ -5,6 +5,7 @@ import lombok.Builder
 import org.hibernate.annotations.Comment
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
+import org.khw.kotlinspring.authorities.domain.entity.AuthoritiesEntity
 import org.khw.kotlinspring.common.enums.CommonEnum.*
 import org.khw.kotlinspring.user.domain.dto.UserUpdateDto
 import java.time.LocalDate
@@ -20,6 +21,7 @@ class UserEntity(id: Long,
     birthDate : LocalDate,
     address : Address,
     phoneNumber : String,
+    authorities: List<AuthoritiesEntity>?,
     deleteFlag : FlagYn = FlagYn.N
 ) {
     @Id
