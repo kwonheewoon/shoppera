@@ -5,7 +5,6 @@ import lombok.Builder
 import org.hibernate.annotations.Comment
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
-import org.khw.kotlinspring.authorities.domain.dto.AuthoritiesUpdateDto
 import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
 import org.khw.kotlinspring.user.domain.entity.UserEntity
 

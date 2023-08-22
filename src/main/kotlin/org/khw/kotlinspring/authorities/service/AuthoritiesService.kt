@@ -2,13 +2,11 @@ package org.khw.kotlinspring.authorities.service
 
 import lombok.RequiredArgsConstructor
 import org.khw.kotlinspring.authorities.domain.dto.AuthoritiesSaveDto
-import org.khw.kotlinspring.authorities.domain.dto.AuthoritiesUpdateDto
 import org.khw.kotlinspring.authorities.domain.dto.AuthoritiesViewApiDto
 import org.khw.kotlinspring.authorities.domain.entity.AuthoritiesEntityFactory
 import org.khw.kotlinspring.authorities.domain.mapper.AuthoritiesMapper
 import org.khw.kotlinspring.authorities.repository.AuthoritiesRepository
 import org.khw.kotlinspring.authorities.repository.AuthorityRepository
-import org.khw.kotlinspring.common.enums.CommonEnum
 import org.khw.kotlinspring.common.enums.CommonEnum.*
 import org.khw.kotlinspring.common.enums.ResCode
 import org.khw.kotlinspring.common.exception.AuthoritiesException
