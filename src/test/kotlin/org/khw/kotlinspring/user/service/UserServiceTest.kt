@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
+import org.khw.kotlinspring.common.enums.ResCode
+import org.khw.kotlinspring.common.exception.UserException
 import org.khw.kotlinspring.common.factory.user.CreateUserDto
 import org.khw.kotlinspring.common.factory.user.CreateUserEntity
 import org.khw.kotlinspring.user.mapper.UserMapper
@@ -61,9 +63,13 @@ class UserServiceTest {
             .willReturn(Optional.of(userEntity))
 
         // Then
-        assertThrows(IllegalStateException::class.java) {
+        val throwable = assertThrows(UserException::class.java) {
             userService.userSave(userSaveDto)
         }
+
+        assertEquals(throwable.code, ResCode.DUPLICATE_USER.code)
+        assertEquals(throwable.message, ResCode.DUPLICATE_USER.message)
+        assertEquals(throwable.httpStatus, ResCode.DUPLICATE_USER.httpStatus)
     }
 
     @Test
@@ -72,7 +78,6 @@ class UserServiceTest {
         val userId : Long = 1
         val userUpdateDto = CreateUserDto.UserUpdateDtoSuccessCreate()
         val findUserEntity = CreateUserEntity.saveSuccessCreate()
-        val updatedEntity = CreateUserEntity.updateSuccessCreate()
         val userApiDto = CreateUserDto.UserApiDtoCreate()
 
         given(userRepository.findByIdAndAccountIdAndDeleteFlag(userId, userUpdateDto.accountId, FlagYn.N)).willReturn(
@@ -106,10 +111,15 @@ class UserServiceTest {
         given(userRepository.findByIdAndAccountIdAndDeleteFlag(userId, userUpdateDto.accountId, FlagYn.N)).willReturn(
                 Optional.empty())
 
-        // When & Then
-        assertThrows(IllegalStateException::class.java) {
+        // When
+        val throwable = assertThrows(UserException::class.java) {
             userService.userUpdate(userId, userUpdateDto)
         }
+
+        // Then
+        assertEquals(throwable.code, ResCode.NOT_FOUND_USER.code)
+        assertEquals(throwable.message, ResCode.NOT_FOUND_USER.message)
+        assertEquals(throwable.httpStatus, ResCode.NOT_FOUND_USER.httpStatus)
 
     }
 
@@ -147,11 +157,15 @@ class UserServiceTest {
         given(userRepository.findByIdAndDeleteFlag(userId, FlagYn.N)).willReturn(
                 Optional.empty())
 
-        // When & Then
-        assertThrows(IllegalStateException::class.java) {
+        // When
+        val throwable = assertThrows(UserException::class.java) {
             userService.userDelete(userId)
         }
 
+        // Then
+        assertEquals(throwable.code, ResCode.NOT_FOUND_USER.code)
+        assertEquals(throwable.message, ResCode.NOT_FOUND_USER.message)
+        assertEquals(throwable.httpStatus, ResCode.NOT_FOUND_USER.httpStatus)
     }
 
     @Test
@@ -162,10 +176,15 @@ class UserServiceTest {
         given(userRepository.findByAccountIdAndDeleteFlag(accountId, FlagYn.N)).willReturn(
                 Optional.empty())
 
-        // When & Then
-        assertThrows(IllegalStateException::class.java) {
+        // When
+        val throwable = assertThrows(UserException::class.java) {
             userService.findUser(accountId)
         }
+
+        // Then
+        assertEquals(throwable.code, ResCode.NOT_FOUND_USER.code)
+        assertEquals(throwable.message, ResCode.NOT_FOUND_USER.message)
+        assertEquals(throwable.httpStatus, ResCode.NOT_FOUND_USER.httpStatus)
 
     }
 

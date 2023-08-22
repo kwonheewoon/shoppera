@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Assertions.assertThrows
 import org.khw.kotlinspring.authorities.domain.entity.AuthoritiesEntity
 import org.khw.kotlinspring.authorities.domain.mapper.AuthoritiesMapper
 import org.khw.kotlinspring.common.enums.CommonEnum
+import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
 import org.khw.kotlinspring.common.enums.ResCode
 import org.khw.kotlinspring.common.exception.AuthoritiesException
 import org.khw.kotlinspring.common.exception.UserException
@@ -53,7 +54,7 @@ class AuthoritiesServiceTest {
         val findAuthorityEntity = CreateAuthoritiesEntity.findAuthorityEntity()
         val savedAuthoritiesEntity = CreateAuthoritiesEntity.findAuthoritiesEntity(findUserEntity, findAuthorityEntity)
 
-        given(userRepository.findByIdAndDeleteFlag(authoritiesSaveDto.userId, CommonEnum.FlagYn.N))
+        given(userRepository.findByIdAndDeleteFlag(authoritiesSaveDto.userId, FlagYn.N))
                 .willReturn(Optional.of(findUserEntity))
         given(authorityRepository.findById(authoritiesSaveDto.authorityId))
                 .willReturn(Optional.of(findAuthorityEntity))
@@ -75,7 +76,7 @@ class AuthoritiesServiceTest {
         // Given
         val authoritiesSaveDto = CreateAuthoritiesDto.authoritiesSaveDto()
 
-        given(userRepository.findByIdAndDeleteFlag(authoritiesSaveDto.userId, CommonEnum.FlagYn.N))
+        given(userRepository.findByIdAndDeleteFlag(authoritiesSaveDto.userId, FlagYn.N))
             .willReturn(Optional.empty())
 
 
@@ -97,7 +98,7 @@ class AuthoritiesServiceTest {
         val findUserEntity = CreateUserEntity.findSuccessCreate()
 
 
-        given(userRepository.findByIdAndDeleteFlag(authoritiesSaveDto.userId, CommonEnum.FlagYn.N))
+        given(userRepository.findByIdAndDeleteFlag(authoritiesSaveDto.userId, FlagYn.N))
             .willReturn(Optional.of(findUserEntity))
         given(authorityRepository.findById(authoritiesSaveDto.authorityId))
             .willReturn(Optional.empty())
@@ -112,5 +113,78 @@ class AuthoritiesServiceTest {
         assertEquals(ResCode.NOT_FOUND_AUTHORITY.code, throwable.code)
         assertEquals(ResCode.NOT_FOUND_AUTHORITY.message, throwable.message)
         assertEquals(ResCode.NOT_FOUND_AUTHORITY.httpStatus, HttpStatus.NOT_FOUND)
+    }
+
+    @Test
+    fun `사용자 권한 삭제 실패(존재 하지 않는 유저)`(){
+        // Given
+        val authoritiesSaveDto = CreateAuthoritiesDto.authoritiesSaveDto()
+        val authoritiesId: Long = 2
+        val userId: Long = 1
+
+
+        given(userRepository.findByIdAndDeleteFlag(authoritiesSaveDto.userId, FlagYn.N))
+            .willReturn(Optional.empty())
+
+        // When
+        val throwable = assertThrows(UserException::class.java){
+            authoritiesService.deleteAuthorities(authoritiesId, userId)
+        }
+
+        // Then
+        assertEquals(ResCode.NOT_FOUND_USER.code, throwable.code)
+        assertEquals(ResCode.NOT_FOUND_USER.message, throwable.message)
+        assertEquals(ResCode.NOT_FOUND_USER.httpStatus, HttpStatus.NOT_FOUND)
+    }
+
+    @Test
+    fun `사용자 권한 삭제 실패(존재 하지 않는 권한 정보)`(){
+        // Given
+        val authoritiesSaveDto = CreateAuthoritiesDto.authoritiesSaveDto()
+        val findUserEntity = CreateUserEntity.findSuccessCreate()
+        val authoritiesId: Long = 2
+        val userId: Long = 1
+
+
+        given(userRepository.findByIdAndDeleteFlag(authoritiesSaveDto.userId, FlagYn.N))
+            .willReturn(Optional.of(findUserEntity))
+        given(authoritiesRepository.findByIdAndUserAndDeleteFlag(authoritiesId, findUserEntity, FlagYn.N))
+            .willReturn(Optional.empty())
+
+        // When
+        val throwable = assertThrows(AuthoritiesException::class.java){
+            authoritiesService.deleteAuthorities(authoritiesId, userId)
+        }
+
+        // Then
+        assertEquals(ResCode.NOT_FOUND_AUTHORITIES.code, throwable.code)
+        assertEquals(ResCode.NOT_FOUND_AUTHORITIES.message, throwable.message)
+        assertEquals(ResCode.NOT_FOUND_AUTHORITIES.httpStatus, HttpStatus.NOT_FOUND)
+    }
+
+    @Test
+    fun `사용자 권한 삭제 성공`(){
+        // Given
+        val authoritiesSaveDto = CreateAuthoritiesDto.authoritiesSaveDto()
+        val findUserEntity = CreateUserEntity.findSuccessCreate()
+        val findAuthoritiesEntity = CreateAuthoritiesEntity.findAuthoritiesEntity(findUserEntity, CreateAuthoritiesEntity.findAuthorityEntity())
+        val authoritiesId: Long = 2
+        val userId: Long = 1
+
+
+        given(userRepository.findByIdAndDeleteFlag(authoritiesSaveDto.userId, FlagYn.N))
+            .willReturn(Optional.of(findUserEntity))
+        given(authoritiesRepository.findByIdAndUserAndDeleteFlag(authoritiesId, findUserEntity, FlagYn.N))
+            .willReturn(Optional.of(findAuthoritiesEntity))
+        findAuthoritiesEntity.delete()
+
+        // When
+        authoritiesService.deleteAuthorities(authoritiesId, userId)
+
+
+        // Then
+        verify(userRepository).findByIdAndDeleteFlag(authoritiesSaveDto.userId, FlagYn.N)
+        verify(authoritiesRepository).findByIdAndUserAndDeleteFlag(authoritiesId, findUserEntity, FlagYn.N)
+        assertEquals(findAuthoritiesEntity.deleteFlag, FlagYn.Y)
     }
 }
