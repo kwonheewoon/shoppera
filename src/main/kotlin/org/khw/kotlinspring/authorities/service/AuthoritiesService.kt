@@ -13,6 +13,7 @@ import org.khw.kotlinspring.common.exception.AuthoritiesException
 import org.khw.kotlinspring.common.exception.UserException
 import org.khw.kotlinspring.user.repository.UserRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +41,8 @@ class AuthoritiesService(val authoritiesRepository: AuthoritiesRepository,
      * @param userId 유저 아이디(PK)
      * @return Unit
      */
+
+    @Transactional
     fun deleteAuthorities(authoritiesId: Long, userId: Long) {
         val findUserEntity = userRepository.findByIdAndDeleteFlag(userId, FlagYn.N).orElseThrow { UserException(ResCode.NOT_FOUND_USER) }
         val findAuthoritiesEntity = authoritiesRepository.findByIdAndUserAndDeleteFlag(authoritiesId, findUserEntity, FlagYn.N).orElseThrow { AuthoritiesException(ResCode.NOT_FOUND_AUTHORITIES) }

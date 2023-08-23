@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/items")
 @RequiredArgsConstructor
-class ItemController(val itemService: ItemService) {
+class ItemRestController(val itemService: ItemService) {
 
     @GetMapping("/{itemId}")
     fun findItem(@PathVariable itemId: Long): ResponseEntity<ItemViewApiDto>{

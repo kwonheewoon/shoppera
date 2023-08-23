@@ -5,7 +5,8 @@ import org.springframework.http.HttpStatus
 enum class ResCode(val code: String, val message: String, val httpStatus: HttpStatus) {
 
     // 200 Ok
-
+    AUTHORITIES_SAVE("200_200", "권한 정보가 등록 되었습니다.", HttpStatus.OK),
+    AUTHORITIES_DELETE("200_201", "권한 정보 삭제가 되었습니다.", HttpStatus.OK),
 
 
     // 400 Bad Request
