@@ -1,6 +1,5 @@
 package org.khw.kotlinspring.item.service
 
-import jakarta.transaction.Transactional
 import lombok.RequiredArgsConstructor
 import org.khw.kotlinspring.category.repository.CategoryRepository
 import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
@@ -14,6 +13,7 @@ import org.khw.kotlinspring.item.domain.entity.ItemEntityFactory
 import org.khw.kotlinspring.item.domain.mapper.ItemMapper
 import org.khw.kotlinspring.item.repository.ItemRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 
 @Service
@@ -22,14 +22,14 @@ class ItemService(val itemRepository: ItemRepository,
                   val categoryRepository: CategoryRepository,
     val itemMapper: ItemMapper) {
 
-    @Transactional()
+    @Transactional(readOnly = true)
     fun findItem(itemId: Long): ItemViewApiDto{
         val findItemEntity = itemRepository.findByIdAndDeleteFlag(itemId, FlagYn.N).orElseThrow{ ItemException(
             ResCode.NOT_FOUND_ITEM) }
         return itemMapper.entityToViewApiDto(findItemEntity)
     }
 
-    @Transactional()
+    @Transactional
     fun findAllItem(categoryId: Long): List<ItemViewApiDto>{
         val findCategoryEntity = categoryRepository.findByIdAndDeleteFlag(categoryId, FlagYn.N).orElseThrow { CategoryException(ResCode.NOT_FOUND_CATEGORY) }
 
@@ -50,9 +50,17 @@ class ItemService(val itemRepository: ItemRepository,
         val findItemEntity = itemRepository.findByIdAndDeleteFlag(itemId, FlagYn.N).orElseThrow{ ItemException(
             ResCode.NOT_FOUND_ITEM) }
 
-        findItemEntity.updateItem(itemUpdateDto, findCategoryEntity)
+        findItemEntity.update(itemUpdateDto, findCategoryEntity)
 
         return itemMapper.entityToViewApiDto(findItemEntity)
+    }
+
+    @Transactional
+    fun deleteItem(itemId: Long){
+        val findItemEntity = itemRepository.findByIdAndDeleteFlag(itemId, FlagYn.N).orElseThrow{ ItemException(
+            ResCode.NOT_FOUND_ITEM) }
+
+        findItemEntity.delete()
     }
 
 }

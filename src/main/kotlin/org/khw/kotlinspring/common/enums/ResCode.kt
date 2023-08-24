@@ -5,8 +5,20 @@ import org.springframework.http.HttpStatus
 enum class ResCode(val code: String, val message: String, val httpStatus: HttpStatus) {
 
     // 200 Ok
+
+    USERS_SAVE("200_100", "유저 정보가 등록 되었습니다.", HttpStatus.OK),
+    USERS_UPDATE("200_101", "유저 정보가 수정 되었습니다.", HttpStatus.OK),
+    USERS_DELETE("200_102", "유저 정보가 삭제 되었습니다.", HttpStatus.OK),
+    USERS_FIND("200_103", "유저 정보가 정상 적으로 조회 되었습니다.", HttpStatus.OK),
+
     AUTHORITIES_SAVE("200_200", "권한 정보가 등록 되었습니다.", HttpStatus.OK),
     AUTHORITIES_DELETE("200_201", "권한 정보 삭제가 되었습니다.", HttpStatus.OK),
+
+
+    ITEM_SAVE("200_400", "아이템 정보가 등록 되었습니다.", HttpStatus.OK),
+    ITEM_UPDATE("200_401", "아이템 정보가 수정 되었습니다.", HttpStatus.OK),
+    ITEM_DELETE("200_402", "아이템 정보가 삭제 되었습니다.", HttpStatus.OK),
+    ITEM_FIND("200_403", "아이템 정보가 정상 적으로 조회 되었습니다.", HttpStatus.OK),
 
 
     // 400 Bad Request

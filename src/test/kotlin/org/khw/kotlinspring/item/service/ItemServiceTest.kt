@@ -153,7 +153,7 @@ lateinit var itemService: ItemService
             .willReturn(Optional.of(findCategoryEntity))
         given(itemRepository.findByIdAndDeleteFlag(1, FlagYn.N))
             .willReturn(Optional.of(findItemEntity))
-        findItemEntity.updateItem(itemUpdateDto, findCategoryEntity)
+        findItemEntity.update(itemUpdateDto, findCategoryEntity)
         given(itemMapper.entityToViewApiDto(findItemEntity))
             .willReturn(itemViewApiDto)
 
@@ -212,5 +212,44 @@ lateinit var itemService: ItemService
         assertEquals(ResCode.NOT_FOUND_ITEM.code, throwable.code)
         assertEquals(ResCode.NOT_FOUND_ITEM.message, throwable.message)
         assertEquals(ResCode.NOT_FOUND_ITEM.httpStatus, HttpStatus.NOT_FOUND)
+    }
+
+    @Test
+    fun `아이템 삭제 실패(존재하지 않는 아이템)`(){
+        // Given
+        val itemId: Long = 1
+
+        given(itemRepository.findByIdAndDeleteFlag(1, FlagYn.N))
+            .willReturn(Optional.empty())
+
+
+        // When
+        val throwable = assertThrows(ItemException::class.java) {
+            itemService.deleteItem(itemId)
+        }
+
+        // Then
+        assertEquals(ResCode.NOT_FOUND_ITEM.code, throwable.code)
+        assertEquals(ResCode.NOT_FOUND_ITEM.message, throwable.message)
+        assertEquals(ResCode.NOT_FOUND_ITEM.httpStatus, HttpStatus.NOT_FOUND)
+    }
+
+    @Test
+    fun `아이템 삭제 성공`(){
+        // Given
+        val itemId: Long = 1
+        val findCategoryEntity = CreateCategoryEntity.categoryEntityParent()
+        val findItemEntity = CreateItemEntity.findItemEntity(findCategoryEntity)
+
+
+        given(itemRepository.findByIdAndDeleteFlag(1, FlagYn.N))
+            .willReturn(Optional.of(findItemEntity))
+
+
+        // When
+        itemService.deleteItem(itemId)
+
+        // Then
+        verify(itemRepository).findByIdAndDeleteFlag(1, FlagYn.N)
     }
 }

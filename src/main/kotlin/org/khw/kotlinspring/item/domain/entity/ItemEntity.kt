@@ -7,7 +7,6 @@ import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
 import org.khw.kotlinspring.category.domain.entity.CategoryEntity
 import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
-import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn.*
 import org.khw.kotlinspring.item.domain.dto.ItemUpdateDto
 
 @Entity
@@ -19,8 +18,8 @@ class ItemEntity(
     id: Long?,
     itemName: String,
     category: CategoryEntity,
-    displayFlag: FlagYn = N,
-    deleteFlag: FlagYn = N
+    displayFlag: FlagYn = FlagYn.N,
+    deleteFlag: FlagYn = FlagYn.N
 ) {
 
     @Id
@@ -53,10 +52,14 @@ class ItemEntity(
     var deleteFlag = deleteFlag
         private set
 
-    fun updateItem(itemUpdateDto: ItemUpdateDto, findCategoryEntity: CategoryEntity){
+    fun update(itemUpdateDto: ItemUpdateDto, findCategoryEntity: CategoryEntity){
         this.itemName = itemUpdateDto.itemName
         this.category = findCategoryEntity
         this.displayFlag = itemUpdateDto.displayFlag
         this.deleteFlag = itemUpdateDto.deleteFlag
+    }
+
+    fun delete(){
+        this.deleteFlag = FlagYn.Y
     }
 }

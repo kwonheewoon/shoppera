@@ -5,6 +5,8 @@ import jakarta.validation.Valid
 import lombok.RequiredArgsConstructor
 import org.khw.kotlinspring.category.domain.dto.CategorySaveDto
 import org.khw.kotlinspring.category.domain.dto.CategoryViewApiDto
+import org.khw.kotlinspring.common.enums.ResCode
+import org.khw.kotlinspring.common.response.CommonResponse
 import org.khw.kotlinspring.user.domain.dto.UserApiDto
 import org.khw.kotlinspring.user.domain.dto.UserSaveDto
 import org.khw.kotlinspring.user.domain.dto.UserUpdateDto
@@ -22,29 +24,29 @@ class UserRestController(val userService: UserService) {
 
     @GetMapping("/{accountId}")
     @Operation(summary = "회원 조회", description = "회원 정보를 조회.")
-    fun findUser(@PathVariable accountId: String) : ResponseEntity<UserApiDto> {
+    fun findUser(@PathVariable accountId: String) : ResponseEntity<CommonResponse<UserApiDto>> {
         return ResponseEntity.ok()
-                .body(userService.findUser(accountId))
+                .body(CommonResponse(ResCode.USERS_FIND, userService.findUser(accountId)))
     }
 
     @PostMapping("")
     @Operation(summary = "회원 등록", description = "회원 정보를 등록.")
-    fun userSave(@RequestBody @Valid userSaveDto: UserSaveDto) : ResponseEntity<UserApiDto> {
+    fun userSave(@RequestBody @Valid userSaveDto: UserSaveDto) : ResponseEntity<CommonResponse<UserApiDto>> {
         return ResponseEntity.ok()
-            .body(userService.userSave(userSaveDto))
+            .body(CommonResponse(ResCode.USERS_SAVE, userService.userSave(userSaveDto)))
     }
 
     @PutMapping("/{userId}")
     @Operation(summary = "회원 수정", description = "회원 정보를 수정.")
-    fun userUpdate(@PathVariable userId: Long, @RequestBody @Valid userUpdateDto: UserUpdateDto) : ResponseEntity<UserApiDto> {
+    fun userUpdate(@PathVariable userId: Long, @RequestBody @Valid userUpdateDto: UserUpdateDto) : ResponseEntity<CommonResponse<UserApiDto>> {
         return ResponseEntity.ok()
-            .body(userService.userUpdate(userId, userUpdateDto))
+            .body(CommonResponse(ResCode.USERS_UPDATE, userService.userUpdate(userId, userUpdateDto)))
     }
 
     @DeleteMapping("/{userId}")
     @Operation(summary = "회원 삭제", description = "회원 정보를 삭제.")
-    fun userDelete(@PathVariable userId: Long) : ResponseEntity<UserApiDto> {
+    fun userDelete(@PathVariable userId: Long) : ResponseEntity<CommonResponse<UserApiDto>> {
         return ResponseEntity.ok()
-            .body(userService.userDelete(userId))
+            .body(CommonResponse(ResCode.USERS_DELETE, userService.userDelete(userId)))
     }
 }
