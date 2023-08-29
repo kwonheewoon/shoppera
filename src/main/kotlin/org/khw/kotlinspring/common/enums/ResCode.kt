@@ -24,7 +24,11 @@ enum class ResCode(val code: String, val message: String, val httpStatus: HttpSt
     // 400 Bad Request
 
     // 409 Conflict
+
+    DUPLICATE_AUTHORITIES("409_200", "중복된 권한 정보 입니다..", HttpStatus.CONFLICT),
+
     DUPLICATE_USER("409_300", "중복된 계정입니다.", HttpStatus.CONFLICT),
+
 
 
     // 404 Not Found

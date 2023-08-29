@@ -32,6 +32,10 @@ class AuthoritiesService(val authoritiesRepository: AuthoritiesRepository,
         val findUserEntity = userRepository.findByIdAndDeleteFlag(authoritiesSaveDto.userId, FlagYn.N).orElseThrow { UserException(ResCode.NOT_FOUND_USER) }
         val findAuthorityEntity = authorityRepository.findById(authoritiesSaveDto.authorityId).orElseThrow { AuthoritiesException(ResCode.NOT_FOUND_AUTHORITY)}
 
+        if(authoritiesRepository.countByUserAndAuthorityAndDeleteFlag(findUserEntity, findAuthorityEntity, FlagYn.N) > 0){
+            throw AuthoritiesException(ResCode.DUPLICATE_AUTHORITIES)
+        }
+
         return authoritiesMapper.entityToViewApiDto(authoritiesRepository.save(AuthoritiesEntityFactory.createAuthoritiesEntity(findUserEntity, findAuthorityEntity)))
     }
 

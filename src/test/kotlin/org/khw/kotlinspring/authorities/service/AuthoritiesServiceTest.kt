@@ -55,11 +55,13 @@ class AuthoritiesServiceTest {
         val savedAuthoritiesEntity = CreateAuthoritiesEntity.findAuthoritiesEntity(findUserEntity, findAuthorityEntity)
 
         given(userRepository.findByIdAndDeleteFlag(authoritiesSaveDto.userId, FlagYn.N))
-                .willReturn(Optional.of(findUserEntity))
+            .willReturn(Optional.of(findUserEntity))
         given(authorityRepository.findById(authoritiesSaveDto.authorityId))
-                .willReturn(Optional.of(findAuthorityEntity))
+            .willReturn(Optional.of(findAuthorityEntity))
+        given(authoritiesRepository.countByUserAndAuthorityAndDeleteFlag(findUserEntity, findAuthorityEntity, FlagYn.N))
+            .willReturn(0)
         given(authoritiesRepository.save(any(AuthoritiesEntity::class.java)))
-                .willReturn(savedAuthoritiesEntity)
+            .willReturn(savedAuthoritiesEntity)
         given(authoritiesMapper.entityToViewApiDto(savedAuthoritiesEntity))
             .willReturn(authoritiesViewApiDto)
 
@@ -113,6 +115,34 @@ class AuthoritiesServiceTest {
         assertEquals(ResCode.NOT_FOUND_AUTHORITY.code, throwable.code)
         assertEquals(ResCode.NOT_FOUND_AUTHORITY.message, throwable.message)
         assertEquals(ResCode.NOT_FOUND_AUTHORITY.httpStatus, HttpStatus.NOT_FOUND)
+    }
+
+    @Test
+    fun `사용자 권한 등록 실패(중복되는 권한 정보)`(){
+        // Given
+        val authoritiesSaveDto = CreateAuthoritiesDto.authoritiesSaveDto()
+        val findUserEntity = CreateUserEntity.findSuccessCreate()
+        val findAuthorityEntity = CreateAuthoritiesEntity.findAuthorityEntity()
+
+
+
+        given(userRepository.findByIdAndDeleteFlag(authoritiesSaveDto.userId, FlagYn.N))
+            .willReturn(Optional.of(findUserEntity))
+        given(authorityRepository.findById(authoritiesSaveDto.authorityId))
+            .willReturn(Optional.of(findAuthorityEntity))
+        given(authoritiesRepository.countByUserAndAuthorityAndDeleteFlag(findUserEntity, findAuthorityEntity, FlagYn.N))
+            .willReturn(1)
+
+
+        // When
+        val throwable = assertThrows(AuthoritiesException::class.java){
+            authoritiesService.saveAuthorities(authoritiesSaveDto)
+        }
+
+        // Then
+        assertEquals(ResCode.DUPLICATE_AUTHORITIES.code, throwable.code)
+        assertEquals(ResCode.DUPLICATE_AUTHORITIES.message, throwable.message)
+        assertEquals(ResCode.DUPLICATE_AUTHORITIES.httpStatus, HttpStatus.CONFLICT)
     }
 
     @Test
