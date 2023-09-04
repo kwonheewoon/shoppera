@@ -1,4 +1,4 @@
-package org.khw.kotlinspring.common.factory.item
+package org.khw.kotlinspring.item.factory
 
 import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
 import org.khw.kotlinspring.item.domain.dto.ItemSaveDto
@@ -9,7 +9,7 @@ class CreateItemDto {
 
     companion object{
         fun itemSaveDto(): ItemSaveDto{
-            return ItemSaveDto("하와이안 셔츠", 1, displayFlag = FlagYn.N, deleteFlag = FlagYn.N)
+            return ItemSaveDto("하와이안 셔츠", "ELEC", 1, displayFlag = FlagYn.N, deleteFlag = FlagYn.N)
         }
 
         fun itemUpdateDto(): ItemUpdateDto{

@@ -18,6 +18,7 @@ class ItemEntity(
     id: Long?,
     itemName: String,
     category: CategoryEntity,
+    itemType: ItemTypeEntity,
     displayFlag: FlagYn = FlagYn.N,
     deleteFlag: FlagYn = FlagYn.N
 ) {
@@ -45,11 +46,16 @@ class ItemEntity(
     var displayFlag = displayFlag
         private set
 
-
     @Column(name = "delete_flag", nullable = false)
     @Enumerated(EnumType.STRING)
     @Comment("삭제여부")
     var deleteFlag = deleteFlag
+        private set
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "type_id")
+    @Comment("아이템 타입 아이디")
+    var itemType: ItemTypeEntity = itemType
         private set
 
     fun update(itemUpdateDto: ItemUpdateDto, findCategoryEntity: CategoryEntity){

@@ -36,5 +36,7 @@ enum class ResCode(val code: String, val message: String, val httpStatus: HttpSt
     NOT_FOUND_ITEM("404_002", "존재하지 않는 아이템 정보입니다.", HttpStatus.NOT_FOUND),
     NOT_FOUND_USER("404_003", "존재하지 않는 유저 정보입니다.", HttpStatus.NOT_FOUND),
     NOT_FOUND_AUTHORITY("404_004", "존재하지 않는 권한 입니다.", HttpStatus.NOT_FOUND),
-    NOT_FOUND_AUTHORITIES("404_005", "존재하지 않는 권한 정보 입니다.", HttpStatus.NOT_FOUND)
+    NOT_FOUND_AUTHORITIES("404_005", "존재하지 않는 권한 정보 입니다.", HttpStatus.NOT_FOUND),
+    NOT_FOUND_ITEM_TYPE("404_006", "존재하지 않는 아이템 타입 정보입니다.", HttpStatus.NOT_FOUND)
+
 }

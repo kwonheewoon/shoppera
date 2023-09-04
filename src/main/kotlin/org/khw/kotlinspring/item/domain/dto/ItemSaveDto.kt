@@ -6,6 +6,8 @@ import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
 class ItemSaveDto (
     itemName: String,
 
+    typeCode: String,
+
     categoryId: Long,
 
     displayFlag: FlagYn,
@@ -15,6 +17,9 @@ class ItemSaveDto (
 
     @Schema(description = "아이템 이름", example = "하와이안 셔츠")
     val itemName = itemName
+
+    @Schema(description = "아이템 타입 코드", example = "ELEC")
+    val typeCode = typeCode
 
     @Schema(description = "카테고리 아이디", example = "1")
     val categoryId = categoryId

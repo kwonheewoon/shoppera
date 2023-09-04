@@ -7,8 +7,8 @@ import org.khw.kotlinspring.item.domain.dto.ItemSaveDto
 class ItemEntityFactory {
 
     companion object {
-        fun createItenEntity(itemSaveDto: ItemSaveDto, categoryEntity: CategoryEntity): ItemEntity{
-            return ItemEntity(null, itemSaveDto.itemName, categoryEntity, itemSaveDto.displayFlag)
+        fun createItemEntity(itemSaveDto: ItemSaveDto, categoryEntity: CategoryEntity, itemTypeEntity: ItemTypeEntity): ItemEntity{
+            return ItemEntity(null, itemSaveDto.itemName, categoryEntity, itemTypeEntity, itemSaveDto.displayFlag)
         }
     }
 }
