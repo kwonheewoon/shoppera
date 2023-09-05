@@ -20,14 +20,19 @@ enum class ResCode(val code: String, val message: String, val httpStatus: HttpSt
     ITEM_DELETE("200_402", "아이템 정보가 삭제 되었습니다.", HttpStatus.OK),
     ITEM_FIND("200_403", "아이템 정보가 정상 적으로 조회 되었습니다.", HttpStatus.OK),
 
+    ITEM_TYPE_SAVE("200_404", "아이템 타입 정보가 등록 되었습니다.", HttpStatus.OK),
+    ITEM_TYPE_UPDATE("200_405", "아이템 타입 정보가 수정 되었습니다.", HttpStatus.OK),
+    ITEM_TYPE_DELETE("200_406", "아이템 타입 정보가 삭제 되었습니다.", HttpStatus.OK),
+    ITEM_TYPE_FIND("200_407", "아이템 타입 정보가 정상 적으로 조회 되었습니다.", HttpStatus.OK),
+
 
     // 400 Bad Request
 
     // 409 Conflict
 
-    DUPLICATE_AUTHORITIES("409_200", "중복된 권한 정보 입니다..", HttpStatus.CONFLICT),
-
-    DUPLICATE_USER("409_300", "중복된 계정입니다.", HttpStatus.CONFLICT),
+    DUPLICATE_AUTHORITIES("409_001", "중복된 권한 정보 입니다.", HttpStatus.CONFLICT),
+    DUPLICATE_USER("409_002", "중복된 계정입니다.", HttpStatus.CONFLICT),
+    DUPLICATE_ITEM_TYPE("409_003", "중복된 아이템 타입 코드 입니다.", HttpStatus.CONFLICT),
 
 
 

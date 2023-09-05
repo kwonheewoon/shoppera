@@ -13,15 +13,15 @@ class CreateItemTypeEntity {
         }
 
         fun savedItemTypeEntity(itemTypeSaveDto: ItemTypeSaveDto): ItemTypeEntity{
-            return ItemTypeEntity(1, itemTypeSaveDto.typeCode, itemTypeSaveDto.typeName, itemTypeSaveDto.deleteFlag)
+            return ItemTypeEntity(1, itemTypeSaveDto.typeCode, itemTypeSaveDto.typeName, FlagYn.N)
         }
 
-        fun findItemEntity(): ItemTypeEntity{
+        fun findItemTypeEntity(): ItemTypeEntity{
             return ItemTypeEntity(1, "ELEC", "전자기기", FlagYn.N)
         }
 
         fun updatedItemEntity(itemTypeUpdateDto: ItemTypeUpdateDto): ItemTypeEntity{
-            return ItemTypeEntity(1, itemTypeUpdateDto.typeCode, itemTypeUpdateDto.typeName, itemTypeUpdateDto.deleteFlag)
+            return ItemTypeEntity(1, itemTypeUpdateDto.typeCode, itemTypeUpdateDto.typeName, FlagYn.N)
         }
     }
 }

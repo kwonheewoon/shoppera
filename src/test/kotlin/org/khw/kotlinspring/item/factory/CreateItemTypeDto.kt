@@ -7,11 +7,11 @@ class CreateItemTypeDto {
 
     companion object{
         fun itemTypeSaveDto(): ItemTypeSaveDto{
-            return ItemTypeSaveDto("ELEC", "전자기기", deleteFlag = FlagYn.N)
+            return ItemTypeSaveDto("ELEC", "전자기기")
         }
 
         fun itemTypeUpdateDto(): ItemTypeUpdateDto{
-            return ItemTypeUpdateDto("CLTH", "의류", deleteFlag = FlagYn.N)
+            return ItemTypeUpdateDto("CLTH", "의류")
         }
 
         fun itemTypeViewApiDto(typeName: String, typeCode: String, deleteFlag: FlagYn): ItemTypeViewApiDto{

@@ -1,9 +1,6 @@
 package org.khw.kotlinspring.config.exception
 
-import org.khw.kotlinspring.common.exception.AuthoritiesException
-import org.khw.kotlinspring.common.exception.CategoryException
-import org.khw.kotlinspring.common.exception.ItemException
-import org.khw.kotlinspring.common.exception.UserException
+import org.khw.kotlinspring.common.exception.*
 import org.khw.kotlinspring.common.response.ErrCommonResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -15,12 +12,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 class ExceptionHandler {
 
     // 도메인 객체별 Custom Exception
-    @ExceptionHandler(value = [AuthoritiesException::class, UserException::class, CategoryException::class, ItemException::class])
+    @ExceptionHandler(value = [AuthoritiesException::class, UserException::class, CategoryException::class, ItemException::class,
+    ItemTypeException::class])
     private fun userException(ex: RuntimeException): ResponseEntity<ErrCommonResponse>{
         return when(ex){
-            is AuthoritiesException -> ResponseEntity(ErrCommonResponse((ex as AuthoritiesException).message, ex.code), ex.httpStatus)
-            is UserException -> ResponseEntity(ErrCommonResponse((ex as UserException).message, ex.code), ex.httpStatus)
-            is CategoryException -> ResponseEntity(ErrCommonResponse((ex as CategoryException).message, ex.code), ex.httpStatus)
+            is AuthoritiesException -> ResponseEntity(ErrCommonResponse(ex.message, ex.code), ex.httpStatus)
+            is UserException -> ResponseEntity(ErrCommonResponse(ex.message, ex.code), ex.httpStatus)
+            is CategoryException -> ResponseEntity(ErrCommonResponse(ex.message, ex.code), ex.httpStatus)
+            is ItemTypeException -> ResponseEntity(ErrCommonResponse(ex.message, ex.code), ex.httpStatus)
             else -> ResponseEntity(ErrCommonResponse((ex as ItemException).message, ex.code), ex.httpStatus)
         }
     }

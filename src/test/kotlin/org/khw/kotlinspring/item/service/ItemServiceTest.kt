@@ -54,7 +54,7 @@ lateinit var itemService: ItemService
         val itemId: Long = 1
         val itemViewApiDto = CreateItemDto.itemViewApiDto("하와이안 셔츠", 1, displayFlag = FlagYn.N, deleteFlag = FlagYn.N)
         val findCategoryEntity = CreateCategoryEntity.categoryEntityParent()
-        val findItemTypeEntity = CreateItemTypeEntity.findItemEntity()
+        val findItemTypeEntity = CreateItemTypeEntity.findItemTypeEntity()
         val findItemEntity = CreateItemEntity.findItemEntity(findCategoryEntity, findItemTypeEntity)
 
         given(itemRepository.findByIdAndDeleteFlag(1, FlagYn.N))
@@ -97,7 +97,7 @@ lateinit var itemService: ItemService
         val itemId: Long = 1
         val itemViewApiDtoList = CreateItemDto.itemViewApiDtoList()
         val findCategoryEntity = CreateCategoryEntity.categoryEntityParent()
-        val findItemTypeEntity = CreateItemTypeEntity.findItemEntity()
+        val findItemTypeEntity = CreateItemTypeEntity.findItemTypeEntity()
         val findItemEntityList = CreateItemEntity.findItemEntityList(findCategoryEntity, findItemTypeEntity)
 
         given(categoryRepository.findByIdAndDeleteFlag(1, FlagYn.N))
@@ -127,7 +127,7 @@ lateinit var itemService: ItemService
         val itemSaveDto = CreateItemDto.itemSaveDto()
         val itemViewApiDto = CreateItemDto.itemViewApiDto("하와이안 셔츠", 1, displayFlag = FlagYn.N, deleteFlag = FlagYn.N)
         val findCategoryEntity = CreateCategoryEntity.categoryEntityParent()
-        val findItemTypeEntity = CreateItemTypeEntity.findItemEntity()
+        val findItemTypeEntity = CreateItemTypeEntity.findItemTypeEntity()
         val savedItemEntity = CreateItemEntity.savedItemEntity(itemSaveDto, findCategoryEntity, findItemTypeEntity)
 
         given(categoryRepository.findByIdAndDeleteFlag(1, FlagYn.N))
@@ -157,7 +157,7 @@ lateinit var itemService: ItemService
         val itemUpdateDto = CreateItemDto.itemUpdateDto()
         val itemViewApiDto = CreateItemDto.itemViewApiDto("스카쟌 점퍼", 1, displayFlag = FlagYn.N, deleteFlag = FlagYn.N)
         val findCategoryEntity = CreateCategoryEntity.categoryEntityParent()
-        val findItemTypeEntity = CreateItemTypeEntity.findItemEntity()
+        val findItemTypeEntity = CreateItemTypeEntity.findItemTypeEntity()
         val findItemEntity = CreateItemEntity.findItemEntity(findCategoryEntity, findItemTypeEntity)
 
         given(categoryRepository.findByIdAndDeleteFlag(1, FlagYn.N))
@@ -250,7 +250,7 @@ lateinit var itemService: ItemService
         // Given
         val itemId: Long = 1
         val findCategoryEntity = CreateCategoryEntity.categoryEntityParent()
-        val findItemTypeEntity = CreateItemTypeEntity.findItemEntity()
+        val findItemTypeEntity = CreateItemTypeEntity.findItemTypeEntity()
         val findItemEntity = CreateItemEntity.findItemEntity(findCategoryEntity, findItemTypeEntity)
 
 

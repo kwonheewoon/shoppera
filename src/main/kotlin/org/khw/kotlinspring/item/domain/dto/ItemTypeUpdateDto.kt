@@ -9,7 +9,4 @@ data class ItemTypeUpdateDto (
 
     @Schema(description = "타입 명", example = "전자기기")
     val typeName: String,
-
-    @Schema(description = "삭제여부", example = "N")
-    val deleteFlag: CommonEnum.FlagYn
 )

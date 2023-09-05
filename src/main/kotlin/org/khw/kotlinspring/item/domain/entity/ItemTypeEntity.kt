@@ -45,12 +45,9 @@ class ItemTypeEntity(
     var deleteFlag = deleteFlag
         private set
 
-    fun updateTypeName(itemTypeUpdateDto: ItemTypeUpdateDto){
-        this.typeName = itemTypeUpdateDto.typeName
-    }
-
-    fun updateTypeCode(itemTypeUpdateDto: ItemTypeUpdateDto){
+    fun update(itemTypeUpdateDto: ItemTypeUpdateDto){
         this.typeCode = itemTypeUpdateDto.typeCode
+        this.typeName = itemTypeUpdateDto.typeName
     }
 
     fun delete(){
