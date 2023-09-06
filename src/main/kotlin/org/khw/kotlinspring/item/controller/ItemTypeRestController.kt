@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor
 import org.khw.kotlinspring.common.enums.ResCode
 import org.khw.kotlinspring.common.response.CommonResponse
 import org.khw.kotlinspring.item.domain.dto.*
-import org.khw.kotlinspring.item.service.ItemService
 import org.khw.kotlinspring.item.service.ItemTypeService
 import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
@@ -15,11 +14,11 @@ import org.springframework.web.bind.annotation.*
 @RequiredArgsConstructor
 class ItemTypeRestController(val itemTypeService: ItemTypeService) {
 
-    @GetMapping("/{typeCode}")
-    fun findItem(@PathVariable typeCode: String): ResponseEntity<CommonResponse<ItemTypeViewApiDto>>{
+    @GetMapping("/{itemTypeId}")
+    fun findItem(@PathVariable itemTypeId: Long): ResponseEntity<CommonResponse<ItemTypeViewApiDto>>{
         return ResponseEntity.ok()
             .headers(HttpHeaders())
-            .body(CommonResponse(ResCode.ITEM_TYPE_FIND, itemTypeService.findItemTypeByTypeCode(typeCode)))
+            .body(CommonResponse(ResCode.ITEM_TYPE_FIND, itemTypeService.findItemTypeByitemTypeId(itemTypeId)))
     }
 
     @PostMapping
@@ -29,21 +28,21 @@ class ItemTypeRestController(val itemTypeService: ItemTypeService) {
             .body(CommonResponse(ResCode.ITEM_TYPE_SAVE, itemTypeService.saveItemType(itemTypeSaveDto)))
     }
 
-//    @PutMapping("/{itemId}")
-//    fun updateItem(@PathVariable itemId: Long, @RequestBody itemUpdateDto: ItemUpdateDto): ResponseEntity<CommonResponse<ItemViewApiDto>>{
-//        return ResponseEntity.ok()
-//            .headers(HttpHeaders())
-//            .body(CommonResponse(ResCode.ITEM_UPDATE, itemService.updateItem(itemId, itemUpdateDto)))
-//    }
-//
-//    @DeleteMapping("/{itemId}")
-//    fun deleteItem(@PathVariable itemId: Long): ResponseEntity<CommonResponse<Unit>>{
-//
-//        itemService.deleteItem(itemId)
-//
-//        return ResponseEntity.ok()
-//            .headers(HttpHeaders())
-//            .body(CommonResponse(ResCode.ITEM_DELETE))
-//    }
+    @PutMapping("/{itemTypeId}")
+    fun findItem(@PathVariable itemTypeId: Long, @RequestBody itemTypeUpdateDto: ItemTypeUpdateDto): ResponseEntity<CommonResponse<ItemTypeViewApiDto>>{
+        return ResponseEntity.ok()
+            .headers(HttpHeaders())
+            .body(CommonResponse(ResCode.ITEM_TYPE_UPDATE, itemTypeService.updateItemType(itemTypeId, itemTypeUpdateDto)))
+    }
+
+    @DeleteMapping("/{itemTypeId}")
+    fun deleteItem(@PathVariable itemTypeId: Long): ResponseEntity<CommonResponse<Unit>>{
+
+        itemTypeService.deleteItemType(itemTypeId)
+
+        return ResponseEntity.ok()
+            .headers(HttpHeaders())
+            .body(CommonResponse(ResCode.ITEM_TYPE_DELETE))
+    }
 
 }

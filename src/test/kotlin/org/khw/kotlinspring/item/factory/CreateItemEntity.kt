@@ -11,27 +11,27 @@ class CreateItemEntity {
 
     companion object{
         fun itemEntity(itemSaveDto: ItemSaveDto, categoryEntity: CategoryEntity, itemTypeEntity: ItemTypeEntity): ItemEntity{
-            return ItemEntity(null, itemSaveDto.itemName, categoryEntity, itemTypeEntity, itemSaveDto.displayFlag)
+            return ItemEntity(null, itemTypeEntity, itemSaveDto.itemName, 65000, categoryEntity, itemSaveDto.displayFlag)
         }
 
         fun savedItemEntity(itemSaveDto: ItemSaveDto, categoryEntity: CategoryEntity, itemTypeEntity: ItemTypeEntity): ItemEntity{
-            return ItemEntity(1, itemSaveDto.itemName, categoryEntity, itemTypeEntity, itemSaveDto.displayFlag)
+            return ItemEntity(1, itemTypeEntity, itemSaveDto.itemName, 65000, categoryEntity, itemSaveDto.displayFlag)
         }
 
         fun findItemEntity(categoryEntity: CategoryEntity, itemTypeEntity: ItemTypeEntity): ItemEntity{
-            return ItemEntity(1, "하와이안 셔츠", categoryEntity, itemTypeEntity, FlagYn.N)
+            return ItemEntity(1, itemTypeEntity, "하와이안 셔츠", 65000, categoryEntity, FlagYn.N)
         }
 
         fun findItemEntityList(categoryEntity: CategoryEntity, itemTypeEntity: ItemTypeEntity): List<ItemEntity>{
             return listOf(
-                ItemEntity(1, "하와이안 셔츠", categoryEntity, itemTypeEntity, FlagYn.N),
-                ItemEntity(2, "벚꽃 남방", categoryEntity, itemTypeEntity, FlagYn.N),
-                ItemEntity(3, "청 자켓", categoryEntity, itemTypeEntity, FlagYn.N)
+                ItemEntity(1, itemTypeEntity, "하와이안 셔츠", 65000, categoryEntity, FlagYn.N),
+                ItemEntity(2, itemTypeEntity, "벚꽃 남방", 65000, categoryEntity, FlagYn.N),
+                ItemEntity(3, itemTypeEntity, "청 자켓", 65000, categoryEntity, FlagYn.N)
             )
         }
 
         fun updatedItemEntity(itemUpdateDto: ItemUpdateDto, categoryEntity: CategoryEntity, itemTypeEntity: ItemTypeEntity): ItemEntity{
-            return ItemEntity(1, itemUpdateDto.itemName, categoryEntity, itemTypeEntity, itemUpdateDto.displayFlag, itemUpdateDto.deleteFlag)
+            return ItemEntity(1, itemTypeEntity, itemUpdateDto.itemName, 65000, categoryEntity, itemUpdateDto.displayFlag, itemUpdateDto.deleteFlag)
         }
     }
 }

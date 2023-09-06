@@ -55,10 +55,12 @@ class ItemService(val itemRepository: ItemRepository,
     @Transactional
     fun updateItem(itemId: Long, itemUpdateDto: ItemUpdateDto): ItemViewApiDto{
         val findCategoryEntity = categoryRepository.findByIdAndDeleteFlag(itemUpdateDto.categoryId, FlagYn.N).orElseThrow { CategoryException(ResCode.NOT_FOUND_CATEGORY) }
+        val findItemTypeEntity = itemTypeRepository.findByTypeCodeAndDeleteFlag(itemUpdateDto.typeCode, FlagYn.N).orElseThrow { ItemTypeException(ResCode.NOT_FOUND_ITEM_TYPE) }
+
         val findItemEntity = itemRepository.findByIdAndDeleteFlag(itemId, FlagYn.N).orElseThrow{ ItemException(
             ResCode.NOT_FOUND_ITEM) }
 
-        findItemEntity.update(itemUpdateDto, findCategoryEntity)
+        findItemEntity.update(itemUpdateDto, findCategoryEntity, findItemTypeEntity)
 
         return itemMapper.entityToViewApiDto(findItemEntity)
     }

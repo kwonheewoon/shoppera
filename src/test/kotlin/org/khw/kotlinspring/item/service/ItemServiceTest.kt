@@ -52,7 +52,7 @@ lateinit var itemService: ItemService
     fun `아이템 단건 조회 성공`(){
         // Given
         val itemId: Long = 1
-        val itemViewApiDto = CreateItemDto.itemViewApiDto("하와이안 셔츠", 1, displayFlag = FlagYn.N, deleteFlag = FlagYn.N)
+        val itemViewApiDto = CreateItemDto.itemViewApiDto("의류", 65000, "하와이안 셔츠", 1, displayFlag = FlagYn.N, deleteFlag = FlagYn.N)
         val findCategoryEntity = CreateCategoryEntity.categoryEntityParent()
         val findItemTypeEntity = CreateItemTypeEntity.findItemTypeEntity()
         val findItemEntity = CreateItemEntity.findItemEntity(findCategoryEntity, findItemTypeEntity)
@@ -125,7 +125,7 @@ lateinit var itemService: ItemService
     fun `아이템등록 성공`(){
         // Given
         val itemSaveDto = CreateItemDto.itemSaveDto()
-        val itemViewApiDto = CreateItemDto.itemViewApiDto("하와이안 셔츠", 1, displayFlag = FlagYn.N, deleteFlag = FlagYn.N)
+        val itemViewApiDto = CreateItemDto.itemViewApiDto("의류", 65000,"하와이안 셔츠", 1, displayFlag = FlagYn.N, deleteFlag = FlagYn.N)
         val findCategoryEntity = CreateCategoryEntity.categoryEntityParent()
         val findItemTypeEntity = CreateItemTypeEntity.findItemTypeEntity()
         val savedItemEntity = CreateItemEntity.savedItemEntity(itemSaveDto, findCategoryEntity, findItemTypeEntity)
@@ -155,16 +155,18 @@ lateinit var itemService: ItemService
         // Given
         val itemId: Long = 1
         val itemUpdateDto = CreateItemDto.itemUpdateDto()
-        val itemViewApiDto = CreateItemDto.itemViewApiDto("스카쟌 점퍼", 1, displayFlag = FlagYn.N, deleteFlag = FlagYn.N)
+        val itemViewApiDto = CreateItemDto.itemViewApiDto("의류", 75000,"스카쟌 점퍼", 1, displayFlag = FlagYn.N, deleteFlag = FlagYn.N)
         val findCategoryEntity = CreateCategoryEntity.categoryEntityParent()
         val findItemTypeEntity = CreateItemTypeEntity.findItemTypeEntity()
         val findItemEntity = CreateItemEntity.findItemEntity(findCategoryEntity, findItemTypeEntity)
 
         given(categoryRepository.findByIdAndDeleteFlag(1, FlagYn.N))
             .willReturn(Optional.of(findCategoryEntity))
+        given(itemTypeRepository.findByTypeCodeAndDeleteFlag(itemUpdateDto.typeCode, FlagYn.N))
+            .willReturn(Optional.of(findItemTypeEntity))
         given(itemRepository.findByIdAndDeleteFlag(1, FlagYn.N))
             .willReturn(Optional.of(findItemEntity))
-        findItemEntity.update(itemUpdateDto, findCategoryEntity)
+        findItemEntity.update(itemUpdateDto, findCategoryEntity, findItemTypeEntity)
         given(itemMapper.entityToViewApiDto(findItemEntity))
             .willReturn(itemViewApiDto)
 
@@ -207,9 +209,12 @@ lateinit var itemService: ItemService
         val itemId: Long = 1
         val itemUpdateDto = CreateItemDto.itemUpdateDto()
         val findCategoryEntity = CreateCategoryEntity.categoryEntityParent()
+        val findItemTypeEntity = CreateItemTypeEntity.findItemTypeEntity()
 
         given(categoryRepository.findByIdAndDeleteFlag(1, FlagYn.N))
             .willReturn(Optional.of(findCategoryEntity))
+        given(itemTypeRepository.findByTypeCodeAndDeleteFlag(itemUpdateDto.typeCode, FlagYn.N))
+            .willReturn(Optional.of(findItemTypeEntity))
         given(itemRepository.findByIdAndDeleteFlag(1, FlagYn.N))
             .willReturn(Optional.empty())
 

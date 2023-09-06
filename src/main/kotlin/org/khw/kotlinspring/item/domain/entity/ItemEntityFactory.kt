@@ -8,7 +8,7 @@ class ItemEntityFactory {
 
     companion object {
         fun createItemEntity(itemSaveDto: ItemSaveDto, categoryEntity: CategoryEntity, itemTypeEntity: ItemTypeEntity): ItemEntity{
-            return ItemEntity(null, itemSaveDto.itemName, categoryEntity, itemTypeEntity, itemSaveDto.displayFlag)
+            return ItemEntity(null, itemTypeEntity, itemSaveDto.itemName, itemSaveDto.price, categoryEntity, itemSaveDto.displayFlag)
         }
     }
 }

@@ -16,9 +16,10 @@ import org.khw.kotlinspring.item.domain.dto.ItemUpdateDto
 @DynamicUpdate
 class ItemEntity(
     id: Long?,
-    itemName: String,
-    category: CategoryEntity,
     itemType: ItemTypeEntity,
+    itemName: String,
+    price: Int,
+    category: CategoryEntity,
     displayFlag: FlagYn = FlagYn.N,
     deleteFlag: FlagYn = FlagYn.N
 ) {
@@ -29,9 +30,20 @@ class ItemEntity(
     @Comment("아이템 아이디")
     val id: Long? = id
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "type_id")
+    @Comment("아이템 타입 아이디")
+    var itemType: ItemTypeEntity = itemType
+        private set
+
     @Column(name = "item_name", nullable = false)
     @Comment("아이템 이름")
     var itemName = itemName
+        private set
+
+    @Column(name = "price", nullable = false)
+    @Comment("가격")
+    var price = price
         private set
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -52,14 +64,10 @@ class ItemEntity(
     var deleteFlag = deleteFlag
         private set
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "type_id")
-    @Comment("아이템 타입 아이디")
-    var itemType: ItemTypeEntity = itemType
-        private set
-
-    fun update(itemUpdateDto: ItemUpdateDto, findCategoryEntity: CategoryEntity){
+    fun update(itemUpdateDto: ItemUpdateDto, findCategoryEntity: CategoryEntity, findItemTypeEntity: ItemTypeEntity){
+        this.itemType = findItemTypeEntity
         this.itemName = itemUpdateDto.itemName
+        this.price = itemUpdateDto.price
         this.category = findCategoryEntity
         this.displayFlag = itemUpdateDto.displayFlag
         this.deleteFlag = itemUpdateDto.deleteFlag

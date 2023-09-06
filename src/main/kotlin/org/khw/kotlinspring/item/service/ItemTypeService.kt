@@ -19,9 +19,9 @@ class ItemTypeService(val itemTypeRepository: ItemTypeRepository,
 
 
     @Transactional(readOnly = true)
-    fun findItemTypeByTypeCode(typeCode: String): ItemTypeViewApiDto{
+    fun findItemTypeByitemTypeId(itemTypeId: Long): ItemTypeViewApiDto{
         return itemTypeMapper.entityToViewApiDto(
-            itemTypeRepository.findByTypeCodeAndDeleteFlag(typeCode, FlagYn.N).orElseThrow { ItemTypeException(ResCode.NOT_FOUND_ITEM_TYPE) }
+            itemTypeRepository.findByIdAndDeleteFlag(itemTypeId, FlagYn.N).orElseThrow { ItemTypeException(ResCode.NOT_FOUND_ITEM_TYPE) }
         )
     }
 
@@ -47,6 +47,13 @@ class ItemTypeService(val itemTypeRepository: ItemTypeRepository,
         findItemTypeEntity.update(itemTypeUpdateDto)
 
         return itemTypeMapper.entityToViewApiDto(findItemTypeEntity)
+    }
+
+    @Transactional
+    fun deleteItemType(itemTypeId: Long){
+        val findItemTypeEntity = itemTypeRepository.findByIdAndDeleteFlag(itemTypeId, FlagYn.N).orElseThrow { ItemTypeException(ResCode.NOT_FOUND_ITEM_TYPE) }
+
+        findItemTypeEntity.delete()
     }
 
 }

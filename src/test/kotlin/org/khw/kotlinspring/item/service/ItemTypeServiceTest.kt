@@ -80,46 +80,46 @@ class ItemTypeServiceTest {
     @Test
     fun `아이템 타입 조회 성공`(){
         // Given
-        val typeCode = "ELEC";
+        val itemTypeId = 1L;
         val findItemTypeEntity = CreateItemTypeEntity.findItemTypeEntity()
         val itemTypeViewApiDto = CreateItemTypeDto.itemTypeViewApiDto(findItemTypeEntity.typeCode, findItemTypeEntity.typeName, FlagYn.N)
 
-        given(itemTypeRepository.findByTypeCodeAndDeleteFlag(typeCode, FlagYn.N))
+        given(itemTypeRepository.findByIdAndDeleteFlag(itemTypeId, FlagYn.N))
             .willReturn(Optional.of(findItemTypeEntity))
         given(itemTypeMapper.entityToViewApiDto(findItemTypeEntity))
             .willReturn(itemTypeViewApiDto)
 
         // When
-        val result = itemTypeService.findItemTypeByTypeCode(typeCode)
+        val result = itemTypeService.findItemTypeByitemTypeId(itemTypeId)
 
         // Then
         assertEquals(result, itemTypeViewApiDto)
         assertEquals(result.typeCode, itemTypeViewApiDto.typeCode)
         assertEquals(result.typeName, itemTypeViewApiDto.typeName)
-        verify(itemTypeRepository).findByTypeCodeAndDeleteFlag(typeCode, FlagYn.N)
+        verify(itemTypeRepository).findByIdAndDeleteFlag(itemTypeId, FlagYn.N)
         verify(itemTypeMapper).entityToViewApiDto(findItemTypeEntity)
     }
 
     @Test
     fun `아이템 타입 조회 실패(존재하지 않는 아이템 타입)`(){
         // Given
-        val typeCode = "ELEC";
+        val itemTypeId = 1L;
         val findItemTypeEntity = CreateItemTypeEntity.findItemTypeEntity()
         val itemTypeViewApiDto = CreateItemTypeDto.itemTypeViewApiDto(findItemTypeEntity.typeCode, findItemTypeEntity.typeName, FlagYn.N)
 
-        given(itemTypeRepository.findByTypeCodeAndDeleteFlag(typeCode, FlagYn.N))
+        given(itemTypeRepository.findByIdAndDeleteFlag(itemTypeId, FlagYn.N))
             .willReturn(Optional.empty())
 
         // When
         val throwable = assertThrows(ItemTypeException::class.java) {
-            itemTypeService.findItemTypeByTypeCode(typeCode)
+            itemTypeService.findItemTypeByitemTypeId(itemTypeId)
         }
 
         // Then
         assertEquals(ResCode.NOT_FOUND_ITEM_TYPE.code, throwable.code)
         assertEquals(ResCode.NOT_FOUND_ITEM_TYPE.message, throwable.message)
         assertEquals(ResCode.NOT_FOUND_ITEM_TYPE.httpStatus, HttpStatus.NOT_FOUND)
-        verify(itemTypeRepository).findByTypeCodeAndDeleteFlag(typeCode, FlagYn.N)
+        verify(itemTypeRepository).findByIdAndDeleteFlag(itemTypeId, FlagYn.N)
     }
 
     @Test
@@ -171,5 +171,42 @@ class ItemTypeServiceTest {
         assertEquals(ResCode.DUPLICATE_ITEM_TYPE.message, throwable.message)
         assertEquals(ResCode.DUPLICATE_ITEM_TYPE.httpStatus, HttpStatus.CONFLICT)
         verify(itemTypeRepository).findByIdNotAndTypeCodeAndDeleteFlag(itemTypeId, itemTypeUpdateDto.typeCode, FlagYn.N)
+    }
+
+    @Test
+    fun `아이템 타입 삭제 실패(존재 하지 않는 아이템 타입)`(){
+        // Given
+        val itemTypeId = 1L
+        val findItemTypeEntity = CreateItemTypeEntity.findItemTypeEntity()
+
+        given(itemTypeRepository.findByIdAndDeleteFlag(itemTypeId, FlagYn.N))
+            .willReturn(Optional.empty())
+
+        // When
+        val throwable = assertThrows(ItemTypeException::class.java) {
+            itemTypeService.deleteItemType(itemTypeId)
+        }
+
+        // Then
+        assertEquals(ResCode.NOT_FOUND_ITEM_TYPE.code, throwable.code)
+        assertEquals(ResCode.NOT_FOUND_ITEM_TYPE.message, throwable.message)
+        assertEquals(ResCode.NOT_FOUND_ITEM_TYPE.httpStatus, HttpStatus.NOT_FOUND)
+        verify(itemTypeRepository).findByIdAndDeleteFlag(itemTypeId, FlagYn.N)
+    }
+
+    @Test
+    fun `아이템 타입 삭제 성공`(){
+        // Given
+        val itemTypeId = 1L
+        val findItemTypeEntity = CreateItemTypeEntity.findItemTypeEntity()
+
+        given(itemTypeRepository.findByIdAndDeleteFlag(itemTypeId, FlagYn.N))
+            .willReturn(Optional.of(findItemTypeEntity))
+
+        // When
+        itemTypeService.deleteItemType(itemTypeId)
+
+        // Then
+        verify(itemTypeRepository).findByIdAndDeleteFlag(itemTypeId, FlagYn.N)
     }
 }

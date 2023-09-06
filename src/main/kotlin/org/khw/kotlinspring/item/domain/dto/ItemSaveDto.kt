@@ -4,9 +4,12 @@ import io.swagger.v3.oas.annotations.media.Schema
 import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
 
 class ItemSaveDto (
-    itemName: String,
 
     typeCode: String,
+
+    itemName: String,
+
+    price: Int,
 
     categoryId: Long,
 
@@ -20,6 +23,9 @@ class ItemSaveDto (
 
     @Schema(description = "아이템 타입 코드", example = "ELEC")
     val typeCode = typeCode
+
+    @Schema(description = "가격", example = "24500")
+    val price = price
 
     @Schema(description = "카테고리 아이디", example = "1")
     val categoryId = categoryId
