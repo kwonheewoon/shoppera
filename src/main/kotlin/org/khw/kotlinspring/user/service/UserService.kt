@@ -9,13 +9,15 @@ import org.khw.kotlinspring.user.domain.dto.UserSaveDto
 import org.khw.kotlinspring.user.domain.dto.UserUpdateDto
 import org.khw.kotlinspring.user.mapper.UserMapper
 import org.khw.kotlinspring.user.repository.UserRepository
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 @RequiredArgsConstructor
 class UserService(val userRepository: UserRepository,
-val userMapper: UserMapper) {
+val userMapper: UserMapper,
+    val bCryptPasswordEncoder: BCryptPasswordEncoder) {
 
     @Transactional(readOnly = true)
     fun findUser(accountId: String) : UserApiDto{
@@ -28,7 +30,11 @@ val userMapper: UserMapper) {
         if(userRepository.findByAccountIdAndDeleteFlag(userSaveDto.accountId, FlagYn.N).isPresent){
             throw UserException(ResCode.DUPLICATE_USER)
         }
-        return userMapper.entityToApiDto(userRepository.save(userMapper.saveDtoToEntity(userSaveDto)))
+
+        val userEntity = userMapper.saveDtoToEntity(userSaveDto)
+        userEntity.passwordEnc(bCryptPasswordEncoder.encode(userEntity.password))
+
+        return userMapper.entityToApiDto(userRepository.save(userEntity))
     }
 
     @Transactional

@@ -15,9 +15,10 @@ import java.time.LocalDate
 @Builder
 @DynamicInsert
 @DynamicUpdate
-class UserEntity(id: Long,
+class UserEntity(id: Long?,
     name : String,
     accountId : String,
+    password : String,
     birthDate : LocalDate,
     address : Address,
     phoneNumber : String,
@@ -28,11 +29,16 @@ class UserEntity(id: Long,
     @Column(name = "id", nullable = false)
     @GeneratedValue
     @Comment("기본키")
-    val id : Long = id
+    val id : Long? = id
 
     @Column(name = "account_id", nullable = false)
     @Comment("아이디")
     val accountId = accountId
+
+    @Column(name = "password", columnDefinition = "TEXT", nullable = false)
+    @Comment("비밀번호")
+    var password = password
+        private set
 
     @Column(name = "name", nullable = false)
     @Comment("이름")
@@ -52,6 +58,10 @@ class UserEntity(id: Long,
     var phoneNumber = phoneNumber
         private set
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    var authorities = authorities
+        private set
+
     @Column(name = "delete_flag", nullable = false)
     @Enumerated(EnumType.STRING)
     @Comment("삭제여부")
@@ -62,6 +72,10 @@ class UserEntity(id: Long,
         this.name = userUpdateDto.name
         this.address.updateAddress(userUpdateDto.address)
         this.phoneNumber = userUpdateDto.phoneNumber
+    }
+
+    fun passwordEnc(encPassword: String){
+        this.password = encPassword
     }
 
     fun deleteUser(){

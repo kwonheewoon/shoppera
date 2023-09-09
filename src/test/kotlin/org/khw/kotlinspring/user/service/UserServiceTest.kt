@@ -16,6 +16,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.verify
 import org.mockito.junit.jupiter.MockitoExtension
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import java.util.*
 
 @ExtendWith(MockitoExtension::class)
@@ -27,6 +28,9 @@ class UserServiceTest {
     @Mock
     lateinit var userMapper: UserMapper
 
+    @Mock
+    lateinit var bCryptPasswordEncoder: BCryptPasswordEncoder
+
     @InjectMocks
     lateinit var userService: UserService
 
@@ -34,29 +38,34 @@ class UserServiceTest {
     fun `유저 등록 성공`() {
         // Given
         val userSaveDto = CreateUserDto.UserSaveDtoSuccessCreate()
-        val userEntity = CreateUserEntity.saveSuccessCreate()
+        val saveUserEntity = CreateUserEntity.saveUserEntity()
+        val savedUserEntity = CreateUserEntity.savedSuccessCreate()
         val userApiDto = CreateUserDto.UserApiDtoCreate()
 
         given(userRepository.findByAccountIdAndDeleteFlag(userSaveDto.accountId, FlagYn.N)).willReturn(Optional.empty())
-        given(userMapper.saveDtoToEntity(userSaveDto)).willReturn(userEntity)
-        given(userRepository.save(userEntity)).willReturn(userEntity)
-        given(userMapper.entityToApiDto(userEntity)).willReturn(userApiDto)
+        given(userMapper.saveDtoToEntity(userSaveDto)).willReturn(saveUserEntity)
+        given(bCryptPasswordEncoder.encode(userSaveDto.password))
+            .willReturn("\$2a\$10\$9xnv/5N67pIo2ppDLEyWwumb2kQe3TX4tvSt.t8mQKlRsUo6eQVci")
+        given(userRepository.save(saveUserEntity)).willReturn(savedUserEntity)
+        given(userMapper.entityToApiDto(savedUserEntity)).willReturn(userApiDto)
 
         // When
         val result = userService.userSave(userSaveDto)
 
         // Then
         assertEquals(userApiDto, result)
+        verify(userRepository).findByAccountIdAndDeleteFlag(userSaveDto.accountId, FlagYn.N)
         verify(userMapper).saveDtoToEntity(userSaveDto)
-        verify(userRepository).save(userEntity)
-        verify(userMapper).entityToApiDto(userEntity)
+        verify(bCryptPasswordEncoder).encode(userSaveDto.password)
+        verify(userRepository).save(saveUserEntity)
+        verify(userMapper).entityToApiDto(savedUserEntity)
     }
 
     @Test
     fun `유저 등록 실패`() {
         // Given
         val userSaveDto = CreateUserDto.UserSaveDtoSuccessCreate()
-        val userEntity = CreateUserEntity.saveSuccessCreate()
+        val userEntity = CreateUserEntity.savedSuccessCreate()
 
         // When
         given(userRepository.findByAccountIdAndDeleteFlag(userSaveDto.accountId, FlagYn.N))
@@ -77,7 +86,7 @@ class UserServiceTest {
         // Given
         val userId : Long = 1
         val userUpdateDto = CreateUserDto.UserUpdateDtoSuccessCreate()
-        val findUserEntity = CreateUserEntity.saveSuccessCreate()
+        val findUserEntity = CreateUserEntity.savedSuccessCreate()
         val userApiDto = CreateUserDto.UserApiDtoCreate()
 
         given(userRepository.findByIdAndAccountIdAndDeleteFlag(userId, userUpdateDto.accountId, FlagYn.N)).willReturn(
@@ -106,7 +115,6 @@ class UserServiceTest {
         // Given
         val userId : Long = 1
         val userUpdateDto = CreateUserDto.UserUpdateDtoSuccessCreate()
-        val findUserEntity = CreateUserEntity.saveSuccessCreate()
 
         given(userRepository.findByIdAndAccountIdAndDeleteFlag(userId, userUpdateDto.accountId, FlagYn.N)).willReturn(
                 Optional.empty())
@@ -127,7 +135,7 @@ class UserServiceTest {
     fun `유저 삭제 성공`() {
         // Given
         val userId : Long = 1
-        val findUserEntity = CreateUserEntity.saveSuccessCreate()
+        val findUserEntity = CreateUserEntity.findSuccessCreate()
         val userApiDto = CreateUserDto.UserApiDtoCreateOfDelete()
 
         given(userRepository.findByIdAndDeleteFlag(userId, FlagYn.N)).willReturn(

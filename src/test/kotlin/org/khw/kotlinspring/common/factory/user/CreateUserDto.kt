@@ -8,19 +8,19 @@ class CreateUserDto {
 
     companion object{
         fun UserSaveDtoSuccessCreate() : UserSaveDto{
-            return UserSaveDto("권희운", "gmldns46", LocalDate.of(1997,7,24),
+            return UserSaveDto("권희운", "gmldns46", "권희운", LocalDate.of(1997,7,24),
             AddressSaveDto("인천서구 마전동", "힐스테이트2차 208동 1102", "666565"),
                 "010-7372-1474"
             )
         }
         fun UserUpdateDtoSuccessCreate() : UserUpdateDto{
-            return UserUpdateDto("권희운", "gmldns46",
+            return UserUpdateDto("권희운", "gmldns46", "권희운",
                 AddressUpdateDto("인천서구 완정동", "힐스테이트1차 208동 1102", "77777"),
                 "010-7372-1111"
             )
         }
         fun UserSaveDtoFailCreate() : UserSaveDto{
-            return UserSaveDto("", "gmldns46", LocalDate.of(1997,7,24),
+            return UserSaveDto("", "gmldns46", "권희운", LocalDate.of(1997,7,24),
                 AddressSaveDto("인천서구 마전동", "힐스테이트2차 208동 1102", "666565"),
                 "010-7372-1474"
             )

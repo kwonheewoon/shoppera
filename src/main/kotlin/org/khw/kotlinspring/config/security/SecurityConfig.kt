@@ -1,8 +1,10 @@
-package org.khw.kotlinspring.common.security
+package org.khw.kotlinspring.config.security
 
 import lombok.RequiredArgsConstructor
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.crypto.password.NoOpPasswordEncoder
@@ -11,7 +13,9 @@ import org.springframework.security.web.SecurityFilterChain
 @Configuration
 @RequiredArgsConstructor
 class SecurityConfig(
-    val customAuthenticationProvider: CustomAuthenticationProvider
+    val customAuthenticationProvider: CustomAuthenticationProvider,
+    val customAuthenticationSuccessHandler: CustomAuthenticationSuccessHandler,
+    val customAuthenticationFailureHandler: CustomAuthenticationFailureHandler
 ) {
 
     @Bean
@@ -27,10 +31,27 @@ class SecurityConfig(
         authenticationManagerBuilder.authenticationProvider(customAuthenticationProvider)
         val authenticationManager = authenticationManagerBuilder.build();
 
-        http.httpBasic()
+        http.csrf().disable()
+        http.headers().frameOptions().disable()
+
+
+        http.formLogin()
+            .defaultSuccessUrl("/home", true)
+            .successHandler(customAuthenticationSuccessHandler)
+            .failureHandler(customAuthenticationFailureHandler)
+            .and()
+        http.httpBasic { c ->
+            c.realmName("OTHER")
+            c.authenticationEntryPoint(CustomEntryPoint())
+        }
+
+
+
         http.authorizeHttpRequests()
-            //.anyRequest().authenticated()
+            .requestMatchers(PathRequest.toH2Console()).permitAll()
+            .requestMatchers(HttpMethod.POST, "/user").permitAll()
             .anyRequest().authenticated()
+            //.anyRequest().permitAll()
             .and()
             .authenticationManager(authenticationManager)
 

@@ -17,6 +17,10 @@ data class UserSaveDto(
     @Schema(description = "회원 아이디", example = "gmldns46")
     val accountId : String,
 
+    @field:NotBlank(message = "회원 비밀번호는 필수 값 입니다.")
+    @Schema(description = "회원 비밀번호", example = "권희운")
+    val password : String,
+
     @field:NotNull(message = "회원 생년월일은 필수 값 입니다.")
     @Schema(description = "회원 생년월일", example = "970724")
     @JsonFormat(pattern = "yyMMdd")

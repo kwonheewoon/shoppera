@@ -13,6 +13,10 @@ data class UserUpdateDto(
     @Schema(description = "회원 아이디", example = "gmldns46")
     val accountId : String,
 
+    @field:NotBlank(message = "회원 비밀번호는 필수 값 입니다.")
+    @Schema(description = "회원 비밀번호", example = "권희운")
+    val password : String,
+
     val address : AddressUpdateDto,
 
     @NotBlank(message = "회원 휴대폰번호는 필수 값 입니다.")
