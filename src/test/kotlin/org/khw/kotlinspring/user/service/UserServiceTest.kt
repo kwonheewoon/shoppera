@@ -219,4 +219,25 @@ class UserServiceTest {
         verify(userMapper).entityToApiDto(findUserEntity)
 
     }
+
+    @Test
+    fun `유저 비밀번호 변경 성공`() {
+        // Given
+        val userId : Long = 1
+        val changePassword = "4444"
+        val findUserEntity = CreateUserEntity.findSuccessCreate()
+
+        given(userRepository.findByIdAndDeleteFlag(userId, FlagYn.N)).willReturn(
+            Optional.of(findUserEntity))
+        given(bCryptPasswordEncoder.encode(changePassword))
+            .willReturn("\$2a\$10\$9xnv/5N67pIo2ppDLEyWwumb2kQe3TX4tvSt.t8mQKlRsUo6eQVci")
+
+
+        // When
+        userService.userPasswordUpdate(userId, changePassword)
+
+        // Then
+        verify(userRepository).findByIdAndDeleteFlag(userId, FlagYn.N)
+
+    }
 }

@@ -15,7 +15,7 @@ class UserDetails(val userEntity: UserEntity) : UserDetails {
     }
 
     override fun getPassword(): String {
-        TODO("Not yet implemented")
+        return userEntity.password
     }
 
     override fun getUsername(): String {

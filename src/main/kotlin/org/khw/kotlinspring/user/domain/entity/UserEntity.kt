@@ -74,6 +74,10 @@ class UserEntity(id: Long?,
         this.phoneNumber = userUpdateDto.phoneNumber
     }
 
+    fun updatePassword(changePassword: String){
+        this.password = changePassword
+    }
+
     fun passwordEnc(encPassword: String){
         this.password = encPassword
     }

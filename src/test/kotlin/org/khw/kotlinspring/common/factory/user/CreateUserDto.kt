@@ -14,7 +14,7 @@ class CreateUserDto {
             )
         }
         fun UserUpdateDtoSuccessCreate() : UserUpdateDto{
-            return UserUpdateDto("권희운", "gmldns46", "권희운",
+            return UserUpdateDto("권희운", "gmldns46",
                 AddressUpdateDto("인천서구 완정동", "힐스테이트1차 208동 1102", "77777"),
                 "010-7372-1111"
             )
