@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicUpdate
 import org.khw.kotlinspring.category.domain.entity.CategoryEntity
 import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
 import org.khw.kotlinspring.item.domain.dto.ItemUpdateDto
+import org.khw.kotlinspring.itemoption.domain.entity.ItemOption
 
 @Entity
 @Table(name = "item")
@@ -20,6 +21,7 @@ class ItemEntity(
     itemName: String,
     price: Int,
     category: CategoryEntity,
+    itemOptionList: List<ItemOption>,
     displayFlag: FlagYn = FlagYn.N,
     deleteFlag: FlagYn = FlagYn.N
 ) {
@@ -51,6 +53,11 @@ class ItemEntity(
     @Comment("카테고리 아이디")
     var category: CategoryEntity = category
         private set
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
+    var itemOptionList = itemOptionList
+        private set
+
 
     @Column(name = "display_flag", nullable = false)
     @Enumerated(EnumType.STRING)

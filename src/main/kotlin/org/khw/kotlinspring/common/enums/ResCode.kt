@@ -6,10 +6,11 @@ enum class ResCode(val code: String, val message: String, val httpStatus: HttpSt
 
     // 200 Ok
 
-    USERS_SAVE("200_100", "유저 정보가 등록 되었습니다.", HttpStatus.OK),
-    USERS_UPDATE("200_101", "유저 정보가 수정 되었습니다.", HttpStatus.OK),
-    USERS_DELETE("200_102", "유저 정보가 삭제 되었습니다.", HttpStatus.OK),
-    USERS_FIND("200_103", "유저 정보가 정상 적으로 조회 되었습니다.", HttpStatus.OK),
+    USERS_SAVE("200_100", "회원 정보가 등록 되었습니다.", HttpStatus.OK),
+    USERS_UPDATE("200_101", "회원 정보가 수정 되었습니다.", HttpStatus.OK),
+    USERS_DELETE("200_102", "회원 정보가 삭제 되었습니다.", HttpStatus.OK),
+    USERS_FIND("200_103", "회원 정보가 정상 적으로 조회 되었습니다.", HttpStatus.OK),
+    USERS_PASSWORD_UPDATE("200_104", "패스워드 변경이 완료 되었습니다.", HttpStatus.OK),
 
     AUTHORITIES_SAVE("200_200", "권한 정보가 등록 되었습니다.", HttpStatus.OK),
     AUTHORITIES_DELETE("200_201", "권한 정보 삭제가 되었습니다.", HttpStatus.OK),
@@ -39,7 +40,7 @@ enum class ResCode(val code: String, val message: String, val httpStatus: HttpSt
     // 404 Not Found
     NOT_FOUND_CATEGORY("404_001", "존재하지 않는 카테고리 정보입니다.", HttpStatus.NOT_FOUND),
     NOT_FOUND_ITEM("404_002", "존재하지 않는 아이템 정보입니다.", HttpStatus.NOT_FOUND),
-    NOT_FOUND_USER("404_003", "존재하지 않는 유저 정보입니다.", HttpStatus.NOT_FOUND),
+    NOT_FOUND_USER("404_003", "잘못된 회원 정보입니다.", HttpStatus.NOT_FOUND),
     NOT_FOUND_AUTHORITY("404_004", "존재하지 않는 권한 입니다.", HttpStatus.NOT_FOUND),
     NOT_FOUND_AUTHORITIES("404_005", "존재하지 않는 권한 정보 입니다.", HttpStatus.NOT_FOUND),
     NOT_FOUND_ITEM_TYPE("404_006", "존재하지 않는 아이템 타입 정보입니다.", HttpStatus.NOT_FOUND)

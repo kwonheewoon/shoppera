@@ -43,6 +43,14 @@ class UserRestController(val userService: UserService) {
             .body(CommonResponse(ResCode.USERS_UPDATE, userService.userUpdate(userId, userUpdateDto)))
     }
 
+    @PutMapping("/{userId}/password")
+    @Operation(summary = "회원 수정", description = "회원 패스워드를 변경.")
+    fun userPasswordUpdate(@PathVariable userId: Long, @RequestParam changePassword: String) : ResponseEntity<CommonResponse<UserApiDto>> {
+            userService.userPasswordUpdate(userId, changePassword)
+        return ResponseEntity.ok()
+            .body(CommonResponse(ResCode.USERS_PASSWORD_UPDATE))
+    }
+
     @DeleteMapping("/{userId}")
     @Operation(summary = "회원 삭제", description = "회원 정보를 삭제.")
     fun userDelete(@PathVariable userId: Long) : ResponseEntity<CommonResponse<UserApiDto>> {

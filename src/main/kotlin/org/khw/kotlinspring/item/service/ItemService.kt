@@ -16,6 +16,7 @@ import org.khw.kotlinspring.item.domain.entity.ItemTypeEntityFactory
 import org.khw.kotlinspring.item.domain.mapper.ItemMapper
 import org.khw.kotlinspring.item.repository.ItemRepository
 import org.khw.kotlinspring.item.repository.ItemTypeRepository
+import org.khw.kotlinspring.itemoption.domain.entity.ItemOptionFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -48,7 +49,7 @@ class ItemService(val itemRepository: ItemRepository,
         val findItemTypeEntity = itemTypeRepository.findByTypeCodeAndDeleteFlag(itemSaveDto.typeCode, FlagYn.N).orElseThrow { ItemTypeException(ResCode.NOT_FOUND_ITEM_TYPE) }
 
         return itemMapper.entityToViewApiDto(
-            itemRepository.save(ItemEntityFactory.createItemEntity(itemSaveDto, findCategoryEntity, findItemTypeEntity))
+            itemRepository.save(ItemEntityFactory.createItemEntity(itemSaveDto, findCategoryEntity, findItemTypeEntity, ItemOptionFactory.createItemOptions(itemSaveDto)))
         )
     }
 

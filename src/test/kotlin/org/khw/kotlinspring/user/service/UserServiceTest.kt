@@ -240,4 +240,25 @@ class UserServiceTest {
         verify(userRepository).findByIdAndDeleteFlag(userId, FlagYn.N)
 
     }
+
+    @Test
+    fun `유저 비밀번호 변경 실패(존재 하지 않는 유저)`() {
+        // Given
+        val userId : Long = 1
+        val changePassword = "4444"
+
+        given(userRepository.findByIdAndDeleteFlag(userId, FlagYn.N)).willReturn(
+            Optional.empty())
+
+        // When
+        val throwable = assertThrows(UserException::class.java) {
+            userService.userPasswordUpdate(userId, changePassword)
+        }
+
+        // Then
+        assertEquals(throwable.code, ResCode.NOT_FOUND_USER.code)
+        assertEquals(throwable.message, ResCode.NOT_FOUND_USER.message)
+        assertEquals(throwable.httpStatus, ResCode.NOT_FOUND_USER.httpStatus)
+
+    }
 }
