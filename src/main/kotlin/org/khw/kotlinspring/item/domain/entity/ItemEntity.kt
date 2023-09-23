@@ -21,7 +21,7 @@ class ItemEntity(
     itemName: String,
     price: Int,
     category: CategoryEntity,
-    itemOptionList: List<ItemOption>,
+    itemOptionList: List<ItemOption>?,
     displayFlag: FlagYn = FlagYn.N,
     deleteFlag: FlagYn = FlagYn.N
 ) {
@@ -54,7 +54,7 @@ class ItemEntity(
     var category: CategoryEntity = category
         private set
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "item")
     var itemOptionList = itemOptionList
         private set
 
@@ -82,5 +82,9 @@ class ItemEntity(
 
     fun delete(){
         this.deleteFlag = FlagYn.Y
+    }
+
+    fun optionAdd(itemOptions: List<ItemOption>){
+        this.itemOptionList = itemOptions
     }
 }

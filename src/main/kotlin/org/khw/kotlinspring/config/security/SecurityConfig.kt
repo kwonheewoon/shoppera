@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.crypto.password.NoOpPasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.csrf.CsrfFilter
 
 @Configuration
 @RequiredArgsConstructor
@@ -47,7 +48,9 @@ class SecurityConfig(
 
 
 
-        http.authorizeHttpRequests()
+        http
+            //.addFilterAfter(CsrfTokenLogger(), CsrfFilter::class.java)
+            .authorizeHttpRequests()
             .requestMatchers(PathRequest.toH2Console()).permitAll()
             .requestMatchers(HttpMethod.POST, "/user").permitAll()
             .anyRequest().authenticated()

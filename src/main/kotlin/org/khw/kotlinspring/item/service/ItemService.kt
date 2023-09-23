@@ -8,11 +8,9 @@ import org.khw.kotlinspring.common.exception.CategoryException
 import org.khw.kotlinspring.common.exception.ItemException
 import org.khw.kotlinspring.common.exception.ItemTypeException
 import org.khw.kotlinspring.item.domain.dto.ItemSaveDto
-import org.khw.kotlinspring.item.domain.dto.ItemTypeSaveDto
 import org.khw.kotlinspring.item.domain.dto.ItemUpdateDto
 import org.khw.kotlinspring.item.domain.dto.ItemViewApiDto
 import org.khw.kotlinspring.item.domain.entity.ItemEntityFactory
-import org.khw.kotlinspring.item.domain.entity.ItemTypeEntityFactory
 import org.khw.kotlinspring.item.domain.mapper.ItemMapper
 import org.khw.kotlinspring.item.repository.ItemRepository
 import org.khw.kotlinspring.item.repository.ItemTypeRepository
@@ -48,8 +46,11 @@ class ItemService(val itemRepository: ItemRepository,
         val findCategoryEntity = categoryRepository.findByIdAndDeleteFlag(itemSaveDto.categoryId, FlagYn.N).orElseThrow { CategoryException(ResCode.NOT_FOUND_CATEGORY) }
         val findItemTypeEntity = itemTypeRepository.findByTypeCodeAndDeleteFlag(itemSaveDto.typeCode, FlagYn.N).orElseThrow { ItemTypeException(ResCode.NOT_FOUND_ITEM_TYPE) }
 
+        val item = ItemEntityFactory.createItemEntity(itemSaveDto, findCategoryEntity, findItemTypeEntity)
+        item.optionAdd(ItemOptionFactory.createItemOptions(item, itemSaveDto))
+
         return itemMapper.entityToViewApiDto(
-            itemRepository.save(ItemEntityFactory.createItemEntity(itemSaveDto, findCategoryEntity, findItemTypeEntity, ItemOptionFactory.createItemOptions(itemSaveDto)))
+            itemRepository.save(item)
         )
     }
 

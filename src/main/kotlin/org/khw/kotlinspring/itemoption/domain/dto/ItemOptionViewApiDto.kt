@@ -10,9 +10,6 @@ data class ItemOptionViewApiDto (
     @Schema(description = "아이템 아이디", example = "2")
     val itemId: Long,
 
-    @Schema(description = "아이템 dlfma", example = "하와이안 셔츠")
-    val itemName: String,
-
     @Schema(description = "옵션 이름", example = "FREE")
     val optionName: String,
 

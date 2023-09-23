@@ -10,7 +10,6 @@ import org.mapstruct.Mapping
 interface ItemOptionMapper {
 
     @Mapping(target = "itemId", source = "item.id")
-    @Mapping(target = "itemName", source = "item.itemName")
     fun entityToViewApiDto(itemOption: ItemOption): ItemOptionViewApiDto
 
     fun entityListToViewApiDtoList(itemOptionList: List<ItemOption>): List<ItemOptionViewApiDto>

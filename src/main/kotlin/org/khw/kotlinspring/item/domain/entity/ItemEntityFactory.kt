@@ -8,8 +8,8 @@ import org.khw.kotlinspring.itemoption.domain.entity.ItemOption
 class ItemEntityFactory {
 
     companion object {
-        fun createItemEntity(itemSaveDto: ItemSaveDto, categoryEntity: CategoryEntity, itemTypeEntity: ItemTypeEntity, itemOptionList: List<ItemOption>): ItemEntity{
-            return ItemEntity(null, itemTypeEntity, itemSaveDto.itemName, itemSaveDto.price, categoryEntity, itemOptionList, itemSaveDto.displayFlag)
+        fun createItemEntity(itemSaveDto: ItemSaveDto, categoryEntity: CategoryEntity, itemTypeEntity: ItemTypeEntity): ItemEntity{
+            return ItemEntity(null, itemTypeEntity, itemSaveDto.itemName, itemSaveDto.price, categoryEntity, null, itemSaveDto.displayFlag)
         }
     }
 }
