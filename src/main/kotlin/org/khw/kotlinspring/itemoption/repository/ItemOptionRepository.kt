@@ -11,7 +11,7 @@ import java.util.Optional
 interface ItemOptionRepository : JpaRepository <ItemOption, Long>{
 
     /**
-     * 삭제 여부에 따른 아이템 단일 조회
+     * 삭제 여부에 따른 아이템 옵션 단일 조회
      *
      * @param id 아이템 아이디
      * @param deleteFlag 삭제여부
@@ -20,7 +20,7 @@ interface ItemOptionRepository : JpaRepository <ItemOption, Long>{
     fun findByIdAndDeleteFlag(id: Long, deleteFlag: FlagYn) : Optional<ItemOption>
 
     /**
-     * 아이템, 삭제 여부에 따른 아이템 다건 조회
+     * 아이템, 삭제 여부에 따른 아이템 옵션 다건 조회
      *
      * @param item 아이템 정보
      * @param deleteFlag 삭제여부

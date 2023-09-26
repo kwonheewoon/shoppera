@@ -59,20 +59,26 @@ class ItemService(val itemRepository: ItemRepository,
         val findCategoryEntity = categoryRepository.findByIdAndDeleteFlag(itemUpdateDto.categoryId, FlagYn.N).orElseThrow { CategoryException(ResCode.NOT_FOUND_CATEGORY) }
         val findItemTypeEntity = itemTypeRepository.findByTypeCodeAndDeleteFlag(itemUpdateDto.typeCode, FlagYn.N).orElseThrow { ItemTypeException(ResCode.NOT_FOUND_ITEM_TYPE) }
 
-        val findItemEntity = itemRepository.findByIdAndDeleteFlag(itemId, FlagYn.N).orElseThrow{ ItemException(
+        val findItem = itemRepository.findByIdAndDeleteFlag(itemId, FlagYn.N).orElseThrow{ ItemException(
             ResCode.NOT_FOUND_ITEM) }
 
-        findItemEntity.update(itemUpdateDto, findCategoryEntity, findItemTypeEntity)
+        findItem.itemOptionList?.forEach { itemOption ->  itemOption.delete()}
 
-        return itemMapper.entityToViewApiDto(findItemEntity)
+        findItem.update(itemUpdateDto, findCategoryEntity, findItemTypeEntity)
+
+        findItem.optionAdd(ItemOptionFactory.createItemOptions(findItem, itemUpdateDto))
+
+        return itemMapper.entityToViewApiDto(findItem)
     }
 
     @Transactional
     fun deleteItem(itemId: Long){
-        val findItemEntity = itemRepository.findByIdAndDeleteFlag(itemId, FlagYn.N).orElseThrow{ ItemException(
+        val findItem = itemRepository.findByIdAndDeleteFlag(itemId, FlagYn.N).orElseThrow{ ItemException(
             ResCode.NOT_FOUND_ITEM) }
 
-        findItemEntity.delete()
+        findItem.itemOptionList?.forEach { itemOption ->  itemOption.delete()}
+
+        findItem.delete()
     }
 
 }

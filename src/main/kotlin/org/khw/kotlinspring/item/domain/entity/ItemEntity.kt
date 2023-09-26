@@ -5,6 +5,7 @@ import lombok.Builder
 import org.hibernate.annotations.Comment
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
+import org.hibernate.annotations.Where
 import org.khw.kotlinspring.category.domain.entity.CategoryEntity
 import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
 import org.khw.kotlinspring.item.domain.dto.ItemUpdateDto
@@ -55,6 +56,7 @@ class ItemEntity(
         private set
 
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "item")
+    @Where(clause = "delete_flag = 'N' AND display_flag = 'Y'")
     var itemOptionList = itemOptionList
         private set
 

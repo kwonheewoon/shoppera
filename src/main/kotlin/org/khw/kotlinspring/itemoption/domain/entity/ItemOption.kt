@@ -56,4 +56,9 @@ class ItemOption(
     @Comment("삭제여부")
     var deleteFlag = deleteFlag
         private set
+
+    fun delete(){
+        this.displayFlag = FlagYn.N
+        this.deleteFlag = FlagYn.Y
+    }
 }

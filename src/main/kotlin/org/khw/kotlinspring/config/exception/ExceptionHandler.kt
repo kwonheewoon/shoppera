@@ -20,7 +20,8 @@ class ExceptionHandler {
             is UserException -> ResponseEntity(ErrCommonResponse(ex.message, ex.code), ex.httpStatus)
             is CategoryException -> ResponseEntity(ErrCommonResponse(ex.message, ex.code), ex.httpStatus)
             is ItemTypeException -> ResponseEntity(ErrCommonResponse(ex.message, ex.code), ex.httpStatus)
-            else -> ResponseEntity(ErrCommonResponse((ex as ItemException).message, ex.code), ex.httpStatus)
+            is ItemException -> ResponseEntity(ErrCommonResponse(ex.message, ex.code), ex.httpStatus)
+            else -> ResponseEntity(ErrCommonResponse((ex as ItemOptionException).message, ex.code), ex.httpStatus)
         }
     }
 

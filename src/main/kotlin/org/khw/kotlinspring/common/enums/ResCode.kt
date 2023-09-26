@@ -38,11 +38,12 @@ enum class ResCode(val code: String, val message: String, val httpStatus: HttpSt
 
 
     // 404 Not Found
-    NOT_FOUND_CATEGORY("404_001", "존재하지 않는 카테고리 정보입니다.", HttpStatus.NOT_FOUND),
-    NOT_FOUND_ITEM("404_002", "존재하지 않는 아이템 정보입니다.", HttpStatus.NOT_FOUND),
-    NOT_FOUND_USER("404_003", "잘못된 회원 정보입니다.", HttpStatus.NOT_FOUND),
-    NOT_FOUND_AUTHORITY("404_004", "존재하지 않는 권한 입니다.", HttpStatus.NOT_FOUND),
-    NOT_FOUND_AUTHORITIES("404_005", "존재하지 않는 권한 정보 입니다.", HttpStatus.NOT_FOUND),
-    NOT_FOUND_ITEM_TYPE("404_006", "존재하지 않는 아이템 타입 정보입니다.", HttpStatus.NOT_FOUND)
+    NOT_FOUND_CATEGORY("404_001", "존재 하지 않는 카테고리 정보 입니다.", HttpStatus.NOT_FOUND),
+    NOT_FOUND_ITEM("404_002", "존재 하지 않는 아이템 정보 입니다.", HttpStatus.NOT_FOUND),
+    NOT_FOUND_USER("404_003", "잘못된 회원 정보 입니다.", HttpStatus.NOT_FOUND),
+    NOT_FOUND_AUTHORITY("404_004", "존재 하지 않는 권한 입니다.", HttpStatus.NOT_FOUND),
+    NOT_FOUND_AUTHORITIES("404_005", "존재 하지 않는 권한 정보 입니다.", HttpStatus.NOT_FOUND),
+    NOT_FOUND_ITEM_TYPE("404_006", "존재 하지 않는 아이템 타입 정보입니다.", HttpStatus.NOT_FOUND),
+    NOT_FOUND_ITEM_OPTION("404_007", "존재 하지 않는 아이템 옵션 입니다.", HttpStatus.NOT_FOUND),
 
 }
