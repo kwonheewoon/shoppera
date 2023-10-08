@@ -18,7 +18,6 @@ class Coupon(
     couponName: String,
     discountRate: Int,
     expireDate: LocalDate,
-    isUsed: FlagYn = FlagYn.N,
     deleteFlag: FlagYn = FlagYn.N
 ) {
 
@@ -41,11 +40,6 @@ class Coupon(
     @Column(name = "expire_date", nullable = false)
     @Comment("만료 일자")
     var expireDate = expireDate
-        private set
-
-    @Column(name = "is_used", nullable = false)
-    @Comment("사용 여부")
-    var isUsed = isUsed
         private set
 
     @Column(name = "delete_flag", nullable = false)

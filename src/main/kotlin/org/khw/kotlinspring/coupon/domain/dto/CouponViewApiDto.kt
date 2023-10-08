@@ -19,9 +19,6 @@ data class CouponViewApiDto(
     @JsonFormat(pattern = "yyyy-MM-dd")
     val expireDate: LocalDate,
 
-    @Schema(description = "사용 여부", example = "N")
-    val isUsed: FlagYn,
-
     @Schema(description = "삭제 여부", example = "N")
     val deleteFlag: FlagYn,
 )

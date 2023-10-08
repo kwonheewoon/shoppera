@@ -1,0 +1,13 @@
+package org.khw.kotlinspring.common.factory.coupon
+
+import org.khw.kotlinspring.coupon.domain.entity.Coupon
+import java.time.LocalDate
+
+class CreateCouponEntity {
+
+    companion object{
+        fun saveCouponEntity(): Coupon{
+            return Coupon(1, "모든 품목 할인율 15%!!", 15, LocalDate.of(2023, 10, 8))
+        }
+    }
+}
