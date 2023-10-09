@@ -27,6 +27,12 @@ class JwtAuthenticationFilter(@Value("\${jwt.signing.key}") val signingKey: Stri
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
+
+        if (request.requestURI.contains("/h2-console")) {
+            filterChain.doFilter(request, response)
+            return
+        }
+
         val jwt: String = request.getHeader("Authorization")
 
         val key: SecretKey = Keys.hmacShaKeyFor(

@@ -20,13 +20,22 @@ interface CouponRepository : JpaRepository <Coupon, Long>{
     fun findByIdAndDeleteFlag(id: Long, deleteFlag: FlagYn) : Optional<Coupon>
 
     /**
-     * 쿠폰 아이디, 사용 여부, 삭제 여부에 따른 쿠폰 단일 조회
+     * 쿠폰 이름, 삭제 여부에 따른 쿠폰 단일 조회
      *
      * @param id 쿠폰 아이디
      * @param deleteFlag 삭제여부
      * @return
      */
-    fun findByIdAndIsUsedAndDeleteFlag(id: Long, isUsed: FlagYn, deleteFlag: FlagYn) : Optional<Coupon>
+    fun findByCouponNameAndDeleteFlag(couponName: String, deleteFlag: FlagYn) : Optional<Coupon>
+
+    /**
+     * 쿠폰 아이디, 쿠폰 이름, 삭제 여부에 따른 쿠폰 단일 조회
+     *
+     * @param id 쿠폰 아이디
+     * @param deleteFlag 삭제여부
+     * @return
+     */
+    fun findByIdNotAndCouponNameAndDeleteFlag(couponId: Long, couponName: String, deleteFlag: FlagYn) : Optional<Coupon>
 
 
 }

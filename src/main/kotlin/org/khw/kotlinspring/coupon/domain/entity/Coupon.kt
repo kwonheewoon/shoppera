@@ -6,6 +6,7 @@ import org.hibernate.annotations.Comment
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
 import org.khw.kotlinspring.common.enums.CommonEnum.*
+import org.khw.kotlinspring.coupon.domain.dto.CouponUpdateDto
 import java.time.LocalDate
 
 @Entity
@@ -46,5 +47,16 @@ class Coupon(
     @Comment("삭제 여부")
     var deleteFlag = deleteFlag
         private set
+
+
+    fun update(couponUpdateDto: CouponUpdateDto){
+        this.couponName = couponUpdateDto.couponName
+        this.discountRate = couponUpdateDto.discountRate
+        this.expireDate = couponUpdateDto.expireDate
+    }
+
+    fun delete(){
+        this.deleteFlag = FlagYn.Y
+    }
 
 }

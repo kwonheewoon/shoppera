@@ -50,7 +50,6 @@ class SecurityConfig(
             .addFilterAt(jwtAuthenticationFilter, BasicAuthenticationFilter::class.java)
             .authorizeHttpRequests()
             .requestMatchers(PathRequest.toH2Console()).permitAll()
-            .requestMatchers(HttpMethod.POST, "/user").permitAll()
             .anyRequest().authenticated()
             //.anyRequest().permitAll()
             .and()
