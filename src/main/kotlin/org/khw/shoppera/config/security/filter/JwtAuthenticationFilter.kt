@@ -22,13 +22,25 @@ import javax.crypto.SecretKey
 class JwtAuthenticationFilter(@Value("\${jwt.signing.key}") val signingKey: String) : OncePerRequestFilter() {
 
 
+    private val PERMIT_URL_LIST = listOf( /* swagger v2 */
+        "/v2/api-docs",
+        "/swagger-resources",
+        "/swagger-resources/**",
+        "/configuration/ui",
+        "/configuration/security",
+        "/swagger-ui.html",
+        "/webjars/",  /* swagger v3 */
+        "/v3/api-docs/",
+        "/swagger-ui/"
+    )
+
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
 
-        if (request.requestURI.contains("/h2-console")) {
+        if (PERMIT_URL_LIST.any{request.requestURI.contains(it)}) {
             filterChain.doFilter(request, response)
             return
         }

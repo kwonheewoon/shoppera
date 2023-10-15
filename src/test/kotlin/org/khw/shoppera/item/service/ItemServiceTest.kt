@@ -5,7 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.khw.shoppera.category.repository.CategoryRepository
 
 import org.khw.shoppera.common.enums.CommonEnum.FlagYn
-import org.khw.shoppera.common.factory.category.CreateCategoryEntity
+import org.khw.shoppera.category.factory.CreateCategoryEntity
 import org.khw.shoppera.item.factory.CreateItemDto
 import org.khw.shoppera.item.factory.CreateItemEntity
 import org.khw.shoppera.item.domain.mapper.ItemMapper

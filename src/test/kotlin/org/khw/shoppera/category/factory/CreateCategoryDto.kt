@@ -1,4 +1,4 @@
-package org.khw.shoppera.common.factory.category
+package org.khw.shoppera.category.factory
 
 import org.khw.shoppera.category.domain.dto.CategoryListApiDto
 import org.khw.shoppera.category.domain.dto.CategorySaveDto

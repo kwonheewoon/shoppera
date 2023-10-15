@@ -1,10 +1,10 @@
-package org.khw.kotlinspring
+package org.khw.shoppera
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class KotlinSpringApplicationTests {
+class ShopperaApplicationTests {
 
     @Test
     fun contextLoads() {

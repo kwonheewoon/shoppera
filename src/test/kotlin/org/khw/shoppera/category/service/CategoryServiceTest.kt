@@ -9,8 +9,8 @@ import org.khw.shoppera.category.domain.mapper.CategoryMapper
 import org.khw.shoppera.category.repository.CategoryQueryRepository
 import org.khw.shoppera.category.repository.CategoryRepository
 import org.khw.shoppera.common.enums.CommonEnum.FlagYn
-import org.khw.shoppera.common.factory.category.CreateCategoryDto
-import org.khw.shoppera.common.factory.category.CreateCategoryEntity
+import org.khw.shoppera.category.factory.CreateCategoryDto
+import org.khw.shoppera.category.factory.CreateCategoryEntity
 import org.mockito.BDDMockito.any
 import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks

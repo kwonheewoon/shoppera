@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration
 class SpringDocConfig {
     @Bean
     fun apiInfo(): OpenAPI {
-        return OpenAPI().info(Info().title("권희운 api").version("1.0.0"))
+        return OpenAPI().info(Info().title("Shoppera api").version("1.0.0"))
     }
 
     @Bean

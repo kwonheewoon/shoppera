@@ -5,13 +5,10 @@ import org.khw.shoppera.config.security.filter.JwtAuthenticationFilter
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.crypto.password.NoOpPasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
-import org.springframework.security.web.csrf.CsrfFilter
 
 @Configuration
 @RequiredArgsConstructor
@@ -21,6 +18,18 @@ class SecurityConfig(
     val customAuthenticationSuccessHandler: CustomAuthenticationSuccessHandler,
     val customAuthenticationFailureHandler: CustomAuthenticationFailureHandler
 ) {
+
+    private val PERMIT_URL_ARRAY: Array<String> = arrayOf( /* swagger v2 */
+        "/v2/api-docs",
+        "/swagger-resources",
+        "/swagger-resources/**",
+        "/configuration/ui",
+        "/configuration/security",
+        "/swagger-ui.html",
+        "/webjars/**",  /* swagger v3 */
+        "/v3/api-docs/**",
+        "/swagger-ui/**"
+    )
 
     @Bean
     fun filterChain(http: HttpSecurity) : SecurityFilterChain{
@@ -50,6 +59,8 @@ class SecurityConfig(
             .addFilterAt(jwtAuthenticationFilter, BasicAuthenticationFilter::class.java)
             .authorizeHttpRequests()
             .requestMatchers(PathRequest.toH2Console()).permitAll()
+
+            .requestMatchers(*PERMIT_URL_ARRAY).permitAll()
             .anyRequest().authenticated()
             //.anyRequest().permitAll()
             .and()

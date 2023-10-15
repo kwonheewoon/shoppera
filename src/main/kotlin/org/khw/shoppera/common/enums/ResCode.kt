@@ -39,6 +39,7 @@ enum class ResCode(val code: String, val message: String, val httpStatus: HttpSt
     DUPLICATE_USER("409_002", "중복된 계정입니다.", HttpStatus.CONFLICT),
     DUPLICATE_ITEM_TYPE("409_003", "중복된 아이템 타입 코드 입니다.", HttpStatus.CONFLICT),
     DUPLICATE_COUPON_NAME("409_004", "중복된 쿠폰 이름 입니다.", HttpStatus.CONFLICT),
+    DUPLICATE_BRAND_NAME("409_004", "중복된 브랜드 이름 입니다.", HttpStatus.CONFLICT),
 
 
 
