@@ -1,7 +1,7 @@
-package org.khw.kotlinspring.item.factory
+package org.khw.shoppera.item.factory
 
-import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
-import org.khw.kotlinspring.item.domain.dto.*
+import org.khw.shoppera.common.enums.CommonEnum.FlagYn
+import org.khw.shoppera.item.domain.dto.*
 
 class CreateItemTypeDto {
 

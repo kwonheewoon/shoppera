@@ -1,17 +1,17 @@
-package org.khw.kotlinspring.coupon.service
+package org.khw.shoppera.coupon.service
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
-import org.khw.kotlinspring.common.enums.ResCode
-import org.khw.kotlinspring.common.exception.CouponException
-import org.khw.kotlinspring.common.factory.coupon.CreateCouponDto
-import org.khw.kotlinspring.common.factory.coupon.CreateCouponEntity
-import org.khw.kotlinspring.coupon.domain.entity.Coupon
-import org.khw.kotlinspring.coupon.mapper.CouponMapper
-import org.khw.kotlinspring.coupon.repository.CouponRepository
+import org.khw.shoppera.common.enums.CommonEnum.FlagYn
+import org.khw.shoppera.common.enums.ResCode
+import org.khw.shoppera.common.exception.CouponException
+import org.khw.shoppera.common.factory.coupon.CreateCouponDto
+import org.khw.shoppera.common.factory.coupon.CreateCouponEntity
+import org.khw.shoppera.coupon.domain.entity.Coupon
+import org.khw.shoppera.coupon.mapper.CouponMapper
+import org.khw.shoppera.coupon.repository.CouponRepository
 
 import org.mockito.BDDMockito.any
 import org.mockito.BDDMockito.given

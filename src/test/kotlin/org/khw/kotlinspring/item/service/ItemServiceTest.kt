@@ -1,15 +1,15 @@
-package org.khw.kotlinspring.item.service
+package org.khw.shoppera.item.service
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.khw.kotlinspring.category.repository.CategoryRepository
+import org.khw.shoppera.category.repository.CategoryRepository
 
-import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
-import org.khw.kotlinspring.common.factory.category.CreateCategoryEntity
-import org.khw.kotlinspring.item.factory.CreateItemDto
-import org.khw.kotlinspring.item.factory.CreateItemEntity
-import org.khw.kotlinspring.item.domain.mapper.ItemMapper
-import org.khw.kotlinspring.item.repository.ItemRepository
+import org.khw.shoppera.common.enums.CommonEnum.FlagYn
+import org.khw.shoppera.common.factory.category.CreateCategoryEntity
+import org.khw.shoppera.item.factory.CreateItemDto
+import org.khw.shoppera.item.factory.CreateItemEntity
+import org.khw.shoppera.item.domain.mapper.ItemMapper
+import org.khw.shoppera.item.repository.ItemRepository
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
@@ -19,12 +19,12 @@ import org.mockito.Mockito.verify
 import java.util.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
-import org.khw.kotlinspring.common.enums.ResCode
-import org.khw.kotlinspring.common.exception.CategoryException
-import org.khw.kotlinspring.common.exception.ItemException
-import org.khw.kotlinspring.item.domain.entity.ItemEntity
-import org.khw.kotlinspring.item.factory.CreateItemTypeEntity
-import org.khw.kotlinspring.item.repository.ItemTypeRepository
+import org.khw.shoppera.common.enums.ResCode
+import org.khw.shoppera.common.exception.CategoryException
+import org.khw.shoppera.common.exception.ItemException
+import org.khw.shoppera.item.domain.entity.ItemEntity
+import org.khw.shoppera.item.factory.CreateItemTypeEntity
+import org.khw.shoppera.item.repository.ItemTypeRepository
 import org.springframework.http.HttpStatus
 
 @ExtendWith(MockitoExtension::class)

@@ -1,9 +1,9 @@
-package org.khw.kotlinspring.item.service
+package org.khw.shoppera.item.service
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.khw.kotlinspring.item.domain.mapper.ItemTypeMapper
-import org.khw.kotlinspring.item.repository.ItemTypeRepository
+import org.khw.shoppera.item.domain.mapper.ItemTypeMapper
+import org.khw.shoppera.item.repository.ItemTypeRepository
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
@@ -12,12 +12,12 @@ import org.mockito.BDDMockito.given
 import org.mockito.Mockito.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
-import org.khw.kotlinspring.common.enums.CommonEnum.*
-import org.khw.kotlinspring.common.enums.ResCode
-import org.khw.kotlinspring.common.exception.ItemTypeException
-import org.khw.kotlinspring.item.domain.entity.ItemTypeEntity
-import org.khw.kotlinspring.item.factory.CreateItemTypeDto
-import org.khw.kotlinspring.item.factory.CreateItemTypeEntity
+import org.khw.shoppera.common.enums.CommonEnum.*
+import org.khw.shoppera.common.enums.ResCode
+import org.khw.shoppera.common.exception.ItemTypeException
+import org.khw.shoppera.item.domain.entity.ItemTypeEntity
+import org.khw.shoppera.item.factory.CreateItemTypeDto
+import org.khw.shoppera.item.factory.CreateItemTypeEntity
 import org.springframework.http.HttpStatus
 import java.util.*
 

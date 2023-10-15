@@ -1,11 +1,11 @@
-package org.khw.kotlinspring.item.factory
+package org.khw.shoppera.item.factory
 
-import org.khw.kotlinspring.category.domain.entity.CategoryEntity
-import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
-import org.khw.kotlinspring.item.domain.dto.ItemSaveDto
-import org.khw.kotlinspring.item.domain.dto.ItemUpdateDto
-import org.khw.kotlinspring.item.domain.entity.ItemEntity
-import org.khw.kotlinspring.item.domain.entity.ItemTypeEntity
+import org.khw.shoppera.category.domain.entity.CategoryEntity
+import org.khw.shoppera.common.enums.CommonEnum.FlagYn
+import org.khw.shoppera.item.domain.dto.ItemSaveDto
+import org.khw.shoppera.item.domain.dto.ItemUpdateDto
+import org.khw.shoppera.item.domain.entity.ItemEntity
+import org.khw.shoppera.item.domain.entity.ItemTypeEntity
 
 class CreateItemEntity {
 

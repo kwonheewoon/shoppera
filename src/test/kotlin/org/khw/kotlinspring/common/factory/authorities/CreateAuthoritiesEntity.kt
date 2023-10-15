@@ -1,10 +1,10 @@
-package org.khw.kotlinspring.common.factory.authorities
+package org.khw.shoppera.common.factory.authorities
 
-import org.khw.kotlinspring.authorities.domain.entity.AuthoritiesEntity
-import org.khw.kotlinspring.authorities.domain.entity.AuthorityEntity
-import org.khw.kotlinspring.common.enums.CommonEnum
-import org.khw.kotlinspring.common.factory.user.CreateUserEntity
-import org.khw.kotlinspring.user.domain.entity.UserEntity
+import org.khw.shoppera.authorities.domain.entity.AuthoritiesEntity
+import org.khw.shoppera.authorities.domain.entity.AuthorityEntity
+import org.khw.shoppera.common.enums.CommonEnum
+import org.khw.shoppera.common.factory.user.CreateUserEntity
+import org.khw.shoppera.user.domain.entity.UserEntity
 
 class CreateAuthoritiesEntity {
 

@@ -1,16 +1,16 @@
-package org.khw.kotlinspring.category.service
+package org.khw.shoppera.category.service
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.khw.kotlinspring.category.domain.entity.CategoryEntity
-import org.khw.kotlinspring.category.domain.mapper.CategoryMapper
-import org.khw.kotlinspring.category.repository.CategoryQueryRepository
-import org.khw.kotlinspring.category.repository.CategoryRepository
-import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
-import org.khw.kotlinspring.common.factory.category.CreateCategoryDto
-import org.khw.kotlinspring.common.factory.category.CreateCategoryEntity
+import org.khw.shoppera.category.domain.entity.CategoryEntity
+import org.khw.shoppera.category.domain.mapper.CategoryMapper
+import org.khw.shoppera.category.repository.CategoryQueryRepository
+import org.khw.shoppera.category.repository.CategoryRepository
+import org.khw.shoppera.common.enums.CommonEnum.FlagYn
+import org.khw.shoppera.common.factory.category.CreateCategoryDto
+import org.khw.shoppera.common.factory.category.CreateCategoryEntity
 import org.mockito.BDDMockito.any
 import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks

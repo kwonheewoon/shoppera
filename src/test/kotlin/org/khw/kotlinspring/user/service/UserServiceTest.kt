@@ -1,16 +1,16 @@
-package org.khw.kotlinspring.user.service
+package org.khw.shoppera.user.service
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
-import org.khw.kotlinspring.common.enums.ResCode
-import org.khw.kotlinspring.common.exception.UserException
-import org.khw.kotlinspring.common.factory.user.CreateUserDto
-import org.khw.kotlinspring.common.factory.user.CreateUserEntity
-import org.khw.kotlinspring.user.mapper.UserMapper
-import org.khw.kotlinspring.user.repository.UserRepository
+import org.khw.shoppera.common.enums.CommonEnum.FlagYn
+import org.khw.shoppera.common.enums.ResCode
+import org.khw.shoppera.common.exception.UserException
+import org.khw.shoppera.common.factory.user.CreateUserDto
+import org.khw.shoppera.common.factory.user.CreateUserEntity
+import org.khw.shoppera.user.mapper.UserMapper
+import org.khw.shoppera.user.repository.UserRepository
 import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
 import org.mockito.Mock

@@ -1,6 +1,6 @@
-package org.khw.kotlinspring.common.factory.category
+package org.khw.shoppera.common.factory.category
 
-import org.khw.kotlinspring.category.domain.entity.CategoryEntity
+import org.khw.shoppera.category.domain.entity.CategoryEntity
 
 class CreateCategoryEntity {
 

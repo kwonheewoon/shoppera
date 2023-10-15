@@ -1,6 +1,6 @@
-package org.khw.kotlinspring.common.factory.coupon
+package org.khw.shoppera.common.factory.coupon
 
-import org.khw.kotlinspring.coupon.domain.entity.Coupon
+import org.khw.shoppera.coupon.domain.entity.Coupon
 import java.time.LocalDate
 
 class CreateCouponEntity {

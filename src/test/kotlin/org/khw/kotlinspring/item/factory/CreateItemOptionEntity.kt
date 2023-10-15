@@ -1,8 +1,8 @@
-package org.khw.kotlinspring.item.factory
+package org.khw.shoppera.item.factory
 
-import org.khw.kotlinspring.item.domain.entity.ItemEntity
-import org.khw.kotlinspring.itemoption.domain.dto.ItemOptionSaveDto
-import org.khw.kotlinspring.itemoption.domain.entity.ItemOption
+import org.khw.shoppera.item.domain.entity.ItemEntity
+import org.khw.shoppera.itemoption.domain.dto.ItemOptionSaveDto
+import org.khw.shoppera.itemoption.domain.entity.ItemOption
 
 class CreateItemOptionEntity {
 

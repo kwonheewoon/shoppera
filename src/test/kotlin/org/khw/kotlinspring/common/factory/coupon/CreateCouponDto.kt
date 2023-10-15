@@ -1,10 +1,10 @@
-package org.khw.kotlinspring.common.factory.coupon
+package org.khw.shoppera.common.factory.coupon
 
-import org.khw.kotlinspring.common.enums.CommonEnum
-import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
-import org.khw.kotlinspring.coupon.domain.dto.CouponSaveDto
-import org.khw.kotlinspring.coupon.domain.dto.CouponUpdateDto
-import org.khw.kotlinspring.coupon.domain.dto.CouponViewApiDto
+import org.khw.shoppera.common.enums.CommonEnum
+import org.khw.shoppera.common.enums.CommonEnum.FlagYn
+import org.khw.shoppera.coupon.domain.dto.CouponSaveDto
+import org.khw.shoppera.coupon.domain.dto.CouponUpdateDto
+import org.khw.shoppera.coupon.domain.dto.CouponViewApiDto
 import java.time.LocalDate
 
 class CreateCouponDto {

@@ -1,4 +1,4 @@
-package org.khw.kotlinspring.redis
+package org.khw.shoppera.redis
 
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

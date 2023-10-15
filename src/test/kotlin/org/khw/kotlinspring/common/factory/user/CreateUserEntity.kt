@@ -1,7 +1,7 @@
-package org.khw.kotlinspring.common.factory.user
+package org.khw.shoppera.common.factory.user
 
-import org.khw.kotlinspring.user.domain.entity.Address
-import org.khw.kotlinspring.user.domain.entity.UserEntity
+import org.khw.shoppera.user.domain.entity.Address
+import org.khw.shoppera.user.domain.entity.UserEntity
 import java.time.LocalDate
 
 class CreateUserEntity {

@@ -1,9 +1,9 @@
-package org.khw.kotlinspring.common.factory.category
+package org.khw.shoppera.common.factory.category
 
-import org.khw.kotlinspring.category.domain.dto.CategoryListApiDto
-import org.khw.kotlinspring.category.domain.dto.CategorySaveDto
-import org.khw.kotlinspring.category.domain.dto.CategoryViewApiDto
-import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
+import org.khw.shoppera.category.domain.dto.CategoryListApiDto
+import org.khw.shoppera.category.domain.dto.CategorySaveDto
+import org.khw.shoppera.category.domain.dto.CategoryViewApiDto
+import org.khw.shoppera.common.enums.CommonEnum.FlagYn
 
 class CreateCategoryDto {
 

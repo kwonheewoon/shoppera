@@ -1,7 +1,7 @@
-package org.khw.kotlinspring.common.factory.user
+package org.khw.shoppera.common.factory.user
 
-import org.khw.kotlinspring.common.enums.CommonEnum
-import org.khw.kotlinspring.user.domain.dto.*
+import org.khw.shoppera.common.enums.CommonEnum
+import org.khw.shoppera.user.domain.dto.*
 import java.time.LocalDate
 
 class CreateUserDto {

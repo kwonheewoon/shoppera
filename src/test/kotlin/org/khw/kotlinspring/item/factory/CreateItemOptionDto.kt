@@ -1,8 +1,8 @@
-package org.khw.kotlinspring.item.factory
+package org.khw.shoppera.item.factory
 
-import org.khw.kotlinspring.common.enums.CommonEnum.FlagYn
-import org.khw.kotlinspring.itemoption.domain.dto.ItemOptionSaveDto
-import org.khw.kotlinspring.itemoption.domain.dto.ItemOptionViewApiDto
+import org.khw.shoppera.common.enums.CommonEnum.FlagYn
+import org.khw.shoppera.itemoption.domain.dto.ItemOptionSaveDto
+import org.khw.shoppera.itemoption.domain.dto.ItemOptionViewApiDto
 
 class CreateItemOptionDto {
 
