@@ -6,7 +6,7 @@ import org.hibernate.annotations.Comment
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
 import org.khw.shoppera.common.enums.CommonEnum.FlagYn
-import org.khw.shoppera.item.domain.entity.ItemEntity
+import org.khw.shoppera.item.domain.entity.Item
 
 
 @Entity
@@ -16,7 +16,7 @@ import org.khw.shoppera.item.domain.entity.ItemEntity
 @DynamicUpdate
 class ItemOption(
     id: Long?,
-    item: ItemEntity?,
+    item: Item?,
     optionName: String,
     orderNo: Int,
     displayFlag: FlagYn = FlagYn.N,

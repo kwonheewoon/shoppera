@@ -5,17 +5,15 @@ import lombok.Builder
 import org.hibernate.annotations.Comment
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
-import org.khw.shoppera.category.domain.entity.CategoryEntity
 import org.khw.shoppera.common.enums.CommonEnum.FlagYn
 import org.khw.shoppera.item.domain.dto.ItemTypeUpdateDto
-import org.khw.shoppera.item.domain.dto.ItemUpdateDto
 
 @Entity
 @Table(name = "item_type")
 @Builder
 @DynamicInsert
 @DynamicUpdate
-class ItemTypeEntity(
+class ItemType(
     id: Long?,
     typeCode: String,
     typeName: String,

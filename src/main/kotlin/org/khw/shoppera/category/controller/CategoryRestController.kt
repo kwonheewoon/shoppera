@@ -4,13 +4,10 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import lombok.RequiredArgsConstructor
 import org.khw.shoppera.category.domain.dto.*
-import org.khw.shoppera.category.domain.entity.CategoryEntity
 import org.khw.shoppera.category.service.CategoryService
 import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import java.util.*;
 
 @RestController
 @RequestMapping("/category")

@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Assertions.assertThrows
 import org.khw.shoppera.common.enums.CommonEnum.*
 import org.khw.shoppera.common.enums.ResCode
 import org.khw.shoppera.common.exception.ItemTypeException
-import org.khw.shoppera.item.domain.entity.ItemTypeEntity
+import org.khw.shoppera.item.domain.entity.ItemType
 import org.khw.shoppera.item.factory.CreateItemTypeDto
 import org.khw.shoppera.item.factory.CreateItemTypeEntity
 import org.springframework.http.HttpStatus
@@ -61,7 +61,7 @@ class ItemTypeServiceTest {
         val itemTypeSavedEntity = CreateItemTypeEntity.savedItemTypeEntity(itemTypeSaveDto)
         val itemTypeViewApiDto = CreateItemTypeDto.itemTypeViewApiDto(itemTypeSaveDto.typeCode, itemTypeSaveDto.typeName, FlagYn.N)
 
-        given(itemTypeRepository.save(any(ItemTypeEntity::class.java)))
+        given(itemTypeRepository.save(any(ItemType::class.java)))
             .willReturn(itemTypeSavedEntity)
         given(itemTypeMapper.entityToViewApiDto(itemTypeSavedEntity))
             .willReturn(itemTypeViewApiDto)
@@ -73,7 +73,7 @@ class ItemTypeServiceTest {
         assertEquals(result, itemTypeViewApiDto)
         assertEquals(result.typeCode, itemTypeViewApiDto.typeCode)
         assertEquals(result.typeName, itemTypeViewApiDto.typeName)
-        verify(itemTypeRepository).save(any(ItemTypeEntity::class.java))
+        verify(itemTypeRepository).save(any(ItemType::class.java))
         verify(itemTypeMapper).entityToViewApiDto(itemTypeSavedEntity)
     }
 

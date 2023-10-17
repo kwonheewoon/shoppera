@@ -2,7 +2,7 @@ package org.khw.shoppera.category.service
 
 import lombok.RequiredArgsConstructor
 import org.khw.shoppera.category.domain.dto.*
-import org.khw.shoppera.category.domain.entity.CategoryEntity
+import org.khw.shoppera.category.domain.entity.Category
 import org.khw.shoppera.category.domain.entity.CategoryEntityFactory
 import org.khw.shoppera.category.domain.mapper.CategoryMapper
 import org.khw.shoppera.category.repository.CategoryQueryRepository
@@ -34,7 +34,7 @@ class CategoryService(val categoryRepository: CategoryRepository,
      * @param category 카테고리 엔티티
      * @return Unit
      */
-    private fun loadAllChildren(category: CategoryEntity) {
+    private fun loadAllChildren(category: Category) {
         val children = category.childCategoryList
         children.forEach { child ->
             loadAllChildren(child)
@@ -56,17 +56,17 @@ class CategoryService(val categoryRepository: CategoryRepository,
 
     @Transactional
     fun modifyCategory(categoryModifyDto: CategoryModifyDto) : CategoryViewApiDto {
-        val findCategoryEntity : CategoryEntity = categoryRepository.findById(categoryModifyDto.id).orElseThrow{throw RuntimeException("메뉴 정보가 존재하지 않습니다.")}
-        findCategoryEntity.modify(categoryModifyDto)
-        return categoryMapper.entityToViewApiDto(categoryRepository.save(findCategoryEntity))
+        val findCategory : Category = categoryRepository.findById(categoryModifyDto.id).orElseThrow{throw RuntimeException("메뉴 정보가 존재하지 않습니다.")}
+        findCategory.modify(categoryModifyDto)
+        return categoryMapper.entityToViewApiDto(categoryRepository.save(findCategory))
     }
 
     @Transactional
     fun deleteCategory(categoryId: Long) : CategoryViewApiDto {
-        val findCategoryEntity : CategoryEntity = categoryRepository.findById(categoryId).orElseThrow{throw RuntimeException("메뉴 정보가 존재하지 않습니다.")}
+        val findCategory : Category = categoryRepository.findById(categoryId).orElseThrow{throw RuntimeException("메뉴 정보가 존재하지 않습니다.")}
         if(categoryQueryRepository.deleteCategory(categoryId) < 1){
             throw RuntimeException("메뉴 삭제에 실패하였습니다.")
         }
-        return categoryMapper.entityToViewApiDto(findCategoryEntity)
+        return categoryMapper.entityToViewApiDto(findCategory)
     }
 }

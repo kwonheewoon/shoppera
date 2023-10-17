@@ -1,13 +1,13 @@
 package org.khw.shoppera.item.repository
 
 import org.khw.shoppera.common.enums.CommonEnum.FlagYn
-import org.khw.shoppera.item.domain.entity.ItemTypeEntity
+import org.khw.shoppera.item.domain.entity.ItemType
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import java.util.Optional
 
 @Repository
-interface ItemTypeRepository : JpaRepository <ItemTypeEntity, Long>{
+interface ItemTypeRepository : JpaRepository <ItemType, Long>{
 
     /**
      * 아이템 타입 아이디, 삭제 여부에 따른 아이템 타입 단일 조회
@@ -16,7 +16,7 @@ interface ItemTypeRepository : JpaRepository <ItemTypeEntity, Long>{
      * @param deleteFlag 삭제여부
      * @return
      */
-    fun findByIdAndDeleteFlag(id: Long, deleteFlag: FlagYn) : Optional<ItemTypeEntity>
+    fun findByIdAndDeleteFlag(id: Long, deleteFlag: FlagYn) : Optional<ItemType>
 
     /**
      * 아이템 코드, 삭제 여부에 따른 아이템 타입 단일 조회
@@ -25,7 +25,7 @@ interface ItemTypeRepository : JpaRepository <ItemTypeEntity, Long>{
      * @param deleteFlag 삭제여부
      * @return
      */
-    fun findByTypeCodeAndDeleteFlag(typeCode: String, deleteFlag: FlagYn) : Optional<ItemTypeEntity>
+    fun findByTypeCodeAndDeleteFlag(typeCode: String, deleteFlag: FlagYn) : Optional<ItemType>
 
     /**
      * 아이디, 아이템 코드, 삭제 여부에 따른 아이템 타입 단일 조회
@@ -34,6 +34,6 @@ interface ItemTypeRepository : JpaRepository <ItemTypeEntity, Long>{
      * @param deleteFlag 삭제여부
      * @return
      */
-    fun findByIdNotAndTypeCodeAndDeleteFlag(itemTypeId: Long, typeCode: String, deleteFlag: FlagYn) : Optional<ItemTypeEntity>
+    fun findByIdNotAndTypeCodeAndDeleteFlag(itemTypeId: Long, typeCode: String, deleteFlag: FlagYn) : Optional<ItemType>
 
 }

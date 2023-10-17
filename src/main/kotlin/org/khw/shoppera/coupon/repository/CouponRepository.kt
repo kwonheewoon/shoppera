@@ -2,7 +2,6 @@ package org.khw.shoppera.coupon.repository
 
 import org.khw.shoppera.common.enums.CommonEnum.FlagYn
 import org.khw.shoppera.coupon.domain.entity.Coupon
-import org.khw.shoppera.item.domain.entity.ItemTypeEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import java.util.Optional

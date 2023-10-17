@@ -5,7 +5,7 @@ import org.khw.shoppera.common.enums.CommonEnum.FlagYn
 import org.khw.shoppera.common.enums.ResCode
 import org.khw.shoppera.common.exception.ItemTypeException
 import org.khw.shoppera.item.domain.dto.*
-import org.khw.shoppera.item.domain.entity.ItemTypeEntityFactory
+import org.khw.shoppera.item.domain.entity.ItemTypeFactory
 import org.khw.shoppera.item.domain.mapper.ItemTypeMapper
 import org.khw.shoppera.item.repository.ItemTypeRepository
 import org.springframework.stereotype.Service
@@ -32,7 +32,7 @@ class ItemTypeService(val itemTypeRepository: ItemTypeRepository,
         }
 
         return itemTypeMapper.entityToViewApiDto(
-            itemTypeRepository.save(ItemTypeEntityFactory.createItemTypeEntity(itemTypeSaveDto)
+            itemTypeRepository.save(ItemTypeFactory.createItemTypeEntity(itemTypeSaveDto)
             )
         )
     }

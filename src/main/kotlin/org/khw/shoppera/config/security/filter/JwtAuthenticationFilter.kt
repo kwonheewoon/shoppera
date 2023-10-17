@@ -22,8 +22,8 @@ import javax.crypto.SecretKey
 class JwtAuthenticationFilter(@Value("\${jwt.signing.key}") val signingKey: String) : OncePerRequestFilter() {
 
 
-    private val PERMIT_URL_LIST = listOf( /* swagger v2 */
-        "/v2/api-docs",
+    private val PERMIT_URL_LIST = listOf(
+        "/h2-console",
         "/swagger-resources",
         "/swagger-resources/**",
         "/configuration/ui",

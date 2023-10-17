@@ -3,26 +3,26 @@ package org.khw.shoppera.category.domain.mapper
 import org.khw.shoppera.category.domain.dto.CategoryApiDto
 import org.khw.shoppera.category.domain.dto.CategoryListApiDto
 import org.khw.shoppera.category.domain.dto.CategoryViewApiDto
-import org.khw.shoppera.category.domain.entity.CategoryEntity
+import org.khw.shoppera.category.domain.entity.Category
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 
 @Mapper(componentModel = "spring")
 interface CategoryMapper {
 
-    fun entityToApiDto(categoryEntity: CategoryEntity) : CategoryApiDto
+    fun entityToApiDto(category: Category) : CategoryApiDto
 
     //CategoryEntity -> CategoryViewApiDto
 
-    fun entityToViewApiDto(categoryEntity: CategoryEntity) : CategoryViewApiDto
+    fun entityToViewApiDto(category: Category) : CategoryViewApiDto
 
     @Mapping(target = "childCategoryList", ignore = true)
-    fun entityListToViewApiDtoList(categoryEntityList : List<CategoryEntity>) : List<CategoryViewApiDto>
+    fun entityListToViewApiDtoList(categoryList : List<Category>) : List<CategoryViewApiDto>
 
     //CategoryEntity -> CategoryListApiDto
 
     @Mapping(target = "childCategorys", source = "childCategoryList")
-    fun entityToListApiDto(categoryEntity: CategoryEntity) : CategoryListApiDto
+    fun entityToListApiDto(category: Category) : CategoryListApiDto
 
-    fun entityListToListApiDtoList(categoryEntityList : List<CategoryEntity>) : List<CategoryListApiDto>
+    fun entityListToListApiDtoList(categoryList : List<Category>) : List<CategoryListApiDto>
 }

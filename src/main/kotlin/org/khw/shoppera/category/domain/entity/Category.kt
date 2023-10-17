@@ -15,13 +15,13 @@ import java.util.*
 @Builder
 @DynamicInsert
 @DynamicUpdate
-class CategoryEntity(id: Long?,
-    categoryNm: String,
-    orderNo: Int,
-    depth: Int = 1,
-    deleteFlag: FlagYn = FlagYn.N,
-    parentCategory: CategoryEntity? = null,
-    childCategoryList: List<CategoryEntity> = ArrayList<CategoryEntity>()
+class Category(id: Long?,
+               categoryNm: String,
+               orderNo: Int,
+               depth: Int = 1,
+               deleteFlag: FlagYn = FlagYn.N,
+               parentCategory: Category? = null,
+               childCategoryList: List<Category> = ArrayList<Category>()
 ) {
 
     @Id @Column(name = "id", nullable = false)
@@ -58,7 +58,7 @@ class CategoryEntity(id: Long?,
 
     @OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     @BatchSize(size = 100)
-    var childCategoryList: List<CategoryEntity> = childCategoryList
+    var childCategoryList: List<Category> = childCategoryList
         private set
 
 

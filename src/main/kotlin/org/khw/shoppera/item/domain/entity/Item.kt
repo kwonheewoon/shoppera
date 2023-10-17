@@ -6,7 +6,8 @@ import org.hibernate.annotations.Comment
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
 import org.hibernate.annotations.Where
-import org.khw.shoppera.category.domain.entity.CategoryEntity
+import org.khw.shoppera.brand.domain.entity.Brand
+import org.khw.shoppera.category.domain.entity.Category
 import org.khw.shoppera.common.enums.CommonEnum.FlagYn
 import org.khw.shoppera.item.domain.dto.ItemUpdateDto
 import org.khw.shoppera.itemoption.domain.entity.ItemOption
@@ -16,12 +17,13 @@ import org.khw.shoppera.itemoption.domain.entity.ItemOption
 @Builder
 @DynamicInsert
 @DynamicUpdate
-class ItemEntity(
+class Item(
     id: Long?,
-    itemType: ItemTypeEntity,
+    itemType: ItemType,
     itemName: String,
     price: Int,
-    category: CategoryEntity,
+    brand: Brand,
+    category: Category,
     itemOptionList: List<ItemOption>?,
     displayFlag: FlagYn = FlagYn.N,
     deleteFlag: FlagYn = FlagYn.N
@@ -36,7 +38,7 @@ class ItemEntity(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id")
     @Comment("아이템 타입 아이디")
-    var itemType: ItemTypeEntity = itemType
+    var itemType: ItemType = itemType
         private set
 
     @Column(name = "item_name", nullable = false)
@@ -50,9 +52,15 @@ class ItemEntity(
         private set
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "brand_id")
+    @Comment("브랜드 아이디")
+    var brand: Brand = brand
+        private set
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     @Comment("카테고리 아이디")
-    var category: CategoryEntity = category
+    var category: Category = category
         private set
 
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "item")
@@ -73,11 +81,12 @@ class ItemEntity(
     var deleteFlag = deleteFlag
         private set
 
-    fun update(itemUpdateDto: ItemUpdateDto, findCategoryEntity: CategoryEntity, findItemTypeEntity: ItemTypeEntity){
-        this.itemType = findItemTypeEntity
+    fun update(itemUpdateDto: ItemUpdateDto, findBrand: Brand, findCategory: Category, findItemType: ItemType){
+        this.itemType = findItemType
         this.itemName = itemUpdateDto.itemName
         this.price = itemUpdateDto.price
-        this.category = findCategoryEntity
+        this.brand = findBrand
+        this.category = findCategory
         this.displayFlag = itemUpdateDto.displayFlag
         this.deleteFlag = itemUpdateDto.deleteFlag
     }

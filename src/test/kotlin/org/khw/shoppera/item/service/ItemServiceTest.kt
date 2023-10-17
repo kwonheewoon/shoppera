@@ -19,10 +19,13 @@ import org.mockito.Mockito.verify
 import java.util.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
+import org.khw.shoppera.brand.factory.CreateBrandEntity
+import org.khw.shoppera.brand.repository.BrandRepository
 import org.khw.shoppera.common.enums.ResCode
+import org.khw.shoppera.common.exception.BrandException
 import org.khw.shoppera.common.exception.CategoryException
 import org.khw.shoppera.common.exception.ItemException
-import org.khw.shoppera.item.domain.entity.ItemEntity
+import org.khw.shoppera.item.domain.entity.Item
 import org.khw.shoppera.item.factory.CreateItemTypeEntity
 import org.khw.shoppera.item.repository.ItemTypeRepository
 import org.springframework.http.HttpStatus
@@ -39,6 +42,9 @@ lateinit var itemRepository: ItemRepository
 lateinit var itemTypeRepository: ItemTypeRepository
 
 @Mock
+lateinit var brandRepository: BrandRepository
+
+@Mock
 lateinit var categoryRepository: CategoryRepository
 
 @Mock
@@ -52,14 +58,15 @@ lateinit var itemService: ItemService
     fun `아이템 단건 조회 성공`(){
         // Given
         val itemId: Long = 1
-        val itemViewApiDto = CreateItemDto.itemViewApiDto("의류", 65000, "하와이안 셔츠", 1, displayFlag = FlagYn.N, deleteFlag = FlagYn.N)
-        val findCategoryEntity = CreateCategoryEntity.categoryEntityParent()
-        val findItemTypeEntity = CreateItemTypeEntity.findItemTypeEntity()
-        val findItemEntity = CreateItemEntity.findItemEntity(findCategoryEntity, findItemTypeEntity)
+        val itemViewApiDto = CreateItemDto.itemViewApiDto("의류", 65000, "하와이안 셔츠", 1,1, displayFlag = FlagYn.N, deleteFlag = FlagYn.N)
+        val findBrand = CreateBrandEntity.findBrand()
+        val findCategory = CreateCategoryEntity.categoryEntityParent()
+        val findItemType = CreateItemTypeEntity.findItemTypeEntity()
+        val findItem = CreateItemEntity.findItemEntity(findBrand, findCategory, findItemType)
 
         given(itemRepository.findByIdAndDeleteFlag(1, FlagYn.N))
-            .willReturn(Optional.of(findItemEntity))
-        given(itemMapper.entityToViewApiDto(findItemEntity))
+            .willReturn(Optional.of(findItem))
+        given(itemMapper.entityToViewApiDto(findItem))
             .willReturn(itemViewApiDto)
 
         // When
@@ -69,7 +76,7 @@ lateinit var itemService: ItemService
         assertEquals(result, itemViewApiDto)
         assertEquals(itemViewApiDto.itemName, "하와이안 셔츠")
         verify(itemRepository).findByIdAndDeleteFlag(1, FlagYn.N)
-        verify(itemMapper).entityToViewApiDto(findItemEntity)
+        verify(itemMapper).entityToViewApiDto(findItem)
     }
 
     @Test
@@ -96,15 +103,16 @@ lateinit var itemService: ItemService
         // Given
         val itemId: Long = 1
         val itemViewApiDtoList = CreateItemDto.itemViewApiDtoList()
-        val findCategoryEntity = CreateCategoryEntity.categoryEntityParent()
-        val findItemTypeEntity = CreateItemTypeEntity.findItemTypeEntity()
-        val findItemEntityList = CreateItemEntity.findItemEntityList(findCategoryEntity, findItemTypeEntity)
+        val findBrand = CreateBrandEntity.findBrand()
+        val findCategory = CreateCategoryEntity.categoryEntityParent()
+        val findItemType = CreateItemTypeEntity.findItemTypeEntity()
+        val findItemList = CreateItemEntity.findItemEntityList(findBrand, findCategory, findItemType)
 
         given(categoryRepository.findByIdAndDeleteFlag(1, FlagYn.N))
-            .willReturn(Optional.of(findCategoryEntity))
-        given(itemRepository.findByCategoryAndDeleteFlag(findCategoryEntity, FlagYn.N))
-            .willReturn(findItemEntityList)
-        given(itemMapper.entityListToViewApiDtoList(findItemEntityList))
+            .willReturn(Optional.of(findCategory))
+        given(itemRepository.findByCategoryAndDeleteFlag(findCategory, FlagYn.N))
+            .willReturn(findItemList)
+        given(itemMapper.entityListToViewApiDtoList(findItemList))
             .willReturn(itemViewApiDtoList)
 
         // When
@@ -117,26 +125,49 @@ lateinit var itemService: ItemService
         assertEquals(result.get(1).itemName, "벚꽃 남방")
         assertEquals(result.get(2).itemName, "청자켓")
         verify(categoryRepository).findByIdAndDeleteFlag(1, FlagYn.N)
-        verify(itemRepository).findByCategoryAndDeleteFlag(findCategoryEntity, FlagYn.N)
-        verify(itemMapper).entityListToViewApiDtoList(findItemEntityList)
+        verify(itemRepository).findByCategoryAndDeleteFlag(findCategory, FlagYn.N)
+        verify(itemMapper).entityListToViewApiDtoList(findItemList)
+    }
+
+    @Test
+    fun `아이템등록 실패(존재하지 않는 브랜드)`(){
+        // Given
+        val itemSaveDto = CreateItemDto.itemSaveDto()
+
+        given(brandRepository.findByIdAndDeleteFlag(itemSaveDto.brandId, FlagYn.N))
+            .willReturn(Optional.empty())
+
+
+        // When
+        val throwable = assertThrows(BrandException::class.java) {
+            itemService.saveItem(itemSaveDto)
+        }
+
+        // Then
+        assertEquals(ResCode.NOT_FOUND_BRAND.code, throwable.code)
+        assertEquals(ResCode.NOT_FOUND_BRAND.message, throwable.message)
+        assertEquals(ResCode.NOT_FOUND_BRAND.httpStatus, HttpStatus.NOT_FOUND)
     }
 
     @Test
     fun `아이템등록 성공`(){
         // Given
         val itemSaveDto = CreateItemDto.itemSaveDto()
-        val itemViewApiDto = CreateItemDto.itemViewApiDto("의류", 65000,"하와이안 셔츠", 1, displayFlag = FlagYn.N, deleteFlag = FlagYn.N)
-        val findCategoryEntity = CreateCategoryEntity.categoryEntityParent()
-        val findItemTypeEntity = CreateItemTypeEntity.findItemTypeEntity()
-        val savedItemEntity = CreateItemEntity.savedItemEntity(itemSaveDto, findCategoryEntity, findItemTypeEntity)
+        val itemViewApiDto = CreateItemDto.itemViewApiDto("의류", 65000,"하와이안 셔츠", 1,1, displayFlag = FlagYn.N, deleteFlag = FlagYn.N)
+        val findBrand = CreateBrandEntity.findBrand()
+        val findCategory = CreateCategoryEntity.categoryEntityParent()
+        val findItemType = CreateItemTypeEntity.findItemTypeEntity()
+        val savedItem = CreateItemEntity.savedItemEntity(itemSaveDto, findBrand, findCategory, findItemType)
 
+        given(brandRepository.findByIdAndDeleteFlag(itemSaveDto.brandId, FlagYn.N))
+            .willReturn(Optional.of(findBrand))
         given(categoryRepository.findByIdAndDeleteFlag(1, FlagYn.N))
-            .willReturn(Optional.of(findCategoryEntity))
+            .willReturn(Optional.of(findCategory))
         given(itemTypeRepository.findByTypeCodeAndDeleteFlag(itemSaveDto.typeCode, FlagYn.N))
-            .willReturn(Optional.of(findItemTypeEntity))
-        given(itemRepository.save(any(ItemEntity::class.java)))
-            .willReturn(savedItemEntity)
-        given(itemMapper.entityToViewApiDto(savedItemEntity))
+            .willReturn(Optional.of(findItemType))
+        given(itemRepository.save(any(Item::class.java)))
+            .willReturn(savedItem)
+        given(itemMapper.entityToViewApiDto(savedItem))
             .willReturn(itemViewApiDto)
 
         // When
@@ -145,9 +176,11 @@ lateinit var itemService: ItemService
         // Then
         assertEquals(result, itemViewApiDto)
         assertEquals(itemViewApiDto.itemName, "하와이안 셔츠")
-        verify(categoryRepository).findByIdAndDeleteFlag(1, FlagYn.N)
+        assertEquals(itemViewApiDto.brandId, 1)
+        verify(brandRepository).findByIdAndDeleteFlag(itemSaveDto.brandId, FlagYn.N)
+        verify(categoryRepository).findByIdAndDeleteFlag(itemSaveDto.categoryId, FlagYn.N)
         verify(itemTypeRepository).findByTypeCodeAndDeleteFlag(itemSaveDto.typeCode, FlagYn.N)
-        verify(itemRepository).save(any(ItemEntity::class.java))
+        verify(itemRepository).save(any(Item::class.java))
     }
 
     @Test
@@ -155,19 +188,22 @@ lateinit var itemService: ItemService
         // Given
         val itemId: Long = 1
         val itemUpdateDto = CreateItemDto.itemUpdateDto()
-        val itemViewApiDto = CreateItemDto.itemViewApiDto("의류", 75000,"스카쟌 점퍼", 1, displayFlag = FlagYn.N, deleteFlag = FlagYn.N)
-        val findCategoryEntity = CreateCategoryEntity.categoryEntityParent()
-        val findItemTypeEntity = CreateItemTypeEntity.findItemTypeEntity()
-        val findItemEntity = CreateItemEntity.findItemEntity(findCategoryEntity, findItemTypeEntity)
+        val itemViewApiDto = CreateItemDto.itemViewApiDto("의류", 75000,"스카쟌 점퍼", 2,2, displayFlag = FlagYn.N, deleteFlag = FlagYn.N)
+        val findBrand = CreateBrandEntity.findBrand()
+        val findCategory = CreateCategoryEntity.categoryEntityParent()
+        val findItemType = CreateItemTypeEntity.findItemTypeEntity()
+        val findItem = CreateItemEntity.findItemEntity(findBrand, findCategory, findItemType)
 
-        given(categoryRepository.findByIdAndDeleteFlag(1, FlagYn.N))
-            .willReturn(Optional.of(findCategoryEntity))
+        given(brandRepository.findByIdAndDeleteFlag(itemUpdateDto.brandId, FlagYn.N))
+            .willReturn(Optional.of(findBrand))
+        given(categoryRepository.findByIdAndDeleteFlag(itemUpdateDto.categoryId, FlagYn.N))
+            .willReturn(Optional.of(findCategory))
         given(itemTypeRepository.findByTypeCodeAndDeleteFlag(itemUpdateDto.typeCode, FlagYn.N))
-            .willReturn(Optional.of(findItemTypeEntity))
+            .willReturn(Optional.of(findItemType))
         given(itemRepository.findByIdAndDeleteFlag(1, FlagYn.N))
-            .willReturn(Optional.of(findItemEntity))
-        findItemEntity.update(itemUpdateDto, findCategoryEntity, findItemTypeEntity)
-        given(itemMapper.entityToViewApiDto(findItemEntity))
+            .willReturn(Optional.of(findItem))
+        findItem.update(itemUpdateDto, findBrand, findCategory, findItemType)
+        given(itemMapper.entityToViewApiDto(findItem))
             .willReturn(itemViewApiDto)
 
         // When
@@ -176,9 +212,12 @@ lateinit var itemService: ItemService
         // Then
         assertEquals(result, itemViewApiDto)
         assertEquals(itemViewApiDto.itemName, "스카쟌 점퍼")
-        verify(categoryRepository).findByIdAndDeleteFlag(1, FlagYn.N)
+        assertEquals(result.brandId, 2)
+        assertEquals(result.categoryId, 2)
+        verify(brandRepository).findByIdAndDeleteFlag(itemUpdateDto.brandId, FlagYn.N)
+        verify(categoryRepository).findByIdAndDeleteFlag(itemUpdateDto.categoryId, FlagYn.N)
         verify(itemRepository).findByIdAndDeleteFlag(1, FlagYn.N)
-        verify(itemMapper).entityToViewApiDto(findItemEntity)
+        verify(itemMapper).entityToViewApiDto(findItem)
     }
 
     @Test
@@ -186,9 +225,11 @@ lateinit var itemService: ItemService
         // Given
         val itemId: Long = 1
         val itemUpdateDto = CreateItemDto.itemUpdateDto()
-        val findCategoryEntity = CreateCategoryEntity.categoryEntityParent()
+        val findBrand = CreateBrandEntity.findBrand()
 
-        given(categoryRepository.findByIdAndDeleteFlag(1, FlagYn.N))
+        given(brandRepository.findByIdAndDeleteFlag(itemUpdateDto.brandId, FlagYn.N))
+            .willReturn(Optional.of(findBrand))
+        given(categoryRepository.findByIdAndDeleteFlag(itemUpdateDto.categoryId, FlagYn.N))
             .willReturn(Optional.empty())
 
 
@@ -210,12 +251,15 @@ lateinit var itemService: ItemService
         val itemUpdateDto = CreateItemDto.itemUpdateDto()
         val findCategoryEntity = CreateCategoryEntity.categoryEntityParent()
         val findItemTypeEntity = CreateItemTypeEntity.findItemTypeEntity()
+        val findBrand = CreateBrandEntity.findBrand()
 
-        given(categoryRepository.findByIdAndDeleteFlag(1, FlagYn.N))
+        given(brandRepository.findByIdAndDeleteFlag(itemUpdateDto.brandId, FlagYn.N))
+            .willReturn(Optional.of(findBrand))
+        given(categoryRepository.findByIdAndDeleteFlag(itemUpdateDto.categoryId, FlagYn.N))
             .willReturn(Optional.of(findCategoryEntity))
         given(itemTypeRepository.findByTypeCodeAndDeleteFlag(itemUpdateDto.typeCode, FlagYn.N))
             .willReturn(Optional.of(findItemTypeEntity))
-        given(itemRepository.findByIdAndDeleteFlag(1, FlagYn.N))
+        given(itemRepository.findByIdAndDeleteFlag(itemId, FlagYn.N))
             .willReturn(Optional.empty())
 
 
@@ -254,13 +298,14 @@ lateinit var itemService: ItemService
     fun `아이템 삭제 성공`(){
         // Given
         val itemId: Long = 1
-        val findCategoryEntity = CreateCategoryEntity.categoryEntityParent()
-        val findItemTypeEntity = CreateItemTypeEntity.findItemTypeEntity()
-        val findItemEntity = CreateItemEntity.findItemEntity(findCategoryEntity, findItemTypeEntity)
+        val findBrand = CreateBrandEntity.findBrand()
+        val findCategory = CreateCategoryEntity.categoryEntityParent()
+        val findItemType = CreateItemTypeEntity.findItemTypeEntity()
+        val findItem = CreateItemEntity.findItemEntity(findBrand, findCategory, findItemType)
 
 
         given(itemRepository.findByIdAndDeleteFlag(1, FlagYn.N))
-            .willReturn(Optional.of(findItemEntity))
+            .willReturn(Optional.of(findItem))
 
 
         // When

@@ -5,11 +5,8 @@ import lombok.Builder
 import org.hibernate.annotations.Comment
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
-import org.hibernate.annotations.Where
-import org.khw.shoppera.category.domain.entity.CategoryEntity
+import org.khw.shoppera.brand.domain.dto.BrandUpdateApiDto
 import org.khw.shoppera.common.enums.CommonEnum.FlagYn
-import org.khw.shoppera.item.domain.dto.ItemUpdateDto
-import org.khw.shoppera.itemoption.domain.entity.ItemOption
 
 @Entity
 @Table(name = "brand")
@@ -58,5 +55,17 @@ class Brand(
     @Comment("삭제여부")
     var deleteFlag = deleteFlag
         private set
+
+
+    fun update(brandUpdateApiDto: BrandUpdateApiDto){
+        this.name = brandUpdateApiDto.name
+        this.explanation = brandUpdateApiDto.explanation
+        this.foundedYear = brandUpdateApiDto.foundedYear
+        this.displayFlag = brandUpdateApiDto.displayFlag
+    }
+
+    fun delete(){
+        this.deleteFlag = FlagYn.Y
+    }
 
 }

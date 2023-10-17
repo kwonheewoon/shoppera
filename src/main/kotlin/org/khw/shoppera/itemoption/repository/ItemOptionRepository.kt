@@ -1,7 +1,7 @@
 package org.khw.shoppera.itemoption.repository
 
 import org.khw.shoppera.common.enums.CommonEnum.FlagYn
-import org.khw.shoppera.item.domain.entity.ItemEntity
+import org.khw.shoppera.item.domain.entity.Item
 import org.khw.shoppera.itemoption.domain.entity.ItemOption
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
@@ -26,6 +26,6 @@ interface ItemOptionRepository : JpaRepository <ItemOption, Long>{
      * @param deleteFlag 삭제여부
      * @return
      */
-    fun findByItemAndDeleteFlag(item: ItemEntity, deleteFlag: FlagYn) : List<ItemOption>
+    fun findByItemAndDeleteFlag(item: Item, deleteFlag: FlagYn) : List<ItemOption>
 
 }

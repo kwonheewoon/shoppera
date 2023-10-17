@@ -15,6 +15,9 @@ class ItemUpdateDto (
     @Schema(description = "가격", example = "24500")
     val price: Int,
 
+    @Schema(description = "브랜드 아이디", example = "1")
+    val brandId: Long,
+
     @Schema(description = "카테고리 아이디", example = "1")
     val categoryId: Long,
 

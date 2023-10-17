@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.khw.shoppera.category.domain.entity.CategoryEntity
+import org.khw.shoppera.category.domain.entity.Category
 import org.khw.shoppera.category.domain.mapper.CategoryMapper
 import org.khw.shoppera.category.repository.CategoryQueryRepository
 import org.khw.shoppera.category.repository.CategoryRepository
@@ -64,7 +64,7 @@ class CategoryServiceTest {
         val categorySavedEntity = CreateCategoryEntity.categoryEntityParentNonExist()
         val categoryViewApiDto = CreateCategoryDto.categoryViewApiDtoParentAndChildNonExist()
 
-        given(categoryRepository.save(any(CategoryEntity::class.java)))
+        given(categoryRepository.save(any(Category::class.java)))
                 .willReturn(categorySavedEntity)
         given(categoryMapper.entityToViewApiDto(categorySavedEntity))
                 .willReturn(categoryViewApiDto)
@@ -74,7 +74,7 @@ class CategoryServiceTest {
 
         // Then
         assertEquals(categoryViewApiDto, result)
-        verify(categoryRepository).save(any(CategoryEntity::class.java))
+        verify(categoryRepository).save(any(Category::class.java))
         verify(categoryMapper).entityToViewApiDto(categorySavedEntity)
     }
 
@@ -88,7 +88,7 @@ class CategoryServiceTest {
 
         given(categoryRepository.findById(categorySaveDto.parentId!!))
             .willReturn(Optional.of(findParentCategoryEntity))
-        given(categoryRepository.save(any(CategoryEntity::class.java)))
+        given(categoryRepository.save(any(Category::class.java)))
             .willReturn(categorySavedEntity)
         given(categoryMapper.entityToViewApiDto(categorySavedEntity))
             .willReturn(categoryViewApiDto)
@@ -99,7 +99,7 @@ class CategoryServiceTest {
         // Then
         assertEquals(categoryViewApiDto, result)
         verify(categoryRepository).findById(categorySaveDto.parentId!!)
-        verify(categoryRepository).save(any(CategoryEntity::class.java))
+        verify(categoryRepository).save(any(Category::class.java))
         verify(categoryMapper).entityToViewApiDto(categorySavedEntity)
     }
 

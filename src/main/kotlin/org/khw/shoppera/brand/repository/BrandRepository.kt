@@ -1,9 +1,7 @@
 package org.khw.shoppera.brand.repository
 
 import org.khw.shoppera.brand.domain.entity.Brand
-import org.khw.shoppera.category.domain.entity.CategoryEntity
 import org.khw.shoppera.common.enums.CommonEnum.FlagYn
-import org.khw.shoppera.item.domain.entity.ItemEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import java.util.Optional
@@ -36,6 +34,6 @@ interface BrandRepository : JpaRepository <Brand, Long>{
      * @param deleteFlag 삭제여부
      * @return
      */
-    fun findByIdAndNameAndDeleteFlag(id: Long, name: String, deleteFlag: FlagYn) : Optional<Brand>
+    fun findByIdNotAndNameAndDeleteFlag(id: Long, name: String, deleteFlag: FlagYn) : Optional<Brand>
 
 }
