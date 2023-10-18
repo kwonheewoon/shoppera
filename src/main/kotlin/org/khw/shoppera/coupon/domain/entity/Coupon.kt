@@ -5,8 +5,9 @@ import lombok.Builder
 import org.hibernate.annotations.Comment
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
+import org.khw.shoppera.brand.domain.entity.Brand
 import org.khw.shoppera.common.enums.CommonEnum.*
-import org.khw.shoppera.coupon.domain.dto.CouponUpdateDto
+import org.khw.shoppera.coupon.domain.dto.CouponUpdateApiDto
 import java.time.LocalDate
 
 @Entity
@@ -19,6 +20,7 @@ class Coupon(
     couponName: String,
     discountRate: Int,
     expireDate: LocalDate,
+    brand: Brand,
     deleteFlag: FlagYn = FlagYn.N
 ) {
 
@@ -43,16 +45,23 @@ class Coupon(
     var expireDate = expireDate
         private set
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "brand_id")
+    @Comment("브랜드 아이디")
+    var brand: Brand = brand
+        private set
+
     @Column(name = "delete_flag", nullable = false)
     @Comment("삭제 여부")
     var deleteFlag = deleteFlag
         private set
 
 
-    fun update(couponUpdateDto: CouponUpdateDto){
-        this.couponName = couponUpdateDto.couponName
-        this.discountRate = couponUpdateDto.discountRate
-        this.expireDate = couponUpdateDto.expireDate
+    fun update(couponUpdateApiDto: CouponUpdateApiDto, brand: Brand){
+        this.couponName = couponUpdateApiDto.couponName
+        this.discountRate = couponUpdateApiDto.discountRate
+        this.expireDate = couponUpdateApiDto.expireDate
+        this.brand = brand
     }
 
     fun delete(){

@@ -9,6 +9,9 @@ data class CouponViewApiDto(
     @Schema(description = "쿠폰 아이디", example = "1")
     val id: Long,
 
+    @Schema(description = "브랜드 아이디", example = "1")
+    val brandId: Long,
+
     @Schema(description = "쿠폰 이름", example = "20% 쿠폰")
     val couponName: String,
 

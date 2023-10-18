@@ -4,8 +4,11 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.khw.shoppera.brand.factory.CreateBrandEntity
+import org.khw.shoppera.brand.repository.BrandRepository
 import org.khw.shoppera.common.enums.CommonEnum.FlagYn
 import org.khw.shoppera.common.enums.ResCode
+import org.khw.shoppera.common.exception.BrandException
 import org.khw.shoppera.common.exception.CouponException
 import org.khw.shoppera.common.factory.coupon.CreateCouponDto
 import org.khw.shoppera.common.factory.coupon.CreateCouponEntity
@@ -31,13 +34,16 @@ class CouponServiceTest {
     @Mock
     lateinit var couponRepository: CouponRepository
 
+    @Mock
+    lateinit var brandRepository: BrandRepository
+
     @InjectMocks
     lateinit var couponService: CouponService
 
     @Test
-    fun `쿠폰 등록 실패`(){
+    fun `쿠폰 등록 실패(쿠폰 이름 중복)`(){
         // Given
-        val couponSaveDto = CreateCouponDto.couponSaveDto()
+        val couponSaveDto = CreateCouponDto.couponSaveApiDto()
         val findCoupon = CreateCouponEntity.findCouponEntity()
 
         given(couponRepository.findByCouponNameAndDeleteFlag(couponSaveDto.couponName, FlagYn.N))
@@ -56,42 +62,69 @@ class CouponServiceTest {
     }
 
     @Test
+    fun `쿠폰 등록 실패(브랜드 정보 없음)`(){
+        // Given
+        val couponSaveApiDto = CreateCouponDto.couponSaveApiDto()
+
+        given(couponRepository.findByCouponNameAndDeleteFlag(couponSaveApiDto.couponName, FlagYn.N))
+            .willReturn(Optional.empty())
+        given(brandRepository.findByIdAndDeleteFlag(couponSaveApiDto.brandId, FlagYn.N))
+            .willReturn(Optional.empty())
+
+
+        // When
+        val throwable = assertThrows(BrandException::class.java){
+            couponService.saveCoupon(couponSaveApiDto)
+        }
+
+        // Then
+        assertEquals(ResCode.NOT_FOUND_BRAND.code, throwable.code)
+        assertEquals(ResCode.NOT_FOUND_BRAND.message, throwable.message)
+        assertEquals(ResCode.NOT_FOUND_BRAND.httpStatus, HttpStatus.NOT_FOUND)
+    }
+
+    @Test
     fun `쿠폰 등록 성공`(){
         // Given
-        val couponSaveDto = CreateCouponDto.couponSaveDto()
+        val couponSaveApiDto = CreateCouponDto.couponSaveApiDto()
         val couponViewApiDto = CreateCouponDto.couponViewApiDto()
-        val couponSavedEntity = CreateCouponEntity.saveCouponEntity()
+        val findBrand = CreateBrandEntity.findBrand()
+        val savedCoupon = CreateCouponEntity.saveCouponEntity(findBrand)
 
+        given(couponRepository.findByCouponNameAndDeleteFlag(couponSaveApiDto.couponName, FlagYn.N))
+            .willReturn(Optional.empty())
+        given(brandRepository.findByIdAndDeleteFlag(couponSaveApiDto.brandId, FlagYn.N))
+            .willReturn(Optional.of(findBrand))
         given(couponRepository.save(any(Coupon::class.java)))
-            .willReturn(couponSavedEntity)
-        given(couponMapper.entityToViewApiDto(couponSavedEntity))
+            .willReturn(savedCoupon)
+        given(couponMapper.entityToViewApiDto(savedCoupon))
             .willReturn(couponViewApiDto)
 
 
         // When
-        val result = couponService.saveCoupon(couponSaveDto)
+        val result = couponService.saveCoupon(couponSaveApiDto)
 
         // Then
         assertEquals(result, couponViewApiDto)
         assertEquals(result.couponName, couponViewApiDto.couponName)
         verify(couponRepository).save(any(Coupon::class.java))
-        verify(couponMapper).entityToViewApiDto(couponSavedEntity)
+        verify(couponMapper).entityToViewApiDto(savedCoupon)
     }
 
     @Test
-    fun `쿠폰 수정 실패`(){
+    fun `쿠폰 수정 실패(중복된 쿠폰 이름)`(){
         // Given
         val couponId = 1L
-        val couponUpdateDto = CreateCouponDto.couponUpdateDto()
+        val couponUpdateApiDto = CreateCouponDto.couponUpdateApiDto()
         val findDupCoupon = CreateCouponEntity.findCouponEntity()
 
-        given(couponRepository.findByIdNotAndCouponNameAndDeleteFlag(couponId, couponUpdateDto.couponName, FlagYn.N))
+        given(couponRepository.findByIdNotAndCouponNameAndDeleteFlag(couponId, couponUpdateApiDto.couponName, FlagYn.N))
             .willReturn(Optional.of(findDupCoupon))
 
 
         // When
         val throwable = assertThrows(CouponException::class.java){
-            couponService.updateCoupon(couponId, couponUpdateDto)
+            couponService.updateCoupon(couponId, couponUpdateApiDto)
         }
 
         // Then
@@ -101,15 +134,41 @@ class CouponServiceTest {
     }
 
     @Test
+    fun `쿠폰 수정 실패(존재하지 않는 브랜드)`(){
+        // Given
+        val couponId = 1L
+        val couponUpdateApiDto = CreateCouponDto.couponUpdateApiDto()
+
+        given(couponRepository.findByIdNotAndCouponNameAndDeleteFlag(couponId, couponUpdateApiDto.couponName, FlagYn.N))
+            .willReturn(Optional.empty())
+        given(brandRepository.findByIdAndDeleteFlag(couponUpdateApiDto.brandId, FlagYn.N))
+            .willReturn(Optional.empty())
+
+
+        // When
+        val throwable = assertThrows(BrandException::class.java){
+            couponService.updateCoupon(couponId, couponUpdateApiDto)
+        }
+
+        // Then
+        assertEquals(ResCode.NOT_FOUND_BRAND.code, throwable.code)
+        assertEquals(ResCode.NOT_FOUND_BRAND.message, throwable.message)
+        assertEquals(ResCode.NOT_FOUND_BRAND.httpStatus, HttpStatus.NOT_FOUND)
+    }
+
+    @Test
     fun `쿠폰 수정 성공`(){
         // Given
         val couponId = 1L
-        val couponUpdateDto = CreateCouponDto.couponUpdateDto()
-        val couponViewApiDto = CreateCouponDto.couponViewApiDto(couponUpdateDto)
+        val couponUpdateApiDto = CreateCouponDto.couponUpdateApiDto()
+        val couponViewApiDto = CreateCouponDto.couponViewApiDto(couponUpdateApiDto)
         val findCouponEntity = CreateCouponEntity.findCouponEntity()
+        val findBrand = CreateBrandEntity.findBrand()
 
-        given(couponRepository.findByIdNotAndCouponNameAndDeleteFlag(couponId, couponUpdateDto. couponName, FlagYn.N))
+        given(couponRepository.findByIdNotAndCouponNameAndDeleteFlag(couponId, couponUpdateApiDto. couponName, FlagYn.N))
             .willReturn(Optional.empty())
+        given(brandRepository.findByIdAndDeleteFlag(couponUpdateApiDto.brandId, FlagYn.N))
+            .willReturn(Optional.of(findBrand))
         given(couponRepository.findByIdAndDeleteFlag(couponId, FlagYn.N))
             .willReturn(Optional.of(findCouponEntity))
         given(couponMapper.entityToViewApiDto(findCouponEntity))
@@ -117,14 +176,15 @@ class CouponServiceTest {
 
 
         // When
-        val result = couponService.updateCoupon(couponId, couponUpdateDto)
+        val result = couponService.updateCoupon(couponId, couponUpdateApiDto)
 
         // Then
         assertEquals(result, couponViewApiDto)
         assertEquals(result.couponName, couponViewApiDto.couponName)
         assertEquals(result.couponName, "모든 품목 할인율 35%!!")
         assertEquals(result.discountRate, 35)
-        verify(couponRepository).findByIdNotAndCouponNameAndDeleteFlag(couponId, couponUpdateDto. couponName, FlagYn.N)
+        assertEquals(result.brandId, 2)
+        verify(couponRepository).findByIdNotAndCouponNameAndDeleteFlag(couponId, couponUpdateApiDto. couponName, FlagYn.N)
         verify(couponRepository).findByIdAndDeleteFlag(couponId, FlagYn.N)
         verify(couponMapper).entityToViewApiDto(findCouponEntity)
     }
