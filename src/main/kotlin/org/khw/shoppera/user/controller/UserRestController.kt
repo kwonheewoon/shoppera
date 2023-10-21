@@ -3,18 +3,13 @@ package org.khw.shoppera.user.controller
 import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid
 import lombok.RequiredArgsConstructor
-import org.khw.shoppera.category.domain.dto.CategorySaveDto
-import org.khw.shoppera.category.domain.dto.CategoryViewApiDto
 import org.khw.shoppera.common.enums.ResCode
 import org.khw.shoppera.common.response.CommonResponse
 import org.khw.shoppera.user.domain.dto.UserApiDto
 import org.khw.shoppera.user.domain.dto.UserSaveDto
 import org.khw.shoppera.user.domain.dto.UserUpdateDto
-import org.khw.shoppera.user.domain.entity.UserEntity
 import org.khw.shoppera.user.service.UserService
-import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
-import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
 @RestController

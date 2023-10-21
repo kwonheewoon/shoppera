@@ -1,25 +1,25 @@
 package org.khw.shoppera.config.security
 
-import org.khw.shoppera.user.domain.entity.UserEntity
+import org.khw.shoppera.user.domain.entity.User
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.lang.RuntimeException
 import java.util.stream.Collectors
 
-class UserDetails(val userEntity: UserEntity) : UserDetails {
+class UserDetails(val users: User) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return userEntity.authorities?.stream()
+        return users.authorities?.stream()
             ?.map { a -> SimpleGrantedAuthority(a.authority.authority) }
             ?.collect(Collectors.toList()) ?: throw RuntimeException("권한이 존재하지 않는 계정입니다.")
     }
 
     override fun getPassword(): String {
-        return userEntity.password
+        return users.password
     }
 
     override fun getUsername(): String {
-        return userEntity.name
+        return users.name
     }
 
     override fun isAccountNonExpired(): Boolean {
@@ -38,8 +38,8 @@ class UserDetails(val userEntity: UserEntity) : UserDetails {
         return true
     }
 
-    fun getUser(): UserEntity{
-        return userEntity
+    fun getUser(): User{
+        return users
     }
 
 }

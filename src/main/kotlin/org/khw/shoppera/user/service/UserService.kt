@@ -21,8 +21,8 @@ val userMapper: UserMapper,
 
     @Transactional(readOnly = true)
     fun findUser(accountId: String) : UserApiDto{
-        val findUserEntity = userRepository.findByAccountIdAndDeleteFlag(accountId, FlagYn.N).orElseThrow { UserException(ResCode.NOT_FOUND_USER) }
-        return userMapper.entityToApiDto(findUserEntity)
+        val findUser = userRepository.findByAccountIdAndDeleteFlag(accountId, FlagYn.N).orElseThrow { UserException(ResCode.NOT_FOUND_USER) }
+        return userMapper.entityToApiDto(findUser)
     }
 
     @Transactional
@@ -31,29 +31,29 @@ val userMapper: UserMapper,
             throw UserException(ResCode.DUPLICATE_USER)
         }
 
-        val userEntity = userMapper.saveDtoToEntity(userSaveDto)
-        userEntity.passwordEnc(bCryptPasswordEncoder.encode(userEntity.password))
+        val savedUser = userMapper.saveDtoToEntity(userSaveDto)
+        savedUser.passwordEnc(bCryptPasswordEncoder.encode(savedUser.password))
 
-        return userMapper.entityToApiDto(userRepository.save(userEntity))
+        return userMapper.entityToApiDto(userRepository.save(savedUser))
     }
 
     @Transactional
     fun userUpdate(userId : Long, userUpdateDto: UserUpdateDto) : UserApiDto{
-        val findUserEntity = userRepository.findByIdAndAccountIdAndDeleteFlag(userId, userUpdateDto.accountId, FlagYn.N).orElseThrow{ UserException(ResCode.NOT_FOUND_USER) };
-        findUserEntity.updateUser(userUpdateDto)
-        return userMapper.entityToApiDto(userRepository.save(findUserEntity))
+        val findUser = userRepository.findByIdAndAccountIdAndDeleteFlag(userId, userUpdateDto.accountId, FlagYn.N).orElseThrow{ UserException(ResCode.NOT_FOUND_USER) };
+        findUser.updateUser(userUpdateDto)
+        return userMapper.entityToApiDto(userRepository.save(findUser))
     }
 
     @Transactional
     fun userPasswordUpdate(userId: Long, password: String){
-        val findUserEntity = userRepository.findByIdAndDeleteFlag(userId, FlagYn.N).orElseThrow{ UserException(ResCode.NOT_FOUND_USER) };
-        findUserEntity.updatePassword(bCryptPasswordEncoder.encode(password))
+        val findUser = userRepository.findByIdAndDeleteFlag(userId, FlagYn.N).orElseThrow{ UserException(ResCode.NOT_FOUND_USER) };
+        findUser.updatePassword(bCryptPasswordEncoder.encode(password))
     }
 
     @Transactional
     fun userDelete(userId : Long) : UserApiDto{
-        val findUserEntity = userRepository.findByIdAndDeleteFlag(userId, FlagYn.N).orElseThrow{ UserException(ResCode.NOT_FOUND_USER) };
-        findUserEntity.deleteUser()
-        return userMapper.entityToApiDto(findUserEntity)
+        val findUser = userRepository.findByIdAndDeleteFlag(userId, FlagYn.N).orElseThrow{ UserException(ResCode.NOT_FOUND_USER) };
+        findUser.deleteUser()
+        return userMapper.entityToApiDto(findUser)
     }
 }

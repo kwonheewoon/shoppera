@@ -3,17 +3,16 @@ package org.khw.shoppera.user.mapper
 import org.khw.shoppera.user.domain.dto.UserApiDto
 import org.khw.shoppera.user.domain.dto.UserSaveDto
 import org.khw.shoppera.user.domain.dto.UserUpdateDto
-import org.khw.shoppera.user.domain.entity.UserEntity
+import org.khw.shoppera.user.domain.entity.User
 import org.mapstruct.Mapper
-import org.mapstruct.Mapping
 
 @Mapper(componentModel = "spring")
 interface UserMapper {
 
     //@Mapping(target = "deleteFlag", ignore = true)
-    fun saveDtoToEntity(userSaveDto: UserSaveDto) : UserEntity
+    fun saveDtoToEntity(userSaveDto: UserSaveDto) : User
 
-    fun updateDtoToEntity(userUpdateDto: UserUpdateDto) : UserEntity
+    fun updateDtoToEntity(userUpdateDto: UserUpdateDto) : User
 
-    fun entityToApiDto(userEntity: UserEntity) : UserApiDto
+    fun entityToApiDto(user: User) : UserApiDto
 }

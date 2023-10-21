@@ -15,15 +15,15 @@ import java.time.LocalDate
 @Builder
 @DynamicInsert
 @DynamicUpdate
-class UserEntity(id: Long?,
-    name : String,
-    accountId : String,
-    password : String,
-    birthDate : LocalDate,
-    address : Address,
-    phoneNumber : String,
-    authorities: List<AuthoritiesEntity>?,
-    deleteFlag : FlagYn = FlagYn.N
+class User(id: Long?,
+           name : String,
+           accountId : String,
+           password : String,
+           birthDate : LocalDate,
+           address : Address,
+           phoneNumber : String,
+           authorities: List<AuthoritiesEntity>?,
+           deleteFlag : FlagYn = FlagYn.N
 ) {
     @Id
     @Column(name = "id", nullable = false)

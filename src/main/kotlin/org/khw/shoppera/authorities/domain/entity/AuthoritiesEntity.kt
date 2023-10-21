@@ -6,7 +6,7 @@ import org.hibernate.annotations.Comment
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
 import org.khw.shoppera.common.enums.CommonEnum.FlagYn
-import org.khw.shoppera.user.domain.entity.UserEntity
+import org.khw.shoppera.user.domain.entity.User
 
 @Entity
 @Table(name = "authorities")
@@ -14,10 +14,10 @@ import org.khw.shoppera.user.domain.entity.UserEntity
 @DynamicInsert
 @DynamicUpdate
 class AuthoritiesEntity(
-        id: Long?,
-        user : UserEntity,
-        authority : AuthorityEntity,
-        deleteFlag : FlagYn = FlagYn.N
+    id: Long?,
+    user : User,
+    authority : AuthorityEntity,
+    deleteFlag : FlagYn = FlagYn.N
 ) {
 
     @Id

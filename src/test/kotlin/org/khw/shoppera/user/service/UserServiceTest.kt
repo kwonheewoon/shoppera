@@ -38,16 +38,16 @@ class UserServiceTest {
     fun `유저 등록 성공`() {
         // Given
         val userSaveDto = CreateUserDto.UserSaveDtoSuccessCreate()
-        val saveUserEntity = CreateUserEntity.saveUserEntity()
-        val savedUserEntity = CreateUserEntity.savedSuccessCreate()
+        val saveUser = CreateUserEntity.saveUserEntity()
+        val savedUser = CreateUserEntity.savedSuccessCreate()
         val userApiDto = CreateUserDto.UserApiDtoCreate()
 
         given(userRepository.findByAccountIdAndDeleteFlag(userSaveDto.accountId, FlagYn.N)).willReturn(Optional.empty())
-        given(userMapper.saveDtoToEntity(userSaveDto)).willReturn(saveUserEntity)
+        given(userMapper.saveDtoToEntity(userSaveDto)).willReturn(saveUser)
         given(bCryptPasswordEncoder.encode(userSaveDto.password))
             .willReturn("\$2a\$10\$9xnv/5N67pIo2ppDLEyWwumb2kQe3TX4tvSt.t8mQKlRsUo6eQVci")
-        given(userRepository.save(saveUserEntity)).willReturn(savedUserEntity)
-        given(userMapper.entityToApiDto(savedUserEntity)).willReturn(userApiDto)
+        given(userRepository.save(saveUser)).willReturn(savedUser)
+        given(userMapper.entityToApiDto(savedUser)).willReturn(userApiDto)
 
         // When
         val result = userService.userSave(userSaveDto)
@@ -57,19 +57,19 @@ class UserServiceTest {
         verify(userRepository).findByAccountIdAndDeleteFlag(userSaveDto.accountId, FlagYn.N)
         verify(userMapper).saveDtoToEntity(userSaveDto)
         verify(bCryptPasswordEncoder).encode(userSaveDto.password)
-        verify(userRepository).save(saveUserEntity)
-        verify(userMapper).entityToApiDto(savedUserEntity)
+        verify(userRepository).save(saveUser)
+        verify(userMapper).entityToApiDto(savedUser)
     }
 
     @Test
     fun `유저 등록 실패`() {
         // Given
         val userSaveDto = CreateUserDto.UserSaveDtoSuccessCreate()
-        val userEntity = CreateUserEntity.savedSuccessCreate()
+        val saveUser = CreateUserEntity.savedSuccessCreate()
 
         // When
         given(userRepository.findByAccountIdAndDeleteFlag(userSaveDto.accountId, FlagYn.N))
-            .willReturn(Optional.of(userEntity))
+            .willReturn(Optional.of(saveUser))
 
         // Then
         val throwable = assertThrows(UserException::class.java) {
@@ -86,14 +86,14 @@ class UserServiceTest {
         // Given
         val userId : Long = 1
         val userUpdateDto = CreateUserDto.UserUpdateDtoSuccessCreate()
-        val findUserEntity = CreateUserEntity.savedSuccessCreate()
+        val findUser = CreateUserEntity.savedSuccessCreate()
         val userApiDto = CreateUserDto.UserApiDtoCreate()
 
         given(userRepository.findByIdAndAccountIdAndDeleteFlag(userId, userUpdateDto.accountId, FlagYn.N)).willReturn(
-            Optional.of(findUserEntity))
-        findUserEntity.updateUser(userUpdateDto)
-        given(userRepository.save(findUserEntity)).willReturn(findUserEntity)
-        given(userMapper.entityToApiDto(findUserEntity)).willReturn(userApiDto)
+            Optional.of(findUser))
+        findUser.updateUser(userUpdateDto)
+        given(userRepository.save(findUser)).willReturn(findUser)
+        given(userMapper.entityToApiDto(findUser)).willReturn(userApiDto)
 
 
         // When
@@ -105,8 +105,8 @@ class UserServiceTest {
         assertEquals(userApiDto.address, result.address)
         assertEquals(userApiDto.phoneNumber, result.phoneNumber)
         verify(userRepository).findByIdAndAccountIdAndDeleteFlag(userId, userUpdateDto.accountId, FlagYn.N)
-        verify(userRepository).save(findUserEntity)
-        verify(userMapper).entityToApiDto(findUserEntity)
+        verify(userRepository).save(findUser)
+        verify(userMapper).entityToApiDto(findUser)
 
     }
 
@@ -135,13 +135,13 @@ class UserServiceTest {
     fun `유저 삭제 성공`() {
         // Given
         val userId : Long = 1
-        val findUserEntity = CreateUserEntity.findSuccessCreate()
+        val findUser = CreateUserEntity.findSuccessCreate()
         val userApiDto = CreateUserDto.UserApiDtoCreateOfDelete()
 
         given(userRepository.findByIdAndDeleteFlag(userId, FlagYn.N)).willReturn(
-            Optional.of(findUserEntity))
-        findUserEntity.deleteUser()
-        given(userMapper.entityToApiDto(findUserEntity)).willReturn(userApiDto)
+            Optional.of(findUser))
+        findUser.deleteUser()
+        given(userMapper.entityToApiDto(findUser)).willReturn(userApiDto)
 
 
         // When
@@ -153,7 +153,7 @@ class UserServiceTest {
         assertEquals(userApiDto.address, result.address)
         assertEquals(userApiDto.phoneNumber, result.phoneNumber)
         verify(userRepository).findByIdAndDeleteFlag(userId, FlagYn.N)
-        verify(userMapper).entityToApiDto(findUserEntity)
+        verify(userMapper).entityToApiDto(findUser)
 
     }
 
@@ -200,12 +200,12 @@ class UserServiceTest {
     fun `유저 조회 성공`() {
         // Given
         val accountId = "gmldns46"
-        val findUserEntity = CreateUserEntity.findSuccessCreate()
+        val findUser = CreateUserEntity.findSuccessCreate()
         val userApiDto = CreateUserDto.UserApiDtoCreateOfDelete()
 
         given(userRepository.findByAccountIdAndDeleteFlag(accountId, FlagYn.N)).willReturn(
-                Optional.of(findUserEntity))
-        given(userMapper.entityToApiDto(findUserEntity)).willReturn(userApiDto)
+                Optional.of(findUser))
+        given(userMapper.entityToApiDto(findUser)).willReturn(userApiDto)
 
         // When
         val result = userService.findUser(accountId)
@@ -216,7 +216,7 @@ class UserServiceTest {
         assertEquals(userApiDto.address, result.address)
         assertEquals(userApiDto.phoneNumber, result.phoneNumber)
         verify(userRepository).findByAccountIdAndDeleteFlag(accountId, FlagYn.N)
-        verify(userMapper).entityToApiDto(findUserEntity)
+        verify(userMapper).entityToApiDto(findUser)
 
     }
 
@@ -225,10 +225,10 @@ class UserServiceTest {
         // Given
         val userId : Long = 1
         val changePassword = "4444"
-        val findUserEntity = CreateUserEntity.findSuccessCreate()
+        val findUser = CreateUserEntity.findSuccessCreate()
 
         given(userRepository.findByIdAndDeleteFlag(userId, FlagYn.N)).willReturn(
-            Optional.of(findUserEntity))
+            Optional.of(findUser))
         given(bCryptPasswordEncoder.encode(changePassword))
             .willReturn("\$2a\$10\$9xnv/5N67pIo2ppDLEyWwumb2kQe3TX4tvSt.t8mQKlRsUo6eQVci")
 
