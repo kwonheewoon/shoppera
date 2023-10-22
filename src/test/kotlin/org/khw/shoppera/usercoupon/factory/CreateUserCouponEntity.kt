@@ -13,5 +13,9 @@ class CreateUserCouponEntity {
         fun savedUserCoupon(userCouponSaveApiDto: UserCouponSaveApiDto): UserCoupon{
             return UserCoupon(1L, CreateUserEntity.findSuccessCreate(), CreateCouponEntity.findCouponEntity())
         }
+
+        fun findUserCoupon(): UserCoupon{
+            return UserCoupon(1L, CreateUserEntity.findSuccessCreate(), CreateCouponEntity.findCouponEntity())
+        }
     }
 }

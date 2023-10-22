@@ -34,6 +34,9 @@ enum class ResCode(val code: String, val message: String, val httpStatus: HttpSt
     BRAND_UPDATE("200_413", "브랜드가 수정 되었습니다.", HttpStatus.OK),
     BRAND_DELETE("200_414", "브랜드가 삭제 되었습니다.", HttpStatus.OK),
 
+    USER_COUPON_SAVE("200_415", "쿠폰 발급이 완료 되었습니다.", HttpStatus.OK),
+    USER_COUPON_USEAGE("200_416", "쿠폰 사용이 완료 되었습니다.", HttpStatus.OK),
+
 
     // 400 Bad Request
 
@@ -44,6 +47,7 @@ enum class ResCode(val code: String, val message: String, val httpStatus: HttpSt
     DUPLICATE_ITEM_TYPE("409_003", "중복된 아이템 타입 코드 입니다.", HttpStatus.CONFLICT),
     DUPLICATE_COUPON_NAME("409_004", "중복된 쿠폰 이름 입니다.", HttpStatus.CONFLICT),
     DUPLICATE_BRAND_NAME("409_005", "중복된 브랜드 이름 입니다.", HttpStatus.CONFLICT),
+    DUPLICATE_USER_COUPON("409_006", "이미 발급받은 쿠폰 입니다.", HttpStatus.CONFLICT),
 
 
 
@@ -56,6 +60,7 @@ enum class ResCode(val code: String, val message: String, val httpStatus: HttpSt
     NOT_FOUND_ITEM_TYPE("404_006", "존재 하지 않는 아이템 타입 정보입니다.", HttpStatus.NOT_FOUND),
     NOT_FOUND_ITEM_OPTION("404_007", "존재 하지 않는 아이템 옵션 입니다.", HttpStatus.NOT_FOUND),
     NOT_FOUND_COUPON("404_008", "존재 하지 않는 쿠폰 입니다.", HttpStatus.NOT_FOUND),
-    NOT_FOUND_BRAND("404_009", "존재 하지 않는 브랜드 입니다.", HttpStatus.NOT_FOUND)
+    NOT_FOUND_BRAND("404_009", "존재 하지 않는 브랜드 입니다.", HttpStatus.NOT_FOUND),
+    NOT_FOUND_USER_COUPON("404_010", "존재 하지 않는 쿠폰 정보 입니다.", HttpStatus.NOT_FOUND)
 
 }

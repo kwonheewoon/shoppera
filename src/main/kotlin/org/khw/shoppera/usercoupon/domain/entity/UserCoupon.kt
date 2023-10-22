@@ -18,6 +18,7 @@ class UserCoupon(
     id: Long? = null,
     user: User,
     coupon: Coupon,
+    useFlag: FlagYn = FlagYn.N,
     deleteFlag: FlagYn = FlagYn.N
 ) {
 
@@ -39,10 +40,20 @@ class UserCoupon(
     var coupon = coupon
         private set
 
+    @Column(name = "use_flag", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Comment("사용여부")
+    var useFlag = useFlag
+        private set
+
     @Column(name = "delete_flag", nullable = false)
     @Enumerated(EnumType.STRING)
     @Comment("삭제여부")
     var deleteFlag = deleteFlag
         private set
+
+    fun useProcess(){
+        this.useFlag = FlagYn.Y
+    }
 
 }
