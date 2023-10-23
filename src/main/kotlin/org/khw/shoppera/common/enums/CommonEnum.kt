@@ -8,4 +8,8 @@ class CommonEnum {
     enum class ItemType{
 
     }
+
+    enum class OrderState{
+        ORDER_CONFIRM, PAYMENT_CONFIRM, SHIPMENT_REQUEST, SHIPMENT_PROCESS, SHIPMENT_COMPLETED
+    }
 }
