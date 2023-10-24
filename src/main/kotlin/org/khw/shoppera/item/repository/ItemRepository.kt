@@ -20,6 +20,15 @@ interface ItemRepository : JpaRepository <Item, Long>{
     fun findByIdAndDeleteFlag(id: Long, deleteFlag: FlagYn) : Optional<Item>
 
     /**
+     * 삭제 여부에 따른 아이템 다건 조회
+     *
+     * @param ids 아이템 아이디 리스트
+     * @param deleteFlag 삭제여부
+     * @return
+     */
+    fun findByIdInAndDeleteFlag(ids: List<Long>, deleteFlag: FlagYn) : List<Item>
+
+    /**
      * 카테고리, 삭제 여부에 따른 아이템 다건 조회
      *
      * @param category 카테고리 정보

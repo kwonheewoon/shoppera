@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicUpdate
 import org.khw.shoppera.common.entity.BaseEntity
 import org.khw.shoppera.common.enums.CommonEnum
 import org.khw.shoppera.common.enums.CommonEnum.OrderState
+import org.khw.shoppera.item.domain.entity.Item
 import org.khw.shoppera.user.domain.entity.User
 import java.time.LocalDateTime
 
@@ -18,7 +19,8 @@ import java.time.LocalDateTime
 @DynamicUpdate
 class OrderDetail(
     id: Long? = null,
-    order: Order,
+    order: Order? = null,
+    item: Item,
     price: Int,
     quantity: Int,
     state: OrderState,
@@ -36,6 +38,12 @@ class OrderDetail(
     @JoinColumn(name = "order_id")
     @Comment("주문 아이디")
     var order = order
+        private set
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id")
+    @Comment("아이템 아이디")
+    var item = item
         private set
 
     @Column(name = "price", nullable = false)

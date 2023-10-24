@@ -3,6 +3,10 @@ package org.khw.shoppera.order.domain.dto
 import io.swagger.v3.oas.annotations.media.Schema
 
 data class OrderDetailSaveApiDto (
+
+    @Schema(description = "아이템 아이디", example = "1")
+    val itemId: Long,
+
     @Schema(description = "주문 가격", example = "65000")
     val price: Int,
 
