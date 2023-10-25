@@ -2,9 +2,13 @@ package org.khw.shoppera.order.domain.dto
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import io.swagger.v3.oas.annotations.media.Schema
+import org.khw.shoppera.item.domain.dto.ItemViewApiDto
 import java.time.LocalDateTime
 
 data class OrderDetailViewApiDto (
+    @Schema(description = "주문 아이템 정보", example = "")
+    val item: ItemViewApiDto,
+
     @Schema(description = "주문 가격", example = "65000")
     val price: Int,
 

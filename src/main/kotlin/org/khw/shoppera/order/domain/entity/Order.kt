@@ -16,6 +16,7 @@ import org.khw.shoppera.item.domain.dto.ItemUpdateDto
 import org.khw.shoppera.item.domain.entity.Item
 import org.khw.shoppera.itemoption.domain.entity.ItemOption
 import org.khw.shoppera.user.domain.entity.User
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -24,13 +25,14 @@ import java.time.LocalDateTime
 @Builder
 @DynamicInsert
 @DynamicUpdate
+@EntityListeners(AuditingEntityListener::class)
 class Order(
     id: Long? = null,
     orderNumber: String,
     user: User,
     orderDate: LocalDate,
     deleteFlag: FlagYn = FlagYn.N,
-    orderDetailList: List<OrderDetail>
+    orderDetailList: List<OrderDetail> = listOf()
 ) {
 
     @Id
@@ -69,4 +71,8 @@ class Order(
     var orderDetailList = orderDetailList
         private set
 
+    fun orderDetailAdd(orderDetailList: List<OrderDetail>){
+        this.orderDetailList = orderDetailList
+        orderDetailList.forEach { it.setOrder(this) }
+    }
 }

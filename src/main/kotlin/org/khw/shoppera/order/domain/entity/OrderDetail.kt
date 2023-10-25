@@ -10,6 +10,7 @@ import org.khw.shoppera.common.enums.CommonEnum
 import org.khw.shoppera.common.enums.CommonEnum.OrderState
 import org.khw.shoppera.item.domain.entity.Item
 import org.khw.shoppera.user.domain.entity.User
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.LocalDateTime
 
 @Entity
@@ -17,6 +18,7 @@ import java.time.LocalDateTime
 @Builder
 @DynamicInsert
 @DynamicUpdate
+@EntityListeners(AuditingEntityListener::class)
 class OrderDetail(
     id: Long? = null,
     order: Order? = null,
@@ -75,4 +77,8 @@ class OrderDetail(
 
     @Embedded
     val baseEntity = BaseEntity()
+
+    fun setOrder(order: Order){
+        this.order = order
+    }
 }

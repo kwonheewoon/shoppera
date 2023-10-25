@@ -7,8 +7,8 @@ import java.time.LocalDateTime
 
 class OrderFactory {
     companion object{
-        fun createOrder(orderSaveApiDto: OrderSaveApiDto, orderNumber: String, user: User, orderDate: LocalDate, orderDetailList: List<OrderDetail>): Order{
-            return Order(orderNumber = orderNumber, user = user, orderDate = orderDate, orderDetailList = orderDetailList)
+        fun createOrder(orderSaveApiDto: OrderSaveApiDto, orderNumber: String, user: User, orderDate: LocalDate): Order{
+            return Order(orderNumber = orderNumber, user = user, orderDate = orderDate)
         }
     }
 }

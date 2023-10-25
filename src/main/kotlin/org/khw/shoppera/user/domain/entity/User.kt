@@ -58,7 +58,7 @@ class User(id: Long?,
     var phoneNumber = phoneNumber
         private set
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     var authorities = authorities
         private set
 

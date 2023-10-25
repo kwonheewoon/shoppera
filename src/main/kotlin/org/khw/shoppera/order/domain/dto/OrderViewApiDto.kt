@@ -2,9 +2,11 @@ package org.khw.shoppera.order.domain.dto
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import io.swagger.v3.oas.annotations.media.Schema
+import org.khw.shoppera.item.domain.dto.ItemViewApiDto
 import java.time.LocalDate
 
 data class OrderViewApiDto(
+
     @Schema(description = "주문 번호", example = "202310231945300001")
     val orderNumber: String,
 
@@ -18,5 +20,5 @@ data class OrderViewApiDto(
             "state : \"ORDER_CONFIRM\"" +
             "orderDateTime : \"2023-10-23 19:45:30\"" +
             "}]")
-    val orderDetailList: List<OrderDetailSaveApiDto>
+    val orderDetailList: List<OrderDetailViewApiDto>
 )

@@ -41,10 +41,12 @@ class OrderService(
 
         val nowDateTime = LocalDateTime.now()
 
-        val saveOrder = OrderFactory.createOrder(orderSaveApiDto, RandomUtils.generateOrderNumber(), findUser, nowDateTime.toLocalDate(),
+        val saveOrder = OrderFactory.createOrder(orderSaveApiDto, RandomUtils.generateOrderNumber(), findUser, nowDateTime.toLocalDate())
+        saveOrder.orderDetailAdd(
             OrderDetailFactory.createOrderDetailList(orderSaveApiDto.orderDetailList,
                 itemList.associateBy { it.id!! },
-                nowDateTime))
+                nowDateTime)
+        )
 
         return orderMapper.entityToViewApiDto(
             orderRepository.save(saveOrder)
