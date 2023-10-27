@@ -2,7 +2,7 @@ package org.khw.shoppera.order.domain.dto
 
 import io.swagger.v3.oas.annotations.media.Schema
 
-data class OrderSaveApiDto(
+data class OrderRequestApiDto(
     @Schema(description = "유저 아이디(PK)", example = "1")
     val userId: Long,
 
@@ -11,5 +11,5 @@ data class OrderSaveApiDto(
             "quantity : 3" +
             "state : \"ORDER_CONFIRM\"" +
             "}]")
-    val orderDetailList: List<OrderDetailSaveApiDto>
+    val orderDetailList: List<OrderDetailRequestApiDto>
 )

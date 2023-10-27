@@ -13,7 +13,7 @@ class ExceptionHandler {
 
     // 도메인 객체별 Custom Exception
     @ExceptionHandler(value = [AuthoritiesException::class, UserException::class, CategoryException::class, ItemException::class,
-        CouponException::class, BrandException::class,ItemTypeException::class, UserCouponException::class])
+        CouponException::class, BrandException::class,ItemTypeException::class, UserCouponException::class, OrderException::class])
     private fun userException(ex: RuntimeException): ResponseEntity<ErrCommonResponse>{
         return when(ex){
             is AuthoritiesException -> ResponseEntity(ErrCommonResponse(ex.message, ex.code), ex.httpStatus)
@@ -24,6 +24,7 @@ class ExceptionHandler {
             is CouponException -> ResponseEntity(ErrCommonResponse(ex.message, ex.code), ex.httpStatus)
             is BrandException -> ResponseEntity(ErrCommonResponse(ex.message, ex.code), ex.httpStatus)
             is UserCouponException -> ResponseEntity(ErrCommonResponse(ex.message, ex.code), ex.httpStatus)
+            is OrderException -> ResponseEntity(ErrCommonResponse(ex.message, ex.code), ex.httpStatus)
             else -> ResponseEntity(ErrCommonResponse((ex as ItemOptionException).message, ex.code), ex.httpStatus)
         }
     }

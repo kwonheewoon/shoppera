@@ -1,14 +1,14 @@
 package org.khw.shoppera.order.service
 
 import lombok.RequiredArgsConstructor
-import org.khw.shoppera.common.enums.CommonEnum
 import org.khw.shoppera.common.enums.CommonEnum.FlagYn
+import org.khw.shoppera.common.enums.CommonEnum.OrderState
 import org.khw.shoppera.common.enums.ResCode
 import org.khw.shoppera.common.exception.OrderException
 import org.khw.shoppera.common.exception.UserException
 import org.khw.shoppera.common.util.RandomUtils
 import org.khw.shoppera.item.repository.ItemRepository
-import org.khw.shoppera.order.domain.dto.OrderSaveApiDto
+import org.khw.shoppera.order.domain.dto.OrderRequestApiDto
 import org.khw.shoppera.order.domain.dto.OrderViewApiDto
 import org.khw.shoppera.order.domain.entity.OrderDetailFactory
 import org.khw.shoppera.order.domain.entity.OrderFactory
@@ -29,27 +29,30 @@ class OrderService(
 ) {
 
     @Transactional
-    fun saveOrder(orderSaveApiDto: OrderSaveApiDto): OrderViewApiDto{
-        val findUser = userRepository.findByIdAndDeleteFlag(orderSaveApiDto.userId, FlagYn.N).orElseThrow { throw UserException(ResCode.NOT_FOUND_USER) }
+    fun orderRequest(orderRequestApiDto: OrderRequestApiDto): OrderViewApiDto{
+        val findUser = userRepository.findByIdAndDeleteFlag(orderRequestApiDto.userId, FlagYn.N).orElseThrow { throw UserException(ResCode.NOT_FOUND_USER) }
 
-        val itemIds = orderSaveApiDto.orderDetailList.map { it.itemId }
+        val itemIds = orderRequestApiDto.orderDetailList.map { it.itemId }
         val itemList = itemRepository.findByIdInAndDeleteFlag(itemIds, FlagYn.N)
 
-        if(itemList.size != itemIds.size){
-            throw OrderException(ResCode.ORDER_SAVE_FAIL)
+        if(itemList.isEmpty() || itemList.size != itemIds.size){
+            throw OrderException(ResCode.ORDER_REQUEST_FAIL)
         }
 
         val nowDateTime = LocalDateTime.now()
 
-        val saveOrder = OrderFactory.createOrder(orderSaveApiDto, RandomUtils.generateOrderNumber(), findUser, nowDateTime.toLocalDate())
-        saveOrder.orderDetailAdd(
-            OrderDetailFactory.createOrderDetailList(orderSaveApiDto.orderDetailList,
+        val order = OrderFactory.createOrder(orderRequestApiDto, RandomUtils.generateOrderNumber(), findUser, nowDateTime.toLocalDate())
+        order.orderDetailAdd(
+            OrderDetailFactory.createOrderDetailList(
+                orderRequestApiDto.orderDetailList,
                 itemList.associateBy { it.id!! },
-                nowDateTime)
+                OrderState.ORDER_REQUEST,
+                nowDateTime
+            )
         )
 
         return orderMapper.entityToViewApiDto(
-            orderRepository.save(saveOrder)
+            orderRepository.save(order)
         )
     }
 
