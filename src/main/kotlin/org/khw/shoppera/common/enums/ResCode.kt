@@ -39,6 +39,8 @@ enum class ResCode(val code: String, val message: String, val httpStatus: HttpSt
 
     ORDER_REQUEST_FAIL("200_420", "주문 요청 실패하였습니다. 주문정보를 확인해 주세요.", HttpStatus.OK),
     ORDER_REQUEST("200_421", "주문 요청이 정상적으로 완료 되었습니다.", HttpStatus.OK),
+    ORDER_STATE_NOT_REQUEST("200_422", "주문 요청 상태가 아닙니다. 상태를 확인해 주세요.", HttpStatus.OK),
+    ORDER_WITH_PAYMENT_CONFIRM("200_423", "주문의 결제가 확인 되었습니다.", HttpStatus.OK),
 
 
     // 400 Bad Request
@@ -64,6 +66,7 @@ enum class ResCode(val code: String, val message: String, val httpStatus: HttpSt
     NOT_FOUND_ITEM_OPTION("404_007", "존재 하지 않는 아이템 옵션 입니다.", HttpStatus.NOT_FOUND),
     NOT_FOUND_COUPON("404_008", "존재 하지 않는 쿠폰 입니다.", HttpStatus.NOT_FOUND),
     NOT_FOUND_BRAND("404_009", "존재 하지 않는 브랜드 입니다.", HttpStatus.NOT_FOUND),
-    NOT_FOUND_USER_COUPON("404_010", "존재 하지 않는 쿠폰 정보 입니다.", HttpStatus.NOT_FOUND)
+    NOT_FOUND_USER_COUPON("404_010", "존재 하지 않는 쿠폰 정보 입니다.", HttpStatus.NOT_FOUND),
+    NOT_FOUND_ORDER("404_011", "존재 하지 않는 주문 정보 입니다.", HttpStatus.NOT_FOUND)
 
 }

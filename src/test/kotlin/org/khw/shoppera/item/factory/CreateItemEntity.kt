@@ -33,7 +33,7 @@ class CreateItemEntity {
             return listOf(
                 Item(1, itemType, "하와이안 셔츠", 65000, brand, category, null, FlagYn.N),
                 Item(2, itemType, "벚꽃 남방", 65000, brand, category, null, FlagYn.N),
-                Item(3, itemType, "청 자켓", 65000, brand, category, null, FlagYn.N)
+                Item(3, itemType, "청자켓", 65000, brand, category, null, FlagYn.N)
             ).onEach { itemEntity ->  itemEntity.optionAdd(CreateItemOptionEntity.findItemOptions(itemEntity)) }
         }
 

@@ -7,7 +7,10 @@ import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
 import org.khw.shoppera.common.entity.BaseEntity
 import org.khw.shoppera.common.enums.CommonEnum
+import org.khw.shoppera.common.enums.CommonEnum.FlagYn
 import org.khw.shoppera.common.enums.CommonEnum.OrderState
+import org.khw.shoppera.common.enums.ResCode
+import org.khw.shoppera.common.exception.OrderException
 import org.khw.shoppera.item.domain.entity.Item
 import org.khw.shoppera.user.domain.entity.User
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
@@ -27,7 +30,7 @@ class OrderDetail(
     quantity: Int,
     state: OrderState,
     orderDateTime: LocalDateTime,
-    deleteFlag: CommonEnum.FlagYn = CommonEnum.FlagYn.N
+    deleteFlag: FlagYn = FlagYn.N
 ) {
 
     @Id
@@ -80,5 +83,21 @@ class OrderDetail(
 
     fun setOrder(order: Order){
         this.order = order
+    }
+
+    fun updateState(nowState: OrderState){
+        when(nowState){
+            OrderState.PAYMENT_CONFIRM -> paymentConfirm()
+            OrderState.SHIPMENT_REQUEST -> TODO()
+            OrderState.SHIPMENT_PROCESS -> TODO()
+            OrderState.SHIPMENT_COMPLETED -> TODO()
+            OrderState.ORDER_REQUEST -> TODO()
+        }
+    }
+
+    private fun paymentConfirm(){
+        require(this.state == OrderState.ORDER_REQUEST) { throw OrderException(ResCode.ORDER_STATE_NOT_REQUEST) }
+
+        this.state = OrderState.PAYMENT_CONFIRM
     }
 }

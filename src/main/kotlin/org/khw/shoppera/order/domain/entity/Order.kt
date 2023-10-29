@@ -75,4 +75,8 @@ class Order(
         this.orderDetailList = orderDetailList
         orderDetailList.forEach { it.setOrder(this) }
     }
+
+    fun paymentConfirm() {
+        orderDetailList.forEach { it.updateState(OrderState.PAYMENT_CONFIRM) }
+    }
 }

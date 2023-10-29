@@ -56,4 +56,11 @@ class OrderService(
         )
     }
 
+    @Transactional
+    fun orderPaymentConfirm(orderNumber: String){
+        val findOrder = orderRepository.findByOrderNumberAndDeleteFlag(orderNumber, FlagYn.N).orElseThrow { throw OrderException(ResCode.NOT_FOUND_ORDER) }
+
+        findOrder.paymentConfirm()
+    }
+
 }

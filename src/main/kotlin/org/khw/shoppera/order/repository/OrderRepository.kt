@@ -12,11 +12,21 @@ import java.util.Optional
 interface OrderRepository : JpaRepository <Order, Long>{
 
     /**
-     * 삭제 여부에 따른 아이템 단일 조회
+     * 주문 아이디(PK), 삭제 여부에 따른 주문 단일 조회
      *
-     * @param id 아이템 아이디
+     * @param id 주문 아이디(PK)
      * @param deleteFlag 삭제여부
      * @return
      */
     fun findByIdAndDeleteFlag(id: Long, deleteFlag: FlagYn) : Optional<Order>
+
+    /**
+     * 주문 번호, 삭제 여부에 따른 주문 단일 조회
+     *
+     * @param id 주문 아이디(PK)
+     * @param deleteFlag 삭제여부
+     * @return
+     */
+    fun findByOrderNumberAndDeleteFlag(orderNumber: String, deleteFlag: FlagYn) : Optional<Order>
+
 }

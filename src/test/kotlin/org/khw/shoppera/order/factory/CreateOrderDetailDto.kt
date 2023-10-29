@@ -30,11 +30,11 @@ class CreateOrderDetailDto {
             return OrderDetailViewApiDto(item, 65000, 3, state.name, orderDateTime)
         }
 
-        fun orderDetailViewApiDtoList(item: ItemViewApiDto, state: OrderState, orderDateTime: LocalDateTime): List<OrderDetailViewApiDto>{
+        fun orderDetailViewApiDtoList(items: List<ItemViewApiDto>, state: OrderState, orderDateTime: LocalDateTime): List<OrderDetailViewApiDto>{
             return listOf(
-                OrderDetailViewApiDto(item, 65000, 3, state.name, orderDateTime),
-                OrderDetailViewApiDto(item, 45000, 4, state.name, orderDateTime),
-                OrderDetailViewApiDto(item, 25000, 6, state.name, orderDateTime)
+                OrderDetailViewApiDto(items[0], 65000, 3, state.name, orderDateTime),
+                OrderDetailViewApiDto(items[1], 45000, 4, state.name, orderDateTime),
+                OrderDetailViewApiDto(items[2], 25000, 6, state.name, orderDateTime)
             )
         }
     }

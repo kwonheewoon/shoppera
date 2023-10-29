@@ -25,5 +25,17 @@ class CreateOrderDetail {
         fun orderDetail(orderDetailRequestApiDto: OrderDetailRequestApiDto, item: Item, state: OrderState, orderDateTime: LocalDateTime): OrderDetail{
             return OrderDetail(item = item, price = orderDetailRequestApiDto.price, quantity =  orderDetailRequestApiDto.quantity, state = state, orderDateTime = orderDateTime)
         }
+
+        fun findRequestOrderDetailList(orderDetailRequestApiDtoList: List<OrderDetailRequestApiDto>, order: Order, itemMap: Map<Long, Item>, orderDateTime: LocalDateTime): List<OrderDetail>{
+            return orderDetailRequestApiDtoList.map {
+                OrderDetail(1, order = order,  item = itemMap[it.itemId]!!, price = it.price, quantity = it.quantity, OrderState.ORDER_REQUEST, orderDateTime)
+            }
+        }
+
+        fun findPaymentConfirmOrderDetailList(orderDetailRequestApiDtoList: List<OrderDetailRequestApiDto>, order: Order, itemMap: Map<Long, Item>, orderDateTime: LocalDateTime): List<OrderDetail>{
+            return orderDetailRequestApiDtoList.map {
+                OrderDetail(1, order = order,  item = itemMap[it.itemId]!!, price = it.price, quantity = it.quantity, OrderState.PAYMENT_CONFIRM, orderDateTime)
+            }
+        }
     }
 }
