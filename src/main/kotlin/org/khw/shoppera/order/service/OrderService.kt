@@ -63,4 +63,25 @@ class OrderService(
         findOrder.paymentConfirm()
     }
 
+    @Transactional
+    fun orderShipmentRequest(orderNumber: String){
+        val findOrder = orderRepository.findByOrderNumberAndDeleteFlag(orderNumber, FlagYn.N).orElseThrow { throw OrderException(ResCode.NOT_FOUND_ORDER) }
+
+        findOrder.shipmentRequest()
+    }
+
+    @Transactional
+    fun orderShipmentProcess(orderNumber: String){
+        val findOrder = orderRepository.findByOrderNumberAndDeleteFlag(orderNumber, FlagYn.N).orElseThrow { throw OrderException(ResCode.NOT_FOUND_ORDER) }
+
+        findOrder.shipmentProcess()
+    }
+
+    @Transactional
+    fun orderShipmentCompleted(orderNumber: String){
+        val findOrder = orderRepository.findByOrderNumberAndDeleteFlag(orderNumber, FlagYn.N).orElseThrow { throw OrderException(ResCode.NOT_FOUND_ORDER) }
+
+        findOrder.shipmentCompleted()
+    }
+
 }

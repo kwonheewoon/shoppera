@@ -36,4 +36,28 @@ class OrderRestController(
             .headers(HttpHeaders())
             .body(CommonResponse(ResCode.ORDER_WITH_PAYMENT_CONFIRM))
     }
+
+    @PatchMapping("/{orderNumber}/shipment-request")
+    fun orderShipmentRequest(@PathVariable("orderNumber") orderNumber: String): ResponseEntity<CommonResponse<Unit>>{
+        orderService.orderShipmentRequest(orderNumber)
+        return ResponseEntity.ok()
+            .headers(HttpHeaders())
+            .body(CommonResponse(ResCode.ORDER_WITH_SHIPMENT_REQUEST))
+    }
+
+    @PatchMapping("/{orderNumber}/shipment-process")
+    fun orderShipmentProcess(@PathVariable("orderNumber") orderNumber: String): ResponseEntity<CommonResponse<Unit>>{
+        orderService.orderShipmentProcess(orderNumber)
+        return ResponseEntity.ok()
+            .headers(HttpHeaders())
+            .body(CommonResponse(ResCode.ORDER_WITH_SHIPMENT_PROCESS))
+    }
+
+    @PatchMapping("/{orderNumber}/shipment-completed")
+    fun orderShipmentCompleted(@PathVariable("orderNumber") orderNumber: String): ResponseEntity<CommonResponse<Unit>>{
+        orderService.orderShipmentCompleted(orderNumber)
+        return ResponseEntity.ok()
+            .headers(HttpHeaders())
+            .body(CommonResponse(ResCode.ORDER_WITH_SHIPMENT_COMPLETED))
+    }
 }

@@ -79,4 +79,16 @@ class Order(
     fun paymentConfirm() {
         orderDetailList.forEach { it.updateState(OrderState.PAYMENT_CONFIRM) }
     }
+
+    fun shipmentRequest() {
+        orderDetailList.forEach { it.updateState(OrderState.SHIPMENT_REQUEST) }
+    }
+
+    fun shipmentProcess() {
+        orderDetailList.forEach { it.updateState(OrderState.SHIPMENT_PROCESS) }
+    }
+
+    fun shipmentCompleted() {
+        orderDetailList.forEach { it.updateState(OrderState.SHIPMENT_COMPLETED) }
+    }
 }

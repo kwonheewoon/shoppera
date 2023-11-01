@@ -40,7 +40,13 @@ enum class ResCode(val code: String, val message: String, val httpStatus: HttpSt
     ORDER_REQUEST_FAIL("200_420", "주문 요청 실패하였습니다. 주문정보를 확인해 주세요.", HttpStatus.OK),
     ORDER_REQUEST("200_421", "주문 요청이 정상적으로 완료 되었습니다.", HttpStatus.OK),
     ORDER_STATE_NOT_REQUEST("200_422", "주문 요청 상태가 아닙니다. 상태를 확인해 주세요.", HttpStatus.OK),
-    ORDER_WITH_PAYMENT_CONFIRM("200_423", "주문의 결제가 확인 되었습니다.", HttpStatus.OK),
+    ORDER_STATE_NOT_PAYMENT_CONFIRM("200_423", "입금 확인 상태가 아닙니다. 상태를 확인해 주세요.", HttpStatus.OK),
+    ORDER_STATE_NOT_SHIPMENT_REQUEST("200_424", "출고 요청 상태가 아닙니다. 상태를 확인해 주세요.", HttpStatus.OK),
+    ORDER_STATE_NOT_SHIPMENT_PROCESS("200_425", "출고 처리 상태가 아닙니다. 상태를 확인해 주세요.", HttpStatus.OK),
+    ORDER_WITH_PAYMENT_CONFIRM("200_426", "주문 결제가 확인 되었습니다.", HttpStatus.OK),
+    ORDER_WITH_SHIPMENT_REQUEST("200_427", "주문 출고 요청이 되었습니다.", HttpStatus.OK),
+    ORDER_WITH_SHIPMENT_PROCESS("200_428", "주문 출고 처리 되었습니다.", HttpStatus.OK),
+    ORDER_WITH_SHIPMENT_COMPLETED("200_429", "주문 출고 완료 되었습니다.", HttpStatus.OK),
 
 
     // 400 Bad Request

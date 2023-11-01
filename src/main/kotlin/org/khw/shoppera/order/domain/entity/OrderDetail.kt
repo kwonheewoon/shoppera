@@ -88,9 +88,9 @@ class OrderDetail(
     fun updateState(nowState: OrderState){
         when(nowState){
             OrderState.PAYMENT_CONFIRM -> paymentConfirm()
-            OrderState.SHIPMENT_REQUEST -> TODO()
-            OrderState.SHIPMENT_PROCESS -> TODO()
-            OrderState.SHIPMENT_COMPLETED -> TODO()
+            OrderState.SHIPMENT_REQUEST -> shipmentRequest()
+            OrderState.SHIPMENT_PROCESS -> shipmentProcess()
+            OrderState.SHIPMENT_COMPLETED -> shipmentCompleted()
             OrderState.ORDER_REQUEST -> TODO()
         }
     }
@@ -99,5 +99,23 @@ class OrderDetail(
         require(this.state == OrderState.ORDER_REQUEST) { throw OrderException(ResCode.ORDER_STATE_NOT_REQUEST) }
 
         this.state = OrderState.PAYMENT_CONFIRM
+    }
+
+    private fun shipmentRequest(){
+        require(this.state == OrderState.PAYMENT_CONFIRM) { throw OrderException(ResCode.ORDER_STATE_NOT_PAYMENT_CONFIRM) }
+
+        this.state = OrderState.SHIPMENT_REQUEST
+    }
+
+    private fun shipmentProcess(){
+        require(this.state == OrderState.SHIPMENT_REQUEST) { throw OrderException(ResCode.ORDER_STATE_NOT_SHIPMENT_REQUEST) }
+
+        this.state = OrderState.SHIPMENT_PROCESS
+    }
+
+    private fun shipmentCompleted(){
+        require(this.state == OrderState.SHIPMENT_PROCESS) { throw OrderException(ResCode.ORDER_STATE_NOT_SHIPMENT_PROCESS) }
+
+        this.state = OrderState.SHIPMENT_COMPLETED
     }
 }
