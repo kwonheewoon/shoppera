@@ -22,6 +22,7 @@ import java.time.LocalDateTime
 @Service
 @RequiredArgsConstructor
 class OrderService(
+    val orderNotiService: OrderNotiService,
     val orderRepository: OrderRepository,
     val userRepository: UserRepository,
     val itemRepository: ItemRepository,
@@ -82,6 +83,8 @@ class OrderService(
         val findOrder = orderRepository.findByOrderNumberAndDeleteFlag(orderNumber, FlagYn.N).orElseThrow { throw OrderException(ResCode.NOT_FOUND_ORDER) }
 
         findOrder.shipmentCompleted()
+
+        orderNotiService.produceOrderShipCompNoti(orderMapper.entityToOrderShipCompNotiDto(findOrder))
     }
 
 }
