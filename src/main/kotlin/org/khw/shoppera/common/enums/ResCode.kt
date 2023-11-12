@@ -30,9 +30,9 @@ enum class ResCode(val code: String, val message: String, val httpStatus: HttpSt
     COUPON_UPDATE("200_409", "쿠폰 정보가 수정 되었습니다.", HttpStatus.OK),
     COUPON_DELETE("200_410", "쿠폰 정보가 삭제 되었습니다.", HttpStatus.OK),
 
-    BRAND_SAVE("200_412", "브랜드가 등록 되었습니다.", HttpStatus.OK),
-    BRAND_UPDATE("200_413", "브랜드가 수정 되었습니다.", HttpStatus.OK),
-    BRAND_DELETE("200_414", "브랜드가 삭제 되었습니다.", HttpStatus.OK),
+    BRAND_SAVE("200_412", "브랜드 정보가 등록 되었습니다.", HttpStatus.OK),
+    BRAND_UPDATE("200_413", "브랜드 정보가 수정 되었습니다.", HttpStatus.OK),
+    BRAND_DELETE("200_414", "브랜드 정보가 삭제 되었습니다.", HttpStatus.OK),
 
     USER_COUPON_SAVE("200_415", "쿠폰 발급이 완료 되었습니다.", HttpStatus.OK),
     USER_COUPON_USEAGE("200_416", "쿠폰 사용이 완료 되었습니다.", HttpStatus.OK),
