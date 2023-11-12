@@ -37,6 +37,7 @@ enum class ResCode(val code: String, val message: String, val httpStatus: HttpSt
     USER_COUPON_SAVE("200_415", "쿠폰 발급이 완료 되었습니다.", HttpStatus.OK),
     USER_COUPON_USEAGE("200_416", "쿠폰 사용이 완료 되었습니다.", HttpStatus.OK),
 
+    ORDER_FIND("200_419", "주문 정보가 정상적으로 조회 되었습니다.", HttpStatus.OK),
     ORDER_REQUEST_FAIL("200_420", "주문 요청 실패하였습니다. 주문정보를 확인해 주세요.", HttpStatus.OK),
     ORDER_REQUEST("200_421", "주문 요청이 정상적으로 완료 되었습니다.", HttpStatus.OK),
     ORDER_STATE_NOT_REQUEST("200_422", "주문 요청 상태가 아닙니다. 상태를 확인해 주세요.", HttpStatus.OK),

@@ -71,7 +71,7 @@ dependencies {
 
     implementation group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin', version: '2.15.3'
 
-
+    testImplementation 'org.mockito:mockito-inline:4.8.1'
 
     kapt("org.mapstruct:mapstruct-processor:1.5.3.Final")
     kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")

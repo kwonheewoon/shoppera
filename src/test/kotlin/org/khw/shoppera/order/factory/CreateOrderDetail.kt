@@ -37,5 +37,23 @@ class CreateOrderDetail {
                 OrderDetail(1, order = order,  item = itemMap[it.itemId]!!, price = it.price, quantity = it.quantity, OrderState.PAYMENT_CONFIRM, orderDateTime)
             }
         }
+
+        fun findShipmentRequestOrderDetailList(orderDetailRequestApiDtoList: List<OrderDetailRequestApiDto>, order: Order, itemMap: Map<Long, Item>, orderDateTime: LocalDateTime): List<OrderDetail>{
+            return orderDetailRequestApiDtoList.map {
+                OrderDetail(1, order = order,  item = itemMap[it.itemId]!!, price = it.price, quantity = it.quantity, OrderState.SHIPMENT_REQUEST, orderDateTime)
+            }
+        }
+
+        fun findShipmentProcessOrderDetailList(orderDetailRequestApiDtoList: List<OrderDetailRequestApiDto>, order: Order, itemMap: Map<Long, Item>, orderDateTime: LocalDateTime): List<OrderDetail>{
+            return orderDetailRequestApiDtoList.map {
+                OrderDetail(1, order = order,  item = itemMap[it.itemId]!!, price = it.price, quantity = it.quantity, OrderState.SHIPMENT_PROCESS, orderDateTime)
+            }
+        }
+
+        fun findShipmentCompletedOrderDetailList(orderDetailRequestApiDtoList: List<OrderDetailRequestApiDto>, order: Order, itemMap: Map<Long, Item>, orderDateTime: LocalDateTime): List<OrderDetail>{
+            return orderDetailRequestApiDtoList.map {
+                OrderDetail(1, order = order,  item = itemMap[it.itemId]!!, price = it.price, quantity = it.quantity, OrderState.SHIPMENT_COMPLETED, orderDateTime)
+            }
+        }
     }
 }

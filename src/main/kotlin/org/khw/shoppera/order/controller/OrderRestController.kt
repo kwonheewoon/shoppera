@@ -14,6 +14,7 @@ import org.khw.shoppera.order.domain.dto.OrderViewApiDto
 import org.khw.shoppera.order.service.OrderService
 import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -28,6 +29,49 @@ import org.springframework.web.bind.annotation.RestController
 class OrderRestController(
     val orderService: OrderService
 ) {
+
+    @GetMapping
+    @Operation(summary = "나의 주문 목록 조회", description = "이용자의 주문 목록을 전체 조회 한다.", responses = [
+        ApiResponse(
+            responseCode = "200_419",
+            description = "주문 정보가 정상적으로 조회 되었습니다.",
+            content = [Content(schema = Schema(implementation = OrderViewApiDto::class))]
+        ),
+        ApiResponse(
+            responseCode = "404_003",
+            description = "잘못된 회원 정보 입니다.",
+            content = [Content(schema = Schema(implementation = ErrCommonResponse::class))]
+        )
+    ])
+    fun findAllMyOrders(): ResponseEntity<CommonResponse<List<OrderViewApiDto>>> {
+        return ResponseEntity.ok()
+            .headers(HttpHeaders())
+            .body(CommonResponse(ResCode.ORDER_FIND, orderService.findAllMyOrders()))
+    }
+
+    @GetMapping("/{orderNumber}")
+    @Operation(summary = "나의 주문 단건 조회", description = "이용자의 주문 단건 조회 한다.", responses = [
+        ApiResponse(
+            responseCode = "200_419",
+            description = "주문 정보가 정상적으로 조회 되었습니다.",
+            content = [Content(schema = Schema(implementation = OrderViewApiDto::class))]
+        ),
+        ApiResponse(
+            responseCode = "404_003",
+            description = "잘못된 회원 정보 입니다.",
+            content = [Content(schema = Schema(implementation = ErrCommonResponse::class))]
+        ),
+        ApiResponse(
+            responseCode = "404_011",
+            description = "존재 하지 않는 주문 정보 입니다.",
+            content = [Content(schema = Schema(implementation = ErrCommonResponse::class))]
+        )
+    ])
+    fun findMyOrderByOrderNumber(@PathVariable orderNumber: String): ResponseEntity<CommonResponse<OrderViewApiDto>> {
+        return ResponseEntity.ok()
+            .headers(HttpHeaders())
+            .body(CommonResponse(ResCode.ORDER_FIND, orderService.findMyOrderByOrderNumber(orderNumber)))
+    }
 
     @PostMapping
     @Operation(summary = "주문 요청 등록", description = "이용자의 주문 요청을 등록 한다.", responses = [

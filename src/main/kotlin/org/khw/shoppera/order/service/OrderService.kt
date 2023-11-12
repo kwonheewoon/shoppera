@@ -6,6 +6,7 @@ import org.khw.shoppera.common.enums.CommonEnum.OrderState
 import org.khw.shoppera.common.enums.ResCode
 import org.khw.shoppera.common.exception.OrderException
 import org.khw.shoppera.common.exception.UserException
+import org.khw.shoppera.common.util.JwtUtil
 import org.khw.shoppera.common.util.RandomUtils
 import org.khw.shoppera.item.repository.ItemRepository
 import org.khw.shoppera.order.domain.dto.OrderRequestApiDto
@@ -28,6 +29,24 @@ class OrderService(
     val itemRepository: ItemRepository,
     val orderMapper: OrderMapper
 ) {
+
+    @Transactional(readOnly = true)
+    fun findAllMyOrders(): List<OrderViewApiDto>{
+        val findUser = userRepository.findByAccountIdAndDeleteFlag(JwtUtil.getName(), FlagYn.N).orElseThrow { throw UserException(ResCode.NOT_FOUND_USER) }
+
+        val findOrderList = orderRepository.findByUserAndDeleteFlag(findUser, FlagYn.N)
+
+        return orderMapper.entityListToViewApiDtoList(findOrderList)
+    }
+
+    @Transactional(readOnly = true)
+    fun findMyOrderByOrderNumber(orderNumber: String): OrderViewApiDto{
+        val findUser = userRepository.findByAccountIdAndDeleteFlag(JwtUtil.getName(), FlagYn.N).orElseThrow { throw UserException(ResCode.NOT_FOUND_USER) }
+
+        val findOrder = orderRepository.findByOrderNumberAndUserAndDeleteFlag(orderNumber, findUser, FlagYn.N).orElseThrow { throw OrderException(ResCode.NOT_FOUND_ORDER) }
+
+        return orderMapper.entityToViewApiDto(findOrder)
+    }
 
     @Transactional
     fun orderRequest(orderRequestApiDto: OrderRequestApiDto): OrderViewApiDto{
