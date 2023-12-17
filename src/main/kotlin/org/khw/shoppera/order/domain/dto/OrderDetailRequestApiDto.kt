@@ -11,5 +11,8 @@ data class OrderDetailRequestApiDto (
     val price: Int,
 
     @Schema(description = "주문 수량", example = "3")
-    val quantity: Int
+    val quantity: Int,
+
+    @Schema(description = "쿠폰 아이디", example = "45")
+    val couponId: Long
 )
