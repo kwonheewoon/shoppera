@@ -12,14 +12,14 @@ class CreateOrderDetailDto {
 
     companion object{
         fun orderRequestApiDto(): OrderDetailRequestApiDto{
-            return OrderDetailRequestApiDto(1L, 65000, 3)
+            return OrderDetailRequestApiDto(1L, 65000, 3, 1L)
         }
 
         fun orderRequestApiDtoList(): List<OrderDetailRequestApiDto>{
             return listOf(
-                OrderDetailRequestApiDto(1L, 65000, 3),
-                OrderDetailRequestApiDto(2L, 45000, 4),
-                OrderDetailRequestApiDto(3L, 25000, 6)
+                OrderDetailRequestApiDto(1L, 65000, 3, 1L),
+                OrderDetailRequestApiDto(2L, 45000, 4, 1L),
+                OrderDetailRequestApiDto(3L, 25000, 6, 1L)
             )
         }
 

@@ -8,6 +8,8 @@ server:
       force: true
 
 spring:
+  application:
+    name: shoppera
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:shopperaDB;DB_CLOSE_DELAY=-1
@@ -36,10 +38,21 @@ spring:
 #        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 #        format_sql: true
 
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+
 rabbitmq:
   order.notifications.exchange: order-notifications-exchange
   order.notifications.routing.key: realtime-notifications
   realtime.order.updates.queue: realtime-order-updates-queue
+
+
+grpc:
+  server:
+    port: 9090
 
 
 
