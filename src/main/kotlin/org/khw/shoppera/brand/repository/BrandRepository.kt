@@ -28,6 +28,15 @@ interface BrandRepository : JpaRepository <Brand, Long>{
     fun findByNameAndDeleteFlag(name: String, deleteFlag: FlagYn) : Optional<Brand>
 
     /**
+     * 브랜드 설립년도, 삭제 여부에 따른 브랜드 단일 조회
+     *
+     * @param year 브랜드 설립년도
+     * @param deleteFlag 삭제여부
+     * @return
+     */
+    fun findByFoundedYearAndDeleteFlag(year: Int, deleteFlag: FlagYn) : List<Brand>
+
+    /**
      * 브랜드 아이디, 브랜드 이름, 삭제 여부에 따른 브랜드 단일 조회
      *
      * @param name 브랜드 이름

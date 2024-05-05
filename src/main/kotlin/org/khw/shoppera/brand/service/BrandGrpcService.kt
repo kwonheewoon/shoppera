@@ -38,4 +38,51 @@ class BrandGrpcService(
             responseObserver.onError(status)
         }
     }
+
+    override fun findBrandByNameServerStreaming(request: BrandReq, responseObserver: StreamObserver<BrandRes>) {
+        try {
+            brandRepository.findByFoundedYearAndDeleteFlag(request.foundedYear, FlagYn.N)
+                .forEach {
+                    responseObserver.onNext(
+                        BrandRes.newBuilder()
+                            .setName(it.name)
+                            .setExplanation(it.explanation)
+                            .setFoundedYear(it.foundedYear)
+                            .setDisplayFlag(it.displayFlag.name)
+                            .build()
+                    )
+                }
+
+            responseObserver.onCompleted()
+        }catch (e: BrandException){
+            val status = Status.NOT_FOUND.withCause(BrandException(ResCode.NOT_FOUND_BRAND)).withDescription(ResCode.NOT_FOUND_BRAND.message).asException()
+            responseObserver.onError(status)
+        }
+    }
+
+    override fun findBrandByNameClientServerStreaming(responseObserver: StreamObserver<BrandRes>): StreamObserver<BrandReq> {
+        return object : StreamObserver<BrandReq> {
+            override fun onNext(request: BrandReq) {
+                // 각 요청을 받고 바로 처리
+                val brand = brandRepository.findByNameAndDeleteFlag(request.name, FlagYn.N).orElse(null)
+                brand?.let {
+                    val response = BrandRes.newBuilder()
+                        .setName(it.name)
+                        .setExplanation(it.explanation)
+                        .setFoundedYear(it.foundedYear)
+                        .setDisplayFlag(it.displayFlag.name)
+                        .build()
+                    responseObserver.onNext(response) // 응답 스트리밍
+                }
+            }
+
+            override fun onError(t: Throwable) {
+                responseObserver.onError(Status.INTERNAL.withCause(t).asException())
+            }
+
+            override fun onCompleted() {
+                responseObserver.onCompleted() // 모든 통신 완료
+            }
+        }
+    }
 }
