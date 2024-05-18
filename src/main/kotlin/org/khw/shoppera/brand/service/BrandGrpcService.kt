@@ -39,6 +39,32 @@ class BrandGrpcService(
         }
     }
 
+    override fun findBrandByNamesClientStreaming(responseObserver: StreamObserver<BrandRes>): StreamObserver<BrandReq> {
+        return object : StreamObserver<BrandReq> {
+            val brands = mutableListOf<String>()
+
+            override fun onNext(req: BrandReq) {
+                // 각 브랜드 요청 처리
+                println("Received request for brand: ${req.name}")
+                brands.add(req.name)
+            }
+
+            override fun onError(t: Throwable) {
+                println("Error during stream: ${t.message}")
+            }
+
+            override fun onCompleted() {
+                // 모든 요청을 받은 후 최종 응답 전송
+                val response = BrandRes.newBuilder()
+                    .setName("Brands Processed")
+                    .setExplanation("Processed ${brands.size} brands")
+                    .build()
+                responseObserver.onNext(response)
+                responseObserver.onCompleted()
+            }
+        }
+    }
+
     override fun findBrandByNameServerStreaming(request: BrandReq, responseObserver: StreamObserver<BrandRes>) {
         try {
             brandRepository.findByFoundedYearAndDeleteFlag(request.foundedYear, FlagYn.N)
